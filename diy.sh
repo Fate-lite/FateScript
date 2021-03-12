@@ -90,7 +90,7 @@ done
 #############################同步 diy.sh ##########################################
 cd $ConfigDir
 echo -e "开始更新 diy.sh "
-wget -q --no-check-certificate https://raw.sevencdn.com/Fate-lite/JDScript/main/diy.sh -O diy.sh.new
+wget -q --no-check-certificate https://raw.githubusercontent.com/Fate-lite/JDScript/main/diy.sh -O diy.sh.new
 if [ $? -eq 0 ]; then
   mv -f diy.sh.new diy.sh
   echo -e "更新 diy.sh 完成"
