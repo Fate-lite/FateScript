@@ -42,7 +42,7 @@ rand(){
 
 cd $ScriptsDir
 # 清理过期脚本
-rm -rf fate_format_share_jd_code.js
+rm -rf fate_*
 #rm -rf ZCY01_jd_try.js
 #rm -rf i-chenzhe_jd_asus_iqiyi.js
 
