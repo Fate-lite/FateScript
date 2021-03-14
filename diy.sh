@@ -25,7 +25,7 @@ scripts_base_url_1=https://raw.githubusercontent.com/Fate-lite/JDScript/main/scr
 
 ##############################作者脚本名称（必填）##############################
 # 将相应作者的脚本填写到以下变量中
-my_scripts_list_1="format_share_jd_code.js jd_xmf.js jd_axc.js jd_entertainment.js jd_fanslove.js jd_getFanslove.js jd_gjmh.js jd_joy_run.js jd_shake.js jd_shakeBean.js jd_unbind.js jd_xxl_gh.js jx_cfdexchange.js jx_factory_component.js z_marketLottery.js z_superDay.js z_unionPoster.js"
+my_scripts_list_1="format_share_jd_code.js jd_axc.js jd_entertainment.js jd_fanslove.js jd_getFanslove.js jd_gjmh.js jd_joy_run.js jd_shake.js jd_shakeBean.js jd_unbind.js jd_xxl_gh.js jx_cfdexchange.js jx_factory_component.js z_marketLottery.js z_superDay.js z_unionPoster.js z_wish.js"
 #my_scripts_list_3="jx_factory_component.js"
 #my_scripts_list_2="format_share_jd_code.js"
 #my_scripts_list_4="jd_priceProtect.js"
