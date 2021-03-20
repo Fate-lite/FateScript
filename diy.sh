@@ -14,9 +14,6 @@ author_list="fate"
 # 例如：https://raw.sevencdn.com/whyour/hundun/master/quanx/jx_nc.js
 # 1.从作者库中随意挑选一个脚本地址，每个作者的地址添加一个即可，无须重复添加
 # 2.将地址最后的 “脚本名称+后缀” 剪切到下一个变量里（my_scripts_list_xxx）
-# scripts_base_url_1=https://gitee.com/qq34347476/quantumult-x/raw/master/
-#scripts_base_url_2=https://raw.sevencdn.com/573462273/JDMyself/main/scripts/
-#scripts_base_url_1=https://raw.sevencdn.com/i-chenzhe/qx/main/
 scripts_base_url_1=https://raw.githubusercontent.com/Fate-lite/JDScript/main/scripts/
 #scripts_base_url_3=https://raw.sevencdn.com/whyour/hundun/master/quanx/
 #scripts_base_url_2=https://raw.sevencdn.com/qq34347476/js_script/master/scripts/
@@ -25,7 +22,7 @@ scripts_base_url_1=https://raw.githubusercontent.com/Fate-lite/JDScript/main/scr
 
 ##############################作者脚本名称（必填）##############################
 # 将相应作者的脚本填写到以下变量中
-my_scripts_list_1="z_superDay.js jd_shakeBean.js z_lenovo.js jx_factory_component.js z_mgold.js z_unionPoster.js z_mother_jump.js z_marketLottery.js jd_getFanslove.js format_share_jd_code.js jd_fanslove.js z_oneplus.js jd_xxl_gh.js jd_axc.js z_wish.js jd_shake.js jd_entertainment.js jd_joy_run.js jd_unbind.js jd_dreamFactory.js z_super5g.js"
+my_scripts_list_1="run.js z_superDay.js jd_shakeBean.js z_lenovo.js jx_factory_component.js z_mgold.js z_unionPoster.js z_mother_jump.js z_marketLottery.js jd_getFanslove.js format_share_jd_code.js jd_fanslove.js z_oneplus.js jd_xxl_gh.js jd_axc.js z_wish.js jd_shake.js jd_entertainment.js jd_joy_run.js jd_unbind.js jd_dreamFactory.js z_super5g.js"
 #my_scripts_list_3="jx_factory_component.js"
 #my_scripts_list_2="format_share_jd_code.js"
 #my_scripts_list_4="jd_priceProtect.js"
