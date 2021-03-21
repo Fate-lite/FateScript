@@ -408,38 +408,38 @@ function helpInviteFriend(friendPin) {
     })
 }
 //赛跑助力
-async function run(run_pins) {
-    console.log(`账号${$.index} [${UserName}] 给下面名单的人进行赛跑助力\n${(run_pins.map(item => item.trim()))}\n`);
-    for (let item of run_pins.map(item => item.trim())) {
-        console.log(`\n账号${$.index} [${UserName}] 开始给好友 [${item}] 进行赛跑助力`)
-        if (UserName === item) {
-            console.log(`自己账号，跳过`);
-            continue
-        }
-        const combatDetailRes = await combatDetail(item);
-        const { petRaceResult } = combatDetailRes.data;
-        console.log(`petRaceResult ${petRaceResult}`);
-        if (petRaceResult === 'help_full') {
-            console.log('您的赛跑助力机会已耗尽');
-            break;
-        } else if (petRaceResult === 'can_help') {
-            console.log(`开始赛跑助力好友 ${item}`)
-            const LKYL_DATA = await combatHelp(item);
-            if (LKYL_DATA.errorCode === 'L0001' && !LKYL_DATA.success) {
-                console.log('来客有礼宠汪汪token失效');
-                $.setdata('', 'jdJoyRunToken');
-                $.msg($.name, '【提示】来客有礼token失效，请重新获取', "iOS用户微信搜索'来客有礼'小程序\n点击底部的'发现'Tab\n即可获取Token")
-                $.LKYLLogin = false;
-                break
-            } else {
-                $.LKYLLogin = true;
-            }
-        }
-    }
-    // if ($.runReward > 0) {
-    //   $.msg($.name, ``, `账号${$.index} [${UserName}]\n给${$.runReward/5}人赛跑助力成功\n获得狗粮${$.runReward}g`)
-    // }
-}
+// async function run(run_pins) {
+//     console.log(`账号${$.index} [${UserName}] 给下面名单的人进行赛跑助力\n${(run_pins.map(item => item.trim()))}\n`);
+//     for (let item of run_pins.map(item => item.trim())) {
+//         console.log(`\n账号${$.index} [${UserName}] 开始给好友 [${item}] 进行赛跑助力`)
+//         if (UserName === item) {
+//             console.log(`自己账号，跳过`);
+//             continue
+//         }
+//         const combatDetailRes = await combatDetail(item);
+//         const { petRaceResult } = combatDetailRes.data;
+//         console.log(`petRaceResult ${petRaceResult}`);
+//         if (petRaceResult === 'help_full') {
+//             console.log('您的赛跑助力机会已耗尽');
+//             break;
+//         } else if (petRaceResult === 'can_help') {
+//             console.log(`开始赛跑助力好友 ${item}`)
+//             const LKYL_DATA = await combatHelp(item);
+//             if (LKYL_DATA.errorCode === 'L0001' && !LKYL_DATA.success) {
+//                 console.log('来客有礼宠汪汪token失效');
+//                 $.setdata('', 'jdJoyRunToken');
+//                 $.msg($.name, '【提示】来客有礼token失效，请重新获取', "iOS用户微信搜索'来客有礼'小程序\n点击底部的'发现'Tab\n即可获取Token")
+//                 $.LKYLLogin = false;
+//                 break
+//             } else {
+//                 $.LKYLLogin = true;
+//             }
+//         }
+//     }
+//     // if ($.runReward > 0) {
+//     //   $.msg($.name, ``, `账号${$.index} [${UserName}]\n给${$.runReward/5}人赛跑助力成功\n获得狗粮${$.runReward}g`)
+//     // }
+// }
 function combatHelp(friendPin) {
     return new Promise(resolve => {
         headers.Cookie = cookie;
