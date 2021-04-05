@@ -2034,9 +2034,9 @@ function submitInviteId(userName) {
                     if (_data){
                         _data = JSON.parse(_data);
                         if (_data.code == 1) {
-                            $.log("提交自己的邀請碼成功:${_data}");
+                            $.log("提交自己的邀請碼成功");
                         } else {
-                            $.log("提交自己的邀請碼成功:${_data}");
+                            $.log("提交自己的邀請碼成功");
                         }
                     }
                 } catch (e) {

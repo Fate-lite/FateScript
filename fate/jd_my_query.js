@@ -34,7 +34,7 @@ cron "10 * * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd
  */
 
 // prettier-ignore
-const $ = new Env('京喜工厂');
+const $ = new Env('推送邀请码');
 const JD_API_HOST = 'https://m.jingxi.com';
 const helpAuthor = false;
 const notify = $.isNode() ? require('./sendNotify') : '';
