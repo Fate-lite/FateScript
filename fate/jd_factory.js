@@ -1610,7 +1610,6 @@ $.appId = 10001;
                 `【账户剩余】：${endInfo.user.electric}`,
             );
             await submitInviteId(userName);
-            // await createAssistUser();
             await getTuanId();
             await submitTuanId(userName);
 
