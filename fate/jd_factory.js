@@ -102,7 +102,7 @@ $.appId = 10001;
             // await $.wait(500);
             // await createAssistUser();
             await $.wait(500);
-            await getTuanId();
+            // await getTuanId();
 
             // await $.wait(500);
             // await joinTuan();
