@@ -50,19 +50,18 @@ $.drip = 0;
                 $.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1],
             );
             $.log(`\n开始【京东账号${i + 1}】${userName}`);
-            $.result.push(`【京东账号${i + 1}】${userName}`);
-            await submitInviteId(userName);
             const startInfo = await getTaskList();
-            if (!startInfo) break;
-            await $.wait(500);
-            const isOk = await browserTask();
-            if (!isOk) break;
-            await $.wait(500);
-            await answerTask();
-            await $.wait(500);
-            const endInfo = await getTaskList();
-            getMessage(endInfo, startInfo);
-            await $.wait(500);
+            await submitInviteId(userName);
+            // if (!startInfo) break;
+            // await $.wait(500);
+            // const isOk = await browserTask();
+            // if (!isOk) break;
+            // await $.wait(500);
+            // await answerTask();
+            // await $.wait(500);
+            // const endInfo = await getTaskList();
+            // getMessage(endInfo, startInfo);
+            // await $.wait(500);
             // await createAssistUser();
         }
     }
@@ -237,6 +236,7 @@ function doTask({ tasklevel, left, taskname, eachtimeget }) {
 }
 
 function submitInviteId(userName) {
+
     return new Promise(resolve => {
         if (!$.info || !$.info.smp) {
             resolve();

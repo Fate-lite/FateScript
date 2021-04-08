@@ -35,7 +35,7 @@ cron "10 * * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd
 
 const $ = new Env('京喜工厂');
 const JD_API_HOST = 'https://m.jingxi.com';
-const helpAu = true; //帮作者助力 免费拿活动
+const helpAu = false; //帮作者助力 免费拿活动
 const notify = $.isNode() ? require('./sendNotify') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 const randomCount = $.isNode() ? 1 : 1;
@@ -131,7 +131,7 @@ async function jdDreamFactory() {
         // await joinLeaderTuan(); //参团
         await helpFriends();
         if (!$.unActive) return
-        // await collectElectricity()
+        await collectElectricity()
         await getUserElectricity();
         await taskList();
         await investElectric();
@@ -140,7 +140,7 @@ async function jdDreamFactory() {
         // await stealFriend();
         await tuanActivity();
         await QueryAllTuan();
-        await exchangeProNotify();
+        // await exchangeProNotify();
         await showMsg();
         // if (helpAu === true) await helpAuthor();
     } catch (e) {
