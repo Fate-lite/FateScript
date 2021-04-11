@@ -19,6 +19,7 @@ var plantBeanHelpSharCodesFate = ['3anhauzclvtd5xvo5pqwbe7tsnqwzmygsqdivxy', 'zm
 var jxncSharCodesFate = ['69775f9063257f94840d822bd8398d4b', '1a1b32e3df8f2cb6b10d7bcc0ff70154', '3b88811aa2740ad911995caf9082b483', 'bf359f8a02a0a84b83c46261b6543962', '70fa60d7b3cf627c686a1b45e0a7c31d', 'd7a846745f132c9d2eb62d2955697082', '7ec89fc9af1fd81c4bbf32a44d595930'];
 var bookShopSharCodesFate = ['21cf43f0bd0449549d9811956b55c7df', '7a4d04b695d6400f8663998d4a8db0fd'];
 var jdAiXiaoChuSharCodes = ["2867233","2117046","3756861","3087864","3844023","3844050","3284134","3844101","3844126","3869869","3912376"];
+var jdFruitSharCodes = ["40cf6440db1943e2a9d1a6ae28366100","948da82d3b0b44dcbad90353cd177408","31c5eed3c8b4448ca04db3a04ffe6d21","28c8d02f8f1848538103068925a2f9f2","bc51cef8da954eca99cf8684c3cd6d51","ace5af81ef034576bcd5b3b42dee37b9","7d539fb5bc964f6f918f82f82010de23","fa69e1ffbfc144cc96417cc12cd3a5ee","87c1338b66e84879b2c94c1b069f775b","c42cde24eb0b461497a9082cf96eeceb","74bd01f2678944e8aae61c0e87905633","6864df95c9454bf9b4e3c368ec445a9f","c85dff36024346f48c4555657996b4b8","06061a4672c64210b0f54babc19997aa","2c972333021f4914ad33f0f88e7047cf","7ab9cc3847b84a3eb43063c41950022c","077f44caec524b829764f25a1fe36231","60aad383b9d84b849fc8ea87fe72709a"];
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.tuanIds = [];
 if ($.isNode()) {
@@ -56,6 +57,12 @@ if ($.isNode()) {
 
     $.log('开始爱消除邀请码推送请求')
     for (let codeFate of jdAiXiaoChuSharCodes) {
+        await axcHelp(codeFate);
+    };
+
+
+    $.log('开始东东农场除邀请码推送请求')
+    for (let codeFate of jdFruitSharCodes) {
         await axcHelp(codeFate);
     };
 
@@ -181,6 +188,30 @@ function plantBeanHelp(codeFate) {
 
 }
 
+function fruitHelp(codeFate) {
+    return new Promise(resolve => {
+        $.get({
+            url: "http://api.tyh52.com/act/set/jd_fruit/" + codeFate
+        }, (err, resp, data) => {
+            try {
+                if (data) {
+                    data = JSON.parse(data);
+                    if (data.code == 1) {
+                        console.log("提交自己的邀請碼成功",codeFate);
+                    } else {
+                        console.log("已经提交过自己的邀请码",codeFate);
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(data);
+            }
+        })
+    });
+
+}
+
 function jxncHelp(codeFate) {
     return new Promise(resolve => {
         $.get({
@@ -202,7 +233,6 @@ function jxncHelp(codeFate) {
             }
         })
     });
-
 }
 
 function bookShopHelp(codeFate) {
