@@ -111,7 +111,7 @@ async function jdBeauty(help = true) {
   await getIsvToken2()
   await getActInfo()
   await getTaskList()
-  await getDailyMatch()
+  // await getDailyMatch()
   // await marketGoods()
   if(help)await helpFriends()
 }
@@ -124,7 +124,6 @@ async function helpFriends() {
   }
 }
 // 获得IsvToken
-
 function getIsvToken() {
   return new Promise(resolve => {
     $.post(jdUrl('encrypt/pin?appId=dafbe42d5bff9d82298e5230eb8c3f79'), async (err, resp, data) => {
@@ -174,11 +173,11 @@ function getActInfo(inviter=null) {
   let body = {
     "inviter": inviter,
     "activeId": ACT_ID,
-    "refid": "wojing",
+    "refid": "muying",
     "lkEPin": $.lkEPin,
     "token": $.token,
-    "un_area": "12_904_908_57903",
-    "source": "wojing",
+    "un_area": "22_1930_49322_49424",
+    "source": "muying",
     "scene": "3"
   }
   return new Promise(resolve => {
