@@ -496,7 +496,7 @@ function submitInviteId(userName) {
 
         $.get(
             {
-                url: `http://api.tyh52.com/act/set/dreamFactory/${$.info.user.encryptPin}`,
+                url: `https://actapi.tyh52.com/act/set/dreamFactory/${$.info.user.encryptPin}`,
             },
             (err, resp, _data) => {
                 try {

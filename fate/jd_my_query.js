@@ -18,7 +18,7 @@ var factorySharCodesFate = ['Gskrh9hZJN5MJBkCIrN2eQ==', '5SY_XijoPDoVPKAzab3tRA=
 var plantBeanHelpSharCodesFate = ['3anhauzclvtd5xvo5pqwbe7tsnqwzmygsqdivxy', 'zmuoamarz6g57bc2xumnpe2esd2cz45k2t3udgq', '4npkonnsy7xi3f5ex4qzfk22pdqnxfknkrpjdya', 'ngmcv4pacszmzdxukxtgo654km', '45syqbie6cumajez6zyh652objprakie2xaae7a', 'olmijoxgmjutylqcwdocjor5tg2e4fgmflkztgq', 'olmijoxgmjutz77fqmdbw37he4fo66sduuj76zq', 'wrqpt6mmzjh2zh43qm3lhpoxolztzq5hsz7sxui', 'mlrdw3aw26j3w5ains777eex4kqcnqzjpm44bgq', 'e7lhibzb3zek2ka5m3jh2ass6dyvy5vap4w35si', 'mlrdw3aw26j3xljhnl5eclhagjlxbknrecn2yda', '72rx7jhpzm6rxw57zsxuyuzyke', 'e7lhibzb3zek33nilnkjryxyx4ybyhqm7ossppa', '4vvbjlml6tdfcb35xxka5hvfbpt76ddzkn27miy', 'qmnmamd3ukiwrrsjljlvu42kupdmw4randel3aq', 'mlrdw3aw26j3xwu7huqqwhyx5ex5jdmfzrdz6uy'];
 var jxncSharCodesFate = ['69775f9063257f94840d822bd8398d4b', '1a1b32e3df8f2cb6b10d7bcc0ff70154', '3b88811aa2740ad911995caf9082b483', 'bf359f8a02a0a84b83c46261b6543962', '70fa60d7b3cf627c686a1b45e0a7c31d', 'd7a846745f132c9d2eb62d2955697082', '7ec89fc9af1fd81c4bbf32a44d595930'];
 var bookShopSharCodesFate = ['21cf43f0bd0449549d9811956b55c7df', '7a4d04b695d6400f8663998d4a8db0fd'];
-
+var jdAiXiaoChuSharCodes = ["2867233","2117046","3756861","3087864","3844023","3844050","3284134","3844101","3844126","3869869","3912376"];
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.tuanIds = [];
 if ($.isNode()) {
@@ -54,6 +54,12 @@ if ($.isNode()) {
         await plantBeanHelp(codeFate);
     };
 
+    $.log('开始爱消除邀请码推送请求')
+    for (let codeFate of jdAiXiaoChuSharCodes) {
+        await axcHelp(codeFate);
+    };
+
+
     $.log('开始京喜农场邀请码推送请求')
     for (let codeFate of jxncSharCodesFate) {
         await jxncHelp(codeFate);
@@ -85,7 +91,7 @@ async function jdDreamFactory() {
 function dreamFactoryHelp(codeFate) {
     return new Promise(resolve => {
         $.get({
-            url: "http://api.tyh52.com/act/set/dreamFactory/" + codeFate
+            url: "https://actapi.tyh52.com/act/set/dreamFactory/" + codeFate
         }, (err, resp, data) => {
             try {
                 if (data) {
@@ -108,7 +114,7 @@ function dreamFactoryHelp(codeFate) {
 function cashHelp(codeFate) {
     return new Promise(resolve => {
         $.get({
-            url: "http://api.tyh52.com/act/set/jd_cash/" + codeFate
+            url: "https://actapi.tyh52.com/act/set/jd_cash/" + codeFate
         }, (err, resp, data) => {
             try {
                 if (data) {
@@ -126,13 +132,35 @@ function cashHelp(codeFate) {
             }
         })
     });
+}
 
+function axcHelp(codeFate) {
+    return new Promise(resolve => {
+        $.get({
+            url: "https://actapi.tyh52.com/act/set/ddaixiaochu/" + codeFate
+        }, (err, resp, data) => {
+            try {
+                if (data) {
+                    data = JSON.parse(data);
+                    if (data.code == 1) {
+                        console.log("提交自己的邀請碼成功",codeFate);
+                    } else {
+                        console.log("已经提交过自己的邀请码",codeFate);
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(data);
+            }
+        })
+    });
 }
 
 function plantBeanHelp(codeFate) {
     return new Promise(resolve => {
         $.get({
-            url: "http://api.tyh52.com/act/set/plantBean/" + codeFate
+            url: "https://actapi.tyh52.com/act/set/plantBean/" + codeFate
         }, (err, resp, data) => {
             try {
                 if (data) {
@@ -156,7 +184,7 @@ function plantBeanHelp(codeFate) {
 function jxncHelp(codeFate) {
     return new Promise(resolve => {
         $.get({
-            url: "http://api.tyh52.com/act/set/jxnc/" + codeFate
+            url: "https://actapi.tyh52.com/act/set/jxnc/" + codeFate
         }, (err, resp, data) => {
             try {
                 if (data) {
@@ -180,7 +208,7 @@ function jxncHelp(codeFate) {
 function bookShopHelp(codeFate) {
     return new Promise(resolve => {
         $.get({
-            url: "http://api.tyh52.com/act/set/bookshop/" + codeFate
+            url: "https://actapi.tyh52.com/act/set/bookshop/" + codeFate
         }, (err, resp, data) => {
             try {
                 if (data) {
