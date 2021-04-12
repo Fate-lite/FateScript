@@ -3,7 +3,7 @@
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
 [task_local]
-#签到领现金
+#签到领现金兑换10元红包
 0 0 * * *
 
 ================Loon==============
