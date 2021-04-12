@@ -12,17 +12,17 @@
 ============Quantumultx===============
 [task_local]
 #母婴爱消除
-40 2/4 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js, tag=母婴爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xxl_gh.png, enabled=true
+10 0-23/4 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js, tag=母婴爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xxl_gh.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "40 2/4 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js,tag=母婴爱消除
+cron "10 0-23/4 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js,tag=母婴爱消除
 
 ===============Surge=================
-母婴爱消除 = type=cron,cronexp="40 2/4 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js
+母婴爱消除 = type=cron,cronexp="10 0-23/4 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js
 
 ============小火箭=========
-母婴爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js, cronexpr="40 2/4 * * *", timeout=200, enable=true
+母婴爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js, cronexpr="10 0-23/4 * * *", timeout=200, enable=true
 
  */
 const $ = new Env('母婴爱消除');

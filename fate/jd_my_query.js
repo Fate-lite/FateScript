@@ -1,5 +1,6 @@
 /*
 推送邀请码
+cron 0 0 * * * jd_my_query.js
  */
 
 // prettier-ignore
