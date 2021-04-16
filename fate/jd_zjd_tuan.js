@@ -27,11 +27,13 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 $.cookiesArr = [];
 $.currentCookie = '';
 $.tuan = null;
-
+$.tuanExtra = [];
+$.canHelp = true;
 !(async () => {
     if (!getCookies()) return;
-    for (let i = 0; i < $.cookieArr.length; i++) {
-        $.currentCookie = $.cookieArr[i];
+    for (let i = 0; i < $.cookiesArr.length; i++) {
+    // for (let i = 0; i < 1; i++) {
+        $.currentCookie = $.cookiesArr[i];
         if ($.currentCookie) {
             const userName = decodeURIComponent(
                 $.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1],
@@ -42,18 +44,36 @@ $.tuan = null;
             // await helpFriendTuan();
         }
     }
+    for (let i = 0; i < $.cookiesArr.length; i++) {
+        console.log(`\n开始账号内部相互进团\n`);
+        if ($.cookiesArr[i]) {
+            cookie = $.cookiesArr[i];
+            $.canHelp = true;//能否参团
+            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+            // if ((cookiesArr && cookiesArr.length >= ($.tuanNum || 5)) && $.canHelp)
+            if (($.cookiesArr && $.cookiesArr.length >= 5) && $.canHelp) {
+                for (let item of $.tuanExtra) {
+                    console.log(`\n${$.UserName} 去参加团 ${item.assistedPinEncrypted}`);
+                    if (!$.canHelp) break;
+                    await JoinTuan(item);
+                    await $.wait(1000);
+                }
+            }
+        }
+    }
+
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done());
 
 function getCookies() {
     if ($.isNode()) {
-        $.cookieArr = Object.values(jdCookieNode);
+        $.cookiesArr = Object.values(jdCookieNode);
     } else {
         const CookiesJd = JSON.parse($.getdata("CookiesJD") || "[]").filter(x => !!x).map(x => x.cookie);
-        $.cookieArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd].filter(x=>!!x);
+        $.cookiesArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd].filter(x=>!!x);
     }
-    if (!$.cookieArr[0]) {
+    if (!$.cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
             'open-url': 'https://bean.m.jd.com/',
         });
@@ -69,6 +89,7 @@ function submitInviteId(userName) {
             return;
         }
         $.log(`\n你的互助码: ${JSON.stringify($.tuan)}`);
+        $.tuanExtra.push($.tuan);
         $.post(
             {
                 url: `https://api.ninesix.cc/api/jd-zjd-tuan/${encodeURIComponent(userName)}?assistedPinEncrypted=${
@@ -89,6 +110,20 @@ function submitInviteId(userName) {
     });
 }
 
+function JoinTuan(extra) {
+
+    const body = { ...extra, channel: 'FISSION_BEAN' };
+    $.get(taskTuanUrl('vvipclub_distributeBean_assist', body), async (err, resp, data) => {
+        try {
+            $.log(data);
+        } catch (e) {
+            $.logErr(e, resp);
+        } finally {
+            resolve(data);
+        }
+    });
+}
+
 function helpFriendTuan() {
     return new Promise(resolve => {
         $.get({ url: `https://api.ninesix.cc/api/jd-zjd-tuan` }, async (err, resp, _data) => {
@@ -96,6 +131,7 @@ function helpFriendTuan() {
                 const { code, data = {} } = JSON.parse(_data);
                 $.log(`\n获取随机助力码${code}\n${$.showLog ? _data : ''}`);
                 const body = { ...data.extra, channel: 'FISSION_BEAN' };
+
                 $.get(taskTuanUrl('vvipclub_distributeBean_assist', body), async (err, resp, data) => {
                     try {
                         $.log(data);
@@ -118,7 +154,6 @@ function getUserTuanInfo() {
     return new Promise(resolve => {
         $.get(taskTuanUrl('distributeBeanActivityInfo', body), async (err, resp, data) => {
             try {
-                $.log(data);
                 const { success, data: { id, canStartNewAssist, encPin, assistStartRecordId } = {} } = JSON.parse(data);
                 if (success) {
                     if (!canStartNewAssist) {
