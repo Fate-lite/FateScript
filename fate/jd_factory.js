@@ -41,17 +41,26 @@ $.allTask = [];
 $.info = {};
 $.userTuanInfo = {};
 $.appId = 10001;
+$.index = 0;
+$.nickName = '';
+$.UserName = '';
+let cookie = ''
+
 
 !(async () => {
     if (!getCookies()) return;
     await requestAlgo();
     for (let i = 0; i < $.cookieArr.length; i++) {
         $.currentCookie = $.cookieArr[i];
+        cookie = $.cookieArr[i];
+        $.index = i + 1;
         $.currentToken = JSON.parse($.tokens[i] || '{}');
+        await TotalBean();
         if ($.currentCookie) {
             const userName = decodeURIComponent(
                 $.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1],
             );
+            $.UserName = userName;
             $.log(`\n开始【京东账号${i + 1}】${userName}`);
             $.result.push(`【京东账号${i + 1}】${userName}`);
             const beginInfo = await getUserInfo();
@@ -74,37 +83,8 @@ $.appId = 10001;
             await browserTask();
             await $.wait(500);
             await getHireRewardList();
-            // await $.wait(500);
-            // await getFriends();
-            // await $.wait(500);
-            // await pickUserComponents($.info.user.encryptPin, true);
             await $.wait(500);
             await awardTuan();
-            // await $.wait(500);
-            // const endInfo = await getUserInfo();
-            // $.info.commodityInfo &&
-            // $.result.push(
-            //     `【名称】：${$.info.commodityInfo.name}`,
-            //     `【电力】：获得(${endInfo.user.electric - beginInfo.user.electric}) 还需(${(
-            //         (endInfo.productionInfo.needElectric - beginInfo.productionInfo.investedElectric) /
-            //         10000.0
-            //     ).toFixed(2)}万) 生产进度${(
-            //         (endInfo.productionInfo.investedElectric / endInfo.productionInfo.needElectric) *
-            //         100
-            //     ).toFixed(2)}% 最快还需${(
-            //         (endInfo.productionInfo.needElectric-beginInfo.productionInfo.investedElectric) / 86400 / 2
-            //     ).toFixed(2)}天`,
-            //     `【账户剩余】：${endInfo.user.electric}`,
-            // );
-            // await $.wait(500);
-            // await investElectric();
-            // if (checkProductProcess()) continue;
-            // // await $.wait(500);
-            // // await createAssistUser();
-            // await $.wait(500);
-            // await getTuanId();
-            // await $.wait(500);
-            // await joinTuan();
         }
     }
     await showMsg();
@@ -192,9 +172,9 @@ function checkProductProcess() {
             const userName = decodeURIComponent(
                 $.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1],
             );
-            // if ($.isNode()) {
-            //     notify.sendNotify($.name, `${userName}\n【提示】商品 ${$.info.commodityInfo.name} 已生产完成，请前往京喜工厂兑换并选择新商品！`, {}, '\n\n本脚本免费使用 By：https://github.com/whyour/qinglong')
-            // }
+            if ($.isNode()) {
+                notify.sendNotify($.name, `京东账号${$.index} ${$.nickName || $.UserName}\n【提示】商品 ${$.info.commodityInfo.name} 已生产完成，请前往京喜工厂兑换并选择新商品！`, {}, '\n\n By Fate')
+            }
             $.msg($.name, `${userName}\n【提示】商品 ${$.info.commodityInfo.name} 已生产完成，请前往京喜工厂兑换并选择新商品！`);
             return true;
         }
@@ -898,6 +878,50 @@ function getRandomIDPro() {
         }
     for (; a--; ) i += e[(Math.random() * e.length) | 0];
     return i;
+}
+
+function TotalBean() {
+    return new Promise(async resolve => {
+        const options = {
+            "url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
+            "headers": {
+                "Accept": "application/json,text/plain, */*",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-cn",
+                "Connection": "keep-alive",
+                "Cookie": cookie,
+                "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1"
+            }
+        }
+        $.post(options, (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`${JSON.stringify(err)}`)
+                    console.log(`${$.name} API请求失败，请检查网路重试`)
+                } else {
+                    if (data) {
+                        data = JSON.parse(data);
+                        if (data['retcode'] === 13) {
+                            return
+                        }
+                        if (data['retcode'] === 0) {
+                            $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
+                        } else {
+                            $.nickName = $.UserName
+                        }
+                    } else {
+                        console.log(`京东服务器返回空数据`)
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp)
+            } finally {
+                resolve();
+            }
+        })
+    })
 }
 
 async function requestAlgo() {

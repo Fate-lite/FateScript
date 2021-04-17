@@ -5,7 +5,7 @@
   Author：MoPoQAQ
   Update: 2021/2/2 13:00
 
-  Thanks: 
+  Thanks:
     💢疯疯💢
     银河大佬：https://github.com/zbt494
   获取Token方式：
@@ -28,15 +28,13 @@ $.strPgUUNum = '';
 $.userName = '';
 
 !(async () => {
-  if (!getCookies()) return;
-  if (!getTokens()) return;
   for (let i = 0; i < $.cookieArr.length; i++) {
     $.currentCookie = $.cookieArr[i];
     $.currentToken = $.tokenArr[i];
     if ($.currentCookie) {
       $.userName =  decodeURIComponent($.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1]);
       $.log(`\n开始【京东账号${i + 1}】${$.userName}`);
-      
+
       await cashOut();
     }
   }
@@ -51,13 +49,13 @@ function cashOut() {
       taskUrl(
         `consume/CashOut`,
         `ddwMoney=100&dwIsCreateToken=0&ddwMinPaperMoney=100000&strPgtimestamp=${$.currentToken['timestamp']}&strPhoneID=${$.currentToken['phoneid']}&strPgUUNum=${$.currentToken['farm_jstoken']}`
-      ), 
+      ),
       async (err, resp, data) => {
         try {
           $.log(data);
           const { iRet, sErrMsg } = JSON.parse(data);
           $.log(sErrMsg);
-          $.result.push(`【${$.userName}】\n ${sErrMsg == "" ? sErrMsg="今天手气太棒了" : sErrMsg}`);
+          $.result.push(`【${$.userName}】\n ${sErrMsg == "" ? "今天手气太棒了" : sErrMsg}`);
           resolve(sErrMsg);
         } catch (e) {
           $.logErr(e, resp);
@@ -67,7 +65,7 @@ function cashOut() {
       }
     );
   });
-} 
+}
 
 function taskUrl(function_path, body) {
   return {
@@ -84,45 +82,45 @@ function taskUrl(function_path, body) {
     },
   };
 }
-
-function getCookies() {
-  if ($.isNode()) {
-    $.cookieArr = Object.values(jdCookieNode);
-  } else {
-    const CookiesJd = JSON.parse($.getdata("CookiesJD") || "[]").filter(x => !!x).map(x => x.cookie);
-    $.cookieArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd];
-  }
-  if (!$.cookieArr[0]) {
-    $.msg(
-      $.name,
-      "【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取",
-      "https://bean.m.jd.com/",
-      {
-        "open-url": "https://bean.m.jd.com/",
-      }
-    );
-    return false;
-  }
-  return true;
-}
-
-function getTokens() {
-  if ($.isNode()) {
-    Object.keys(jdTokenNode).forEach((item) => {
-      $.tokenArr.push(jdTokenNode[item] ? JSON.parse(jdTokenNode[item]) : '{}');
-    })
-  } else {
-    $.tokenArr = JSON.parse($.getdata('jx_tokens') || '[]');
-  }
-  if (!$.tokenArr[0]) {
-    $.msg(
-      $.name,
-      "【⏰提示】请先获取京喜Token\n获取方式见脚本说明"
-    );
-    return false;
-  }
-  return true;
-}
+//
+// function getCookies() {
+//   if ($.isNode()) {
+//     $.cookieArr = Object.values(jdCookieNode);
+//   } else {
+//     const CookiesJd = JSON.parse($.getdata("CookiesJD") || "[]").filter(x => !!x).map(x => x.cookie);
+//     $.cookieArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd];
+//   }
+//   if (!$.cookieArr[0]) {
+//     $.msg(
+//       $.name,
+//       "【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取",
+//       "https://bean.m.jd.com/",
+//       {
+//         "open-url": "https://bean.m.jd.com/",
+//       }
+//     );
+//     return false;
+//   }
+//   return true;
+// }
+//
+// function getTokens() {
+//   if ($.isNode()) {
+//     Object.keys(jdTokenNode).forEach((item) => {
+//       $.tokenArr.push(jdTokenNode[item] ? JSON.parse(jdTokenNode[item]) : '{}');
+//     })
+//   } else {
+//     $.tokenArr = JSON.parse($.getdata('jx_tokens') || '[]');
+//   }
+//   if (!$.tokenArr[0]) {
+//     $.msg(
+//       $.name,
+//       "【⏰提示】请先获取京喜Token\n获取方式见脚本说明"
+//     );
+//     return false;
+//   }
+//   return true;
+// }
 
 function showMsg() {
   return new Promise((resolve) => {
