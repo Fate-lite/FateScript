@@ -92,6 +92,7 @@ if ($.isNode()) {
             await jdDreamFactory()
         }
     }
+    // 开始内部团互助
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
@@ -102,7 +103,6 @@ if ($.isNode()) {
                 continue
             }
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-//      await joinLeaderTuan();//参团
             if ((cookiesArr && cookiesArr.length >= ($.tuanNum || 5)) && $.canHelp) {
                 console.log(`\n账号${$.UserName} 内部相互进团\n`);
                 for (let item of $.tuanIds) {
@@ -129,10 +129,9 @@ async function jdDreamFactory() {
     try {
         await userInfo();
         await QueryFriendList();//查询今日招工情况以及剩余助力次数
-        // await joinLeaderTuan();//参团
         await helpFriends();
         if (!$.unActive) return
-        // await collectElectricity()
+        await collectElectricity()
         await getUserElectricity();
         await taskList();
         await investElectric();
