@@ -24,7 +24,7 @@ let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭�
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 let helpAuthor = true;
-const randomCount = $.isNode() ? 20 : 5;
+const randomCount = $.isNode() ? 1 : 1;
 const inviteCodes = [`IR8-a-qzZfs78m7TwnMW@ZE9hMJTHBblZjTuduBM@eU9Ya-2xYvwl82eHwyBBhw@9pCRtFUxsnSrrQ@ZE93G7rJPKl6pDSCrTU`];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -99,12 +99,11 @@ function index(info=false) {
                             if(info){
                                 if (message) {
                                     message += `当前现金：${data.data.result.signMoney}元`;
-                                    allMessage += `京东账号${$.index}${$.nickName}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
+                                    allMessage += `京东账号${$.index}: ${$.nickName}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
                                 }
                                 message += `当前现金：${data.data.result.signMoney}元`;
                                 return
                             }
-                            // console.log(`您的助力码为${data.data.result.inviteCode}`)
                             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.result.inviteCode}\n`);
                             let helpInfo = {
                                 'inviteCode': data.data.result.inviteCode,
