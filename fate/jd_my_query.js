@@ -46,10 +46,6 @@ if ($.isNode()) {
 
     };
 
-    // $.log('开始签到领现金邀请码推送请求')
-    // for (let codeFate of cashSharCodesFate) {
-    //     await cashHelp(codeFate);
-    // };
 
     $.log('开始种豆得豆邀请码推送请求')
     for (let codeFate of plantBeanHelpSharCodesFate) {
