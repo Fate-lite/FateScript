@@ -118,7 +118,6 @@ function getUserTuanInfo() {
     return new Promise(resolve => {
         $.get(taskTuanUrl('distributeBeanActivityInfo', body), async (err, resp, data) => {
             try {
-                $.log(data);
                 const { success, data: { id, canStartNewAssist, encPin, assistStartRecordId } = {} } = JSON.parse(data);
                 if (success) {
                     if (!canStartNewAssist) {
@@ -145,9 +144,9 @@ function createTuan(id) {
     return new Promise(resolve => {
         $.get(taskTuanUrl('vvipclub_distributeBean_startAssist', body), async (err, resp, data) => {
             try {
-                $.log(data);
                 data = JSON.parse(data);
                 if (data.success) {
+                    $.log("开团成功");
                     await getUserTuanInfo();
                 }
             } catch (e) {
