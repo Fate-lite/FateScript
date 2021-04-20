@@ -98,6 +98,9 @@ function exchange_redpocket(){
 function msgShow() {
 	return new Promise(resolve => {
     $.msg($.name, '', `【京东账号${$.index}】${$.nickname}\n${$.message}`);
+    if ($.isNode()) {
+      notify.sendNotify($.name, `【京东账号${$.index}】${$.nickname}\n${$.message}`);
+    }
     resolve()
   })
 }
