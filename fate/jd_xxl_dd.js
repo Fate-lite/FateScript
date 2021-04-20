@@ -82,8 +82,8 @@ if ($.isNode()) {
         continue
       }
       await shareCodesFormat()
-      await jdBeauty()
-      await jdBeauty(false)
+      await jdXxl()
+      await jdXxl(false)
     }
   }
 })()
@@ -104,16 +104,17 @@ function obj2param(obj) {
     str += key + "=" + encodeURIComponent(obj[key]);
   }
   return str
+  console.log(str);
 }
 
 
-async function jdBeauty(help = true) {
+async function jdXxl(help = true) {
   $.reqId = 1
   await getIsvToken()
   await getIsvToken2()
   await getActInfo()
   await getTaskList()
-  await getDailyMatch()
+  // await getDailyMatch()
   await play();
   // await marketGoods()
   if (help) await helpFriends()
@@ -128,18 +129,6 @@ async function helpFriends() {
   }
 }
 
-// async function helpFriends() {
-//     $.newShareCodes = [];
-//     await getHelp();
-//     for (let code of $.newShareCodes) {
-//         if (code) {
-//             console.log(`去助力好友${code}`)
-//             await getActInfo(code)
-//             await $.wait(500)
-//         }
-//     }
-//     await setHelp();
-// }
 
 function getHelp() {
   $.newShareCodes = [];
@@ -1000,7 +989,7 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            $.nickName = data['base'].nickName;
+            $.nickName = data['base'].nickname;
           } else {
             console.log(`京东服务器返回空数据`)
           }
