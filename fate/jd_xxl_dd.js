@@ -114,7 +114,7 @@ async function jdXxl(help = true) {
   await getIsvToken2()
   await getActInfo()
   await getTaskList()
-  // await getDailyMatch()
+  await getDailyMatch()
   await play();
   // await marketGoods()
   if (help) await helpFriends()
@@ -766,7 +766,7 @@ function endDailyMatch() {
     'gameId': $.gameId,
     'token': $.gameToken,
     'reqsId': $.reqId++,
-    'score': Math.trunc($.maxScore / 2) + 3,
+    'score': 150,
     'levelId': $.curLevel,
   }
   return new Promise(resolve => {
