@@ -114,7 +114,7 @@ async function jdXxl(help = true) {
   await getIsvToken2()
   await getActInfo()
   await getTaskList()
-  await getDailyMatch()
+  // await getDailyMatch()
   await play();
   // await marketGoods()
   if (help) await helpFriends()
