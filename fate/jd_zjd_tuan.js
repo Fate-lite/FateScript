@@ -8,15 +8,15 @@
 
   quanx:
   [task_local]
-  0 * * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true
+  8 0,1 * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true
 
   loon:
   [Script]
-  cron "0 * * * *" script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团
+  cron "8 0,1 * * *" script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团
 
   surge:
   [Script]
-  京东赚京东开团 = type=cron,cronexp=0 * * * *,timeout=60,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js,
+  京东赚京东开团 = type=cron,cronexp=8 0,1 * * *,timeout=60,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js,
  *
  *
  **/
@@ -103,13 +103,12 @@ function getUserTuanInfo() {
             try {
                 const {success, data: {id, canStartNewAssist, encPin, assistStartRecordId} = {}} = JSON.parse(data);
                 if (success) {
+                    let helpCode = {};
                     if (!canStartNewAssist) {
-                        $.tuan = {
-                            activityIdEncrypted: id,
-                            assistStartRecordId: assistStartRecordId,
-                            assistedPinEncrypted: encPin,
-                        };
-                        let helpCode = $.tuan;
+                        helpCode.activityIdEncrypted = id;
+                        helpCode.assistStartRecordId = assistStartRecordId;
+                        helpCode.assistedPinEncrypted = encPin;
+                        console.log(helpCode.activityIdEncrypted + "\n")
                         $.tuanExtra.push(helpCode);
                     } else {
                         createTuan(id);
