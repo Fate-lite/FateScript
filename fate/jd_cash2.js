@@ -20,7 +20,7 @@ cron "2 0-23/4 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/maste
 ============小火箭=========
 签到领现金 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_cash.js, cronexpr="2 0-23/4 * * *", timeout=3600, enable=true
  */
-const $ = new Env('签到领现金');
+const $ = new Env('签到领现金领取奖励');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -46,7 +46,7 @@ let allMessage = '';
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
         return;
     }
-    await requireConfig()
+    // await requireConfig()
     //await getAuthorShareCode();
     //await getAuthorShareCode2();
     for (let i = 0; i < cookiesArr.length; i++) {
@@ -83,8 +83,8 @@ let allMessage = '';
     })
 async function jdCash() {
     await index()
-    await shareCodesFormat()
-    await helpFriends()
+    // await shareCodesFormat()
+    // await helpFriends()
     await getReward()
     await getReward('2');
     $.exchangeBeanNum = 0;
@@ -183,12 +183,12 @@ async function helpFriends() {
         await $.wait(1000)
     }
     if (helpAuthor && $.authorCode) {
-        for(let helpInfo of $.authorCode){
-            console.log(`去帮助好友${helpInfo['inviteCode']}`)
-            await helpFriend(helpInfo)
-            if(!$.canHelp) break
-            await $.wait(1000)
-        }
+      for(let helpInfo of $.authorCode){
+        console.log(`去帮助好友${helpInfo['inviteCode']}`)
+        await helpFriend(helpInfo)
+        if(!$.canHelp) break
+        await $.wait(1000)
+      }
     }
 }
 
@@ -344,7 +344,6 @@ function showMsg() {
         resolve()
     })
 }
-
 function readShareCode() {
     console.log(`开始`)
     return new Promise(async resolve => {
