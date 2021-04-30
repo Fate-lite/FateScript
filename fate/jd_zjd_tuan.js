@@ -40,7 +40,7 @@ $.canHelp = true;
             );
             console.log(`\n开始【京东账号${i + 1}】${userName}`);
             await getUserTuanInfo();
-            await (1000);
+            await (8000);
         }
     }
 
@@ -54,6 +54,7 @@ $.canHelp = true;
             for (let item of $.tuanExtra) {
                 console.log(`\n${$.UserName} 去参加团 ${item.assistedPinEncrypted}`);
                 if (!$.canHelp) break;
+                await $.wait(5000);
                 await JoinTuan(item);
                 await $.wait(2000);
             }
@@ -85,10 +86,9 @@ function JoinTuan(extra) {
     return new Promise(resolve => {
         $.get(taskTuanUrl('vvipclub_distributeBean_assist', body), async (err, resp, data) => {
             try {
-                $.log(data);
+                $.log( "Success: ",data.success);
             } catch (e) {
                 $.log("助力失败");
-                // $.logErr(e, resp);
             } finally {
                 resolve(data);
             }
@@ -108,7 +108,7 @@ function getUserTuanInfo() {
                         helpCode.activityIdEncrypted = id;
                         helpCode.assistStartRecordId = assistStartRecordId;
                         helpCode.assistedPinEncrypted = encPin;
-                        console.log(helpCode.activityIdEncrypted + "\n")
+                        console.log(helpCode.assistStartRecordId + "\n")
                         $.tuanExtra.push(helpCode);
                     } else {
                         createTuan(id);
