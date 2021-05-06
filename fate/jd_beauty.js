@@ -423,7 +423,7 @@ function getIsvToken() {
         headers: {
             'Host': 'api.m.jd.com',
             'accept': '*/*',
-            'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
+            'user-agent': 'jdapp;iPhone;9.5.2;13.3;38a9ad791263b564d48d58254a8e579009ab3866;network/wifi;ADID/9245EEC1-8B4D-4953-B621-6A9F2FA7BB43;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone10,2;addressid/137596786;supportBestPay/0;appBuild/167650;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1',
             'accept-language': 'zh-Hans-JP;q=1, en-JP;q=0.9, zh-Hant-TW;q=0.8, ja-JP;q=0.7, en-US;q=0.6',
             'content-type': 'application/x-www-form-urlencoded',
             'Cookie': cookie
@@ -458,7 +458,7 @@ function getIsvToken2() {
         headers: {
             'Host': 'api.m.jd.com',
             'accept': '*/*',
-            'user-agent': 'JD4iPhone/167490 (iPhone; iOS 14.2; Scale/3.00)',
+            'user-agent': 'jdapp;iPhone;9.5.2;13.3;38a9ad791263b564d48d58254a8e579009ab3866;network/wifi;ADID/9245EEC1-8B4D-4953-B621-6A9F2FA7BB43;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone10,2;addressid/137596786;supportBestPay/0;appBuild/167650;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1',
             'accept-language': 'zh-Hans-JP;q=1, en-JP;q=0.9, zh-Hant-TW;q=0.8, ja-JP;q=0.7, en-US;q=0.6',
             'content-type': 'application/x-www-form-urlencoded',
             'Cookie': cookie
