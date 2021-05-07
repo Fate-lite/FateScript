@@ -42,7 +42,9 @@ if ($.isNode()) {
 }
 
 const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
-const inviteCodes = [];
+const inviteCodes = [
+  'b3JvMTcyOWRVS3hPVTJaMnBNSXlZdz09@eld0cGhJcFg5UHdUTDZDbDZZdXJrZz09@V1JSUlhzTGNZTng3OWFlckZhL2dnWEE2ekdFS1lBcm9RWUE3OGE5a1ZYRT0=@WnZmWnY1aGtDZmlCSzVwY0I0SlJsdz09@SmNSSWlONlpzRHg3d1IrdHRJNU1ZSFBaYkMxMFp2VmNDWUs0eGNMdGxzND0=@SmNSSWlONlpzRHg3d1IrdHRJNU1ZSFBaYkMxMFp2VmNDWUs0eGNMdGxzND0=@dTA5cldablZ0YlY3RUlsZXBnZHBuQT09'
+];
 $.invites = [];
 !(async () => {
   await requireConfig();
@@ -340,19 +342,19 @@ function readShareCode() {
 function shareCodesFormat() {
   return new Promise(async resolve => {
     // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
-    // $.newShareCodes = [];
-    // if ($.shareCodesArr[$.index - 1]) {
-    //   $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
-    // } else {
-    //   console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-    //   const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-    //   $.newShareCodes = inviteCodes[tempIndex].split('@');
-    // }
-    // const readShareCodeRes = await readShareCode();
-    // if (readShareCodeRes && readShareCodeRes.code === 200) {
-    //   $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    // }
-    // console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
+    $.newShareCodes = [];
+    if ($.shareCodesArr[$.index - 1]) {
+      $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
+    } else {
+      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
+      $.newShareCodes = inviteCodes[tempIndex].split('@');
+    }
+    const readShareCodeRes = await readShareCode();
+    if (readShareCodeRes && readShareCodeRes.code === 200) {
+      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+    }
+    console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
 }
