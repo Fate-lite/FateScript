@@ -6,7 +6,6 @@
 cron 1 7,12,19 * * * jd_beauty.js
  */
 const $ = new Env('美丽研究院');
-
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -71,6 +70,10 @@ async function jdBeauty() {
     await getIsvToken()
     await getIsvToken2()
     await getToken()
+    if (!$.token) {
+        console.log(`\n\n提示：请尝试换服务器ip或者设置"xinruimz-isv.isvjcloud.com"域名直连，或者自定义UA再次尝试(环境变量JD_USER_AGENT)\n\n`)
+        return
+    }
     await mr()
     while (!$.hasDone) {
         await $.wait(1000)
@@ -89,7 +92,7 @@ async function mr() {
     const WebSocket = require('ws')
     let client = new WebSocket(`wss://xinruimz-isv.isvjcloud.com/wss/?token=${$.token}`,null,{
         headers:{
-            'user-agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1") : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+            'user-agent': process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : "jdapp;android;9.5.0;9;D203035636031-6664316239313;network/4g;model/MI 6;addressid/3005006119;aid/b912d9835412e94a;oaid/8076701e352fd2fa;osVer/28;appBuild/87697;partner/xiaomi001;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 9; MI 6 Build/PKQ1.190118.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/6.2 TBS/045131 Mobile Safari/537.36",
         }
     })
     console.log(`wss://xinruimz-isv.isvjcloud.com/wss/?token=${$.token}`)
@@ -423,7 +426,7 @@ function getIsvToken() {
         headers: {
             'Host': 'api.m.jd.com',
             'accept': '*/*',
-            'user-agent': 'jdapp;iPhone;9.5.2;13.3;38a9ad791263b564d48d58254a8e579009ab3866;network/wifi;ADID/9245EEC1-8B4D-4953-B621-6A9F2FA7BB43;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone10,2;addressid/137596786;supportBestPay/0;appBuild/167650;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1',
+            'user-agent': 'JD4iPhone/167490 (iPhone; iOS 14.2; Scale/3.00)',
             'accept-language': 'zh-Hans-JP;q=1, en-JP;q=0.9, zh-Hant-TW;q=0.8, ja-JP;q=0.7, en-US;q=0.6',
             'content-type': 'application/x-www-form-urlencoded',
             'Cookie': cookie
@@ -458,7 +461,7 @@ function getIsvToken2() {
         headers: {
             'Host': 'api.m.jd.com',
             'accept': '*/*',
-            'user-agent': 'jdapp;iPhone;9.5.2;13.3;38a9ad791263b564d48d58254a8e579009ab3866;network/wifi;ADID/9245EEC1-8B4D-4953-B621-6A9F2FA7BB43;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone10,2;addressid/137596786;supportBestPay/0;appBuild/167650;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1',
+            'user-agent': 'JD4iPhone/167490 (iPhone; iOS 14.2; Scale/3.00)',
             'accept-language': 'zh-Hans-JP;q=1, en-JP;q=0.9, zh-Hant-TW;q=0.8, ja-JP;q=0.7, en-US;q=0.6',
             'content-type': 'application/x-www-form-urlencoded',
             'Cookie': cookie
@@ -497,7 +500,7 @@ function getToken() {
             'Accept-Language': 'zh-cn',
             'Content-Type': 'application/json;charset=utf-8',
             'Origin': 'https://xinruimz-isv.isvjcloud.com',
-            'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1") : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+            'User-Agent': process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : "jdapp;android;9.5.0;9;D203035636031-6664316239313;network/4g;model/MI 6;addressid/3005006119;aid/b912d9835412e94a;oaid/8076701e352fd2fa;osVer/28;appBuild/87697;partner/xiaomi001;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 9; MI 6 Build/PKQ1.190118.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/6.2 TBS/045131 Mobile Safari/537.36",
             'Referer': 'https://xinruimz-isv.isvjcloud.com/logined_jd/',
             'Authorization': 'Bearer undefined',
             'Cookie': `IsvToken=${$.isvToken};`
@@ -513,7 +516,7 @@ function getToken() {
                     if (safeGet(data)) {
                         data = JSON.parse(data);
                         $.token = data.access_token
-                        console.log($.token)
+                        console.log(`$.token ${$.token}`)
                     }
                 }
             } catch (e) {
