@@ -24,6 +24,7 @@
 const $ = new Env('京东赚京豆开团');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
+const JD_API_HOST2 = 'https://api.m.jd.com/api';
 $.cookiesArr = [];
 $.currentCookie = '';
 $.tuan = null;
@@ -32,7 +33,7 @@ $.canHelp = true;
 !(async () => {
     if (!getCookies()) return;
 
-    for (let i = 0; i < $.cookiesArr.length; i++) {
+    for (let i = 0; i < 2; i++) {
         $.currentCookie = $.cookiesArr[i];
         if ($.currentCookie) {
             const userName = decodeURIComponent(
@@ -40,21 +41,18 @@ $.canHelp = true;
             );
             console.log(`\n开始【京东账号${i + 1}】${userName}`);
             await getUserTuanInfo();
-            await (8000);
+            await (10000);
         }
     }
 
     console.log(`\n开始账号内部相互进团\n`);
-    for (let i = 0; i < $.cookiesArr.length; i++) {
-
+    for (let i = 13; i < $.cookiesArr.length; i++) {
         if ($.cookiesArr[i]) {
             cookie = $.cookiesArr[i];
-            $.canHelp = true;//能否参团
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
             for (let item of $.tuanExtra) {
                 console.log(`\n${$.UserName} 去参加团 ${item.assistedPinEncrypted}`);
-                if (!$.canHelp) break;
-                await $.wait(5000);
+                await $.wait(8000);
                 await JoinTuan(item);
                 await $.wait(2000);
             }
@@ -86,9 +84,14 @@ function JoinTuan(extra) {
     return new Promise(resolve => {
         $.get(taskTuanUrl('vvipclub_distributeBean_assist', body), async (err, resp, data) => {
             try {
-                $.log( "Success: ",data.success);
+                data = JSON.parse(data);
+                if (data.success) {
+                    $.log("助力成功");
+                } else {
+                    $.log("助力失败" + "错误码:" + data.resultCode);
+                }
             } catch (e) {
-                $.log("助力失败");
+
             } finally {
                 resolve(data);
             }
@@ -108,9 +111,12 @@ function getUserTuanInfo() {
                         helpCode.activityIdEncrypted = id;
                         helpCode.assistStartRecordId = assistStartRecordId;
                         helpCode.assistedPinEncrypted = encPin;
-                        console.log(helpCode.assistStartRecordId + "\n")
+                        console.log("获取团活动助力成功:" + helpCode.activityIdEncrypted + "\n")
+                        console.log("获取团活动助力成功:" + helpCode.assistStartRecordId + "\n")
+                        console.log("获取团活动助力成功:" + helpCode.assistedPinEncrypted + "\n")
                         $.tuanExtra.push(helpCode);
                     } else {
+                        console.log("开始创建新的团活动\n")
                         createTuan(id);
                     }
                 }
@@ -128,9 +134,8 @@ function createTuan(id) {
     return new Promise(resolve => {
         $.get(taskTuanUrl('vvipclub_distributeBean_startAssist', body), async (err, resp, data) => {
             try {
-                data = JSON.parse(data);
                 if (data.success) {
-                    $.log('创建团成功', data);
+                    $.log('创建团成功');
                     await getUserTuanInfo();
                 }
             } catch (e) {
@@ -144,9 +149,9 @@ function createTuan(id) {
 
 function taskTuanUrl(function_id, body = {}) {
     return {
-        url: `${JD_API_HOST}?functionId=${function_id}&body=${encodeURIComponent(
+        url: `${JD_API_HOST2}?functionId=${function_id}&body=${encodeURIComponent(
             JSON.stringify(body),
-        )}&appid=swat_miniprogram&client=tjj_m&screen=1920*1080&osVersion=5.0.0&networkType=wifi&sdkName=orderDetail&sdkVersion=1.0.0&clientVersion=3.1.3&area=1_72_4137_0&fromType=wxapp&timestamp=${Date.now()}`,
+        )}&appid=swat_miniprogram&client=tjj_m&screen=1920*1080&osVersion=5.0.0&networkType=wifi&sdkName=orderDetail&sdkVersion=1.0.0&clientVersion=3.1.3&area=1_72_4137_0&fromType=wxapp=${Date.now()}`,
         headers: {
             Accept: '*/*',
             'Accept-Encoding': 'gzip, deflate, br',
@@ -154,14 +159,13 @@ function taskTuanUrl(function_id, body = {}) {
             Connection: 'keep-alive',
             'Content-Type': 'application/x-www-form-urlencoded',
             Host: 'api.m.jd.com',
-            Referer: 'https://servicewechat.com/wxa5bf5ee667d91626/108/page-frame.html',
+            Referer: 'https://servicewechat.com/wxa5bf5ee667d91626/139/page-frame.html',
             Cookie: $.currentCookie,
-            'User-Agent': 'jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0',
+            'User-Agent': 'Mozilla/5.0 (Linux; Android 9; MI 6 Build/PKQ1.190118.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.62 XWEB/2791 MMWEBSDK/20210302 Mobile Safari/537.36 MMWEBID/3736 MicroMessenger/8.0.3.1880(0x28000335) Process/appbrand0 WeChat/arm64 Weixin NetType/4G Language/zh_CN ABI/arm64 MiniProgramEnv/android',
         },
-    };
+    }
 }
 
-// prettier-ignore
 function Env(t, e) {
     class s {
         constructor(t) {
@@ -446,3 +450,4 @@ function Env(t, e) {
         }
     }(t, e)
 }
+
