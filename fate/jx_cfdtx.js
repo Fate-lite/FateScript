@@ -18,6 +18,7 @@ const $ = new Env("京喜财富岛提现");
 const JD_API_HOST = "https://m.jingxi.com/";
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
+let url = 'https://ghproxy.com/https://raw.githubusercontent.com/Fate-lite/FateScript//main/fate/jxToken.json'
 $.result = [];
 $.cookieArr = [];
 $.currentCookie = '';
@@ -34,10 +35,9 @@ $.userName = '';
 
   if (!getCookies()) return;
 
-  // for (let i = 0; i < $.tokenArr.length; i++) {
-  for (let i = 1; i < 2; i++) {
+  for (let i = 0; i < $.tokenArr.length; i++) {
     $.currentCookie = $.cookieArr[i];
-    $.currentToken = $.tokenArr[0];
+    $.currentToken = $.tokenArr[i];
     if ($.currentCookie) {
       $.userName =  decodeURIComponent($.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1]);
       $.log(`\n开始【京东账号${i + 1}】${$.userName}`);
