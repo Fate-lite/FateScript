@@ -25,7 +25,7 @@ $.result = [];
 $.cookieArr = [];
 $.currentCookie = '';
 $.tokenArr = [
-    {farm_jstoken: "0559999ecdbb775c60d8b341d7efbd86", phoneid: "b912d9835412e94a", timestamp: "1620817108511"},
+    {farm_jstoken: "480c812b62f90c8f2831b1547cbbf3ed", phoneid: "b912d9835412e94a", timestamp: "1620818234097"},
     {farm_jstoken: "07a41750ad3d890ef36be5b6703f0759", phoneid: "b912d9835412e94a", timestamp: "1620703998453"}
 ];
 $.currentToken = {};
