@@ -37,7 +37,7 @@ $.userName = '';
 
     if (!getCookies()) return;
 
-    for (let i = 0; i < $.tokenArr.length; i++) {
+    for (let i = 1; i < $.tokenArr.length; i++) {
         $.currentCookie = $.cookieArr[i];
         $.currentToken = $.tokenArr[i];
         if ($.currentCookie) {
