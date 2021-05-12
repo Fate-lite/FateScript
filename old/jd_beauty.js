@@ -13,7 +13,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const WebSocket = require('ws');
 //const WebSocket = $.isNode() ? require('websocket').w3cwebsocket: SockJS;
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
-const randomCount = $.isNode() ? 1 : 5;
+const randomCount = $.isNode() ? 0 : 0;
 $.accountCheck = true;
 $.init = false;
 // const bean = 1; //兑换多少豆，默认是500
@@ -116,7 +116,6 @@ async function accountCheck(){
         };
         client.onclose = (e) => {
             $.hasDone = true;
-            // console.log(client.readyState);
             console.log('服务器连接关闭');
         };
         await $.wait(1000);
@@ -125,13 +124,6 @@ async function accountCheck(){
 
 async function jdBeauty() {
     $.hasDone = false
-    // await getIsvToken()
-    // await getIsvToken2()
-    // await getToken()
-    // if (!$.token) {
-    //   console.log(`\n\n提示：请尝试换服务器ip或者设置"xinruimz-isv.isvjcloud.com"域名直连，或者自定义UA再次尝试(环境变量JD_USER_AGENT)\n\n`)
-    //   return
-    // }
     await mr()
     while (!$.hasDone) {
         await $.wait(1000)

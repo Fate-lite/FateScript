@@ -30,7 +30,7 @@ $.tuan = null;
 
 !(async () => {
     if (!getCookies()) return;
-    for (let i = 0; i < $.cookieArr.length; i++) {
+    for (let i = 2; i < $.cookieArr.length; i++) {
         $.currentCookie = $.cookieArr[i];
         if ($.currentCookie) {
             const userName = decodeURIComponent(
@@ -39,7 +39,6 @@ $.tuan = null;
             console.log(`\n开始【京东账号${i + 1}】${userName}`);
             await getUserTuanInfo();
             await submitInviteId(userName);
-            // await helpFriendTuan();
         }
     }
 })()
