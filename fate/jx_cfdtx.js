@@ -23,14 +23,13 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 let url = 'https://ghproxy.com/https://raw.githubusercontent.com/Fate-lite/FateScript//main/fate/jxToken.json'
 $.result = [];
 $.cookieArr = [];
-$.currentCookie = '';
 $.tokenArr = [
-    {farm_jstoken: "480c812b62f90c8f2831b1547cbbf3ed", phoneid: "b912d9835412e94a", timestamp: "1620818234097"},
+    {farm_jstoken: "7656c1185faeb3e45d3944900486cef9", phoneid: "b912d9835412e94a", timestamp: "1620836529800"},
     {farm_jstoken: "07a41750ad3d890ef36be5b6703f0759", phoneid: "b912d9835412e94a", timestamp: "1620703998453"}
 ];
+
+$.currentCookie = '';
 $.currentToken = {};
-$.strPhoneID = '';
-$.strPgUUNum = '';
 $.userName = '';
 
 !(async () => {
@@ -46,30 +45,12 @@ $.userName = '';
             await cashOut();
         }
     }
-    await showMsg();
 
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done());
 
-function getToken(url) {
 
-    const query = url.split('?')[1];
-    const params = query.split('&');
-    let obj = {};
-    for (let i = 0; i < params.length; i++) {
-        const [key, value] = params[i].split('=');
-        obj[key] = value;
-    }
-    const token = {
-        farm_jstoken: obj.apptoken,
-        phoneid: obj.phoneID,
-        timestamp: obj.pgtimestamp,
-    };
-
-    return token;
-
-}
 
 function getCookies() {
     if ($.isNode()) {
@@ -111,6 +92,24 @@ function cashOut() {
             }
         );
     });
+}
+
+function getToken(url) {
+
+    const query = url.split('?')[1];
+    const params = query.split('&');
+    let obj = {};
+    for (let i = 0; i < params.length; i++) {
+        const [key, value] = params[i].split('=');
+        obj[key] = value;
+    }
+    const token = {
+        farm_jstoken: obj.apptoken,
+        phoneid: obj.phoneID,
+        timestamp: obj.pgtimestamp,
+    };
+    return token;
+
 }
 
 function taskUrl(function_path, body) {

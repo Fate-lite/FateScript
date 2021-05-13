@@ -23,7 +23,7 @@
 
 const $ = new Env('赚京豆开团助力推送');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const JD_API_HOST = 'https://api.m.jd.com/client.action';
+const JD_API_HOST = 'https://api.m.jd.com/api';
 $.cookiesArr = [];
 $.currentCookie = '';
 $.tuan = null;
