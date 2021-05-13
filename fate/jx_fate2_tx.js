@@ -28,16 +28,14 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 let url = 'https://ghproxy.com/https://raw.githubusercontent.com/Fate-lite/FateScript//main/fate/jxToken.json'
 $.result = [];
 $.cookieArr = [];
-$.tokenArr = [
-    {farm_jstoken: "7656c1185faeb3e45d3944900486cef9", phoneid: "b912d9835412e94a", timestamp: "1620836529800"},
-    {farm_jstoken: "07a41750ad3d890ef36be5b6703f0759", phoneid: "b912d9835412e94a", timestamp: "1620703998453"}
-];
+
 
 $.currentCookie = 'pt_key=AAJglTLEADD6aNcU2qfIgpQ8s0d1wVRvPSy3DZgjaMRhbZbZvPxePFVyGsm8XFNXWYQ68wolr-M;pt_pin=wdflHESuOLexCP;';
 $.currentToken = {
-    farm_jstoken: "07a41750ad3d890ef36be5b6703f0759",
-    phoneid: "b912d9835412e94a",
-    timestamp: "1620703998453"
+    "farm_jstoken": "07a41750ad3d890ef36be5b6703f0759",
+    "phoneid": "b912d9835412e94a",
+    "timestamp": "1620703998453",
+    "pin": "wdflHESuOLexCP"
 };
 
 $.userName = '';
