@@ -69,10 +69,6 @@ function getCookies() {
 
 function cashOut() {
     return new Promise(async (resolve) => {
-        $.log(`\n${$.currentCookie}`);
-        let token = JSON.stringify($.currentToken);
-        $.log(`\n${token}`);
-
         $.get(
             taskUrl(
                 `consume/CashOut`,
