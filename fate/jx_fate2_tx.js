@@ -18,12 +18,10 @@
  {farm_jstoken: "480c812b62f90c8f2831b1547cbbf3ed", phoneid: "b912d9835412e94a", timestamp: "1620818234097"},
  {farm_jstoken: "07a41750ad3d890ef36be5b6703f0759", phoneid: "b912d9835412e94a", timestamp: "1620703998453"}
  ];
-
-
  *
  **/
 
-const $ = new Env("京喜财富岛提现");
+const $ = new Env("京喜财富岛提现Fate2");
 const JD_API_HOST = "https://m.jingxi.com/";
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -35,25 +33,21 @@ $.tokenArr = [
     {farm_jstoken: "07a41750ad3d890ef36be5b6703f0759", phoneid: "b912d9835412e94a", timestamp: "1620703998453"}
 ];
 
-$.currentCookie = '';
-$.currentToken = {};
+$.currentCookie = 'pt_key=AAJglTLEADD6aNcU2qfIgpQ8s0d1wVRvPSy3DZgjaMRhbZbZvPxePFVyGsm8XFNXWYQ68wolr-M;pt_pin=wdflHESuOLexCP;';
+$.currentToken = {
+    farm_jstoken: "07a41750ad3d890ef36be5b6703f0759",
+    phoneid: "b912d9835412e94a",
+    timestamp: "1620703998453"
+};
+
 $.userName = '';
 
 !(async () => {
-
-    if (!getCookies()) return;
-
-    for (let i = 0; i < 2; i++) {
-        $.currentCookie = $.cookieArr[i];
-        $.currentToken = $.tokenArr[i];
-
-        if ($.currentCookie) {
-            $.userName = decodeURIComponent($.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1]);
-            $.log(`\n开始【京东账号${i + 1}】${$.userName}`);
-            await cashOut();
-        }
+    if ($.currentCookie) {
+        $.userName = decodeURIComponent($.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1]);
+        $.log(`\n开始【京东账号】${$.userName}`);
+        await cashOut();
     }
-
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done());
@@ -81,7 +75,6 @@ function cashOut() {
         let token = JSON.stringify($.currentToken);
         $.log(`\n${token}`);
 
-
         $.get(
             taskUrl(
                 `consume/CashOut`,
@@ -93,7 +86,7 @@ function cashOut() {
                     const {iRet, sErrMsg} = JSON.parse(data);
                     $.log(sErrMsg);
                     if ($.isNode() && sErrMsg == "") {
-                        await notify.sendNotify(`${$.userName}\n`, sErrMsg)
+                        await notify.sendNotify($.name, `${$.userName}提现成功\n `)
                     }
                     resolve(sErrMsg);
                 } catch (e) {
@@ -107,7 +100,6 @@ function cashOut() {
 }
 
 function getToken(url) {
-
     const query = url.split('?')[1];
     const params = query.split('&');
     let obj = {};
@@ -121,7 +113,6 @@ function getToken(url) {
         timestamp: obj.pgtimestamp,
     };
     return token;
-
 }
 
 function taskUrl(function_path, body) {
@@ -138,25 +129,6 @@ function taskUrl(function_path, body) {
             "Accept-Language": "zh-cn",
         },
     };
-}
-
-function showMsg() {
-    return new Promise((resolve) => {
-        if ($.notifyTime) {
-            const notifyTimes = $.notifyTime.split(",").map((x) => x.split(":"));
-            const now = $.time("HH:mm").split(":");
-            $.log(`\n${JSON.stringify(notifyTimes)}`);
-            $.log(`\n${JSON.stringify(now)}`);
-            if (
-                notifyTimes.some((x) => x[0] === now[0] && (!x[1] || x[1] === now[1]))
-            ) {
-                $.msg($.name, "", `\n${$.result.join("\n")}`);
-            }
-        } else {
-            $.msg($.name, "", `\n${$.result.join("\n")}`);
-        }
-        resolve();
-    });
 }
 
 // prettier-ignore
