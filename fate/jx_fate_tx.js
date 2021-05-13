@@ -31,9 +31,9 @@ $.cookieArr = [];
 
 $.currentCookie = 'pt_key=AAJgfABXADAtwaOh_U7JR4lvZHwCzcZ4ddZQE-VGGc5iEIN_nRcz_zsT4p88OJoCiyVFMnxEXsY;pt_pin=24976137-306905;';
 $.currentToken = {
-    "farm_jstoken": "6c162314909219de0e7e8d68eef8c481",
+    "farm_jstoken": "7656c1185faeb3e45d3944900486cef9",
     "phoneid": "b912d9835412e94a",
-    "timestamp": "1620894136676",
+    "timestamp": "1620836529800",
     "pin": "24976137-306905"
 };
 
