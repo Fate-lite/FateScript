@@ -5,7 +5,8 @@
  Author：MoPoQAQ
  Update: 2021/2/2 13:00
 
- 10 * * * *
+ [task_local]
+ 0 0 * * * https://raw.githubusercontent.com/main/dd_fruit.js
 
  Thanks:
  💢疯疯💢
