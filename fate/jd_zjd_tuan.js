@@ -38,11 +38,27 @@ $.canHelp = true;
             const userName = decodeURIComponent(
                 $.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1],
             );
-            console.log(`\n开始【京东账号${i + 1}】${userName}`);
             await getUserTuanInfo();
             await (2000);
         }
     }
+    $.tuanExtra = [];
+    await (8000);
+
+    for (let i = 0; i < 2; i++) {
+
+        $.currentCookie = $.cookiesArr[i];
+        console.log(`\n开始【京东账号${i + 1}】${userName}`);
+        if ($.currentCookie) {
+            const userName = decodeURIComponent(
+                $.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1],
+            );
+            await getUserTuanInfo();
+            await (2000);
+        }
+    }
+
+
 
     console.log(`\n开始账号内部相互进团\n`);
     for (let i = 0; i < $.cookiesArr.length; i++) {
