@@ -8,15 +8,15 @@
 
   quanx:
   [task_local]
-  8 0,1 * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true
+  8 4,8,10 * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true
 
   loon:
   [Script]
-  cron "8 0,1 * * *" script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团
+  cron "8 4,8,10 * * *" script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团
 
   surge:
   [Script]
-  京东赚京东开团 = type=cron,cronexp=8 0,1 * * *,timeout=60,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js,
+  京东赚京东开团 = type=cron,cronexp=8 4,8,10 * * *,timeout=60,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js,
  *
  *
  **/
@@ -35,9 +35,6 @@ $.canHelp = true;
         $.log();
         $.currentCookie = $.cookiesArr[i];
         if ($.currentCookie) {
-            const userName = decodeURIComponent(
-                $.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1],
-            );
             await getUserTuanInfo();
             await (2000);
         }
@@ -46,8 +43,10 @@ $.canHelp = true;
     await (8000);
 
     for (let i = 0; i < 2; i++) {
-
         $.currentCookie = $.cookiesArr[i];
+        const userName = decodeURIComponent(
+            $.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1],
+        );
         console.log(`\n开始【京东账号${i + 1}】${userName}`);
         if ($.currentCookie) {
             const userName = decodeURIComponent(

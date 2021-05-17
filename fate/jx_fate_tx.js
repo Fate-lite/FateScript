@@ -6,7 +6,7 @@
  Update: 2021/2/2 13:00
 
  [task_local]
-0 0 * * * https://raw.githubusercontent.com/dd_fruit.js
+ 0 0 * * * https://raw.githubusercontent.com/dd_fruit.js
 
  Thanks:
  💢疯疯💢
