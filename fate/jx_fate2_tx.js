@@ -31,7 +31,6 @@ $.result = [];
 $.cookieArr = [];
 
 
-$.currentCookie = 'pt_key=AAJglTLEADD6aNcU2qfIgpQ8s0d1wVRvPSy3DZgjaMRhbZbZvPxePFVyGsm8XFNXWYQ68wolr-M;pt_pin=wdflHESuOLexCP;';
 $.currentToken = {
     "farm_jstoken": "07a41750ad3d890ef36be5b6703f0759",
     "phoneid": "b912d9835412e94a",
@@ -41,7 +40,21 @@ $.currentToken = {
 
 $.userName = '';
 
+if ($.isNode()) {
+    $.cookieArr = Object.values(jdCookieNode);
+} else {
+    const CookiesJd = JSON.parse($.getdata("CookiesJD") || "[]").filter(x => !!x).map(x => x.cookie);
+    $.cookieArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd].filter(x => !!x);
+}
+if (!$.cookieArr[0]) {
+    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
+        'open-url': 'https://bean.m.jd.com/',
+    });
+    return false;
+}
+
 !(async () => {
+    $.currentCookie = $.cookieArr[1];
     if ($.currentCookie) {
         $.userName = decodeURIComponent($.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1]);
         $.log(`\n开始【京东账号】${$.userName}`);

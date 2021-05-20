@@ -30,7 +30,7 @@ let url = 'https://ghproxy.com/https://raw.githubusercontent.com/Fate-lite/FateS
 $.result = [];
 $.cookieArr = [];
 
-$.currentCookie = 'pt_key=AAJgfABXADAtwaOh_U7JR4lvZHwCzcZ4ddZQE-VGGc5iEIN_nRcz_zsT4p88OJoCiyVFMnxEXsY;pt_pin=24976137-306905;';
+
 $.currentToken = {
     "farm_jstoken": "407e8b3171abfd5b062b18d4a9cadc87",
     "phoneid": "d2b7cf60afce53c7",
@@ -40,7 +40,21 @@ $.currentToken = {
 
 $.userName = '';
 
+if ($.isNode()) {
+    $.cookieArr = Object.values(jdCookieNode);
+} else {
+    const CookiesJd = JSON.parse($.getdata("CookiesJD") || "[]").filter(x => !!x).map(x => x.cookie);
+    $.cookieArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd].filter(x => !!x);
+}
+if (!$.cookieArr[0]) {
+    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
+        'open-url': 'https://bean.m.jd.com/',
+    });
+    return false;
+}
+
 !(async () => {
+    $.currentCookie = $.cookieArr[0];
     if ($.currentCookie) {
         $.userName = decodeURIComponent($.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1]);
         $.log(`\n开始【京东账号】${$.userName}`);
@@ -51,21 +65,7 @@ $.userName = '';
     .finally(() => $.done());
 
 
-function getCookies() {
-    if ($.isNode()) {
-        $.cookieArr = Object.values(jdCookieNode);
-    } else {
-        const CookiesJd = JSON.parse($.getdata("CookiesJD") || "[]").filter(x => !!x).map(x => x.cookie);
-        $.cookieArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd].filter(x => !!x);
-    }
-    if (!$.cookieArr[0]) {
-        $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
-            'open-url': 'https://bean.m.jd.com/',
-        });
-        return false;
-    }
-    return true;
-}
+
 
 function cashOut() {
     return new Promise(async (resolve) => {
