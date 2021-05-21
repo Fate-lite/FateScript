@@ -250,33 +250,33 @@ function submitInviteId(userName) {
             resolve();
             return;
         }
+        $.log(`\n你的互助码: ${$.info.smp}`);
+        $.log(`你的活动id: ${$.info.active}`);
         helpCode.smp = $.info.smp;
         helpCode.active = $.info.active;
         helpCode.joinnum = $.info.joinnum;
         if (helpCode != null) {
             $.helpExtra.push(helpCode);
         }
-
-        $.log(`\n你的互助码: ${$.info.smp}`);
-        $.log(`你的活动id: ${$.info.active}`);
-        $.post(
-            {
-                url: `https://api.ninesix.cc/api/jx-nc/${$.info.smp}/${encodeURIComponent(userName)}?active=${$.info.active}&joinnum=${$.info.joinnum}`,
-            },
-            (err, resp, _data) => {
-                try {
-                    const {code, data = {}} = JSON.parse(_data);
-                    $.log(`\n邀请码提交：${code}\n${$.showLog ? _data : ''}`);
-                    if (data.value) {
-                        $.result.push('【邀请码】提交成功！');
-                    }
-                } catch (e) {
-                    $.logErr(e, resp);
-                } finally {
-                    resolve();
-                }
-            },
-        );
+        resolve(true);
+        // $.post(
+        //     {
+        //         url: `https://api.ninesix.cc/api/jx-nc/${$.info.smp}/${encodeURIComponent(userName)}?active=${$.info.active}&joinnum=${$.info.joinnum}`,
+        //     },
+        //     (err, resp, _data) => {
+        //         try {
+        //             const {code, data = {}} = JSON.parse(_data);
+        //             $.log(`\n邀请码提交：${code}\n${$.showLog ? _data : ''}`);
+        //             if (data.value) {
+        //                 $.result.push('【邀请码】提交成功！');
+        //             }
+        //         } catch (e) {
+        //             $.logErr(e, resp);
+        //         } finally {
+        //             resolve();
+        //         }
+        //     },
+        // );
     });
 }
 
