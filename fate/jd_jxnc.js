@@ -241,9 +241,7 @@ function doTask({tasklevel, left, taskname, eachtimeget}) {
     });
 }
 
-
 function submitInviteId(userName) {
-
     return new Promise(resolve => {
         let helpCode = {};
         if (!$.info || !$.info.smp) {
@@ -298,7 +296,6 @@ function assistUser(extra) {
         );
     });
 }
-
 
 function createAssistUser() {
     return new Promise(resolve => {
