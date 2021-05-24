@@ -363,6 +363,7 @@ function TotalBean() {
         })
     })
 }
+
 function safeGet(data) {
     try {
         if (typeof JSON.parse(data) == "object") {
@@ -374,6 +375,7 @@ function safeGet(data) {
         return false;
     }
 }
+
 function jsonParse(str) {
     if (typeof str == "string") {
         try {
