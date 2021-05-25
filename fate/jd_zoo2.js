@@ -177,12 +177,7 @@ async function zoo() {
       await takePostRequest('zoo_raise');
     }
   }
-  //助力
-  // for (let i = 0; i < $.inviteList.length; i++) {
-  //     $.inviteId = $.inviteList[i];
-  //     await takePostRequest('help');
-  //     await $.wait(2000);
-  // }
+
   //======================================================怪兽大作战==============================================================================================================
   $.pkHomeData = {};
   await takePostRequest('zoo_pk_getHomeData');

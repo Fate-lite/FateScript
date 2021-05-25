@@ -18,7 +18,7 @@ const $ = new Env('动物联萌');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', secretp = '', shareCodeList = [];
-$.userName = 'Fate_test'
+$.UserName = 'Fate_test'
 const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
 !(async () => {
     await requireConfig()
