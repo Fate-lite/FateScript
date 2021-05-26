@@ -3,8 +3,7 @@
  * @Date: 2021-01-17 16:25:41
  * @Last Modified by:   shylocks
  * @Last Modified time: 2021-01-18 18:25:41
- */
-/*
+ *
 母婴爱消除，完成所有任务+每日挑战
 活动入口：京东app首页-个护馆-母婴爱消除
 已支持IOS双京东账号,Node.js支持N个京东账号
@@ -122,8 +121,8 @@ async function helpFriends() {
     await $.wait(500)
   }
 }
-// 获得IsvToken
 
+// 获得IsvToken
 function getIsvToken() {
   return new Promise(resolve => {
     $.post(jdUrl('encrypt/pin?appId=dafbe42d5bff9d82298e5230eb8c3f79'), async (err, resp, data) => {
