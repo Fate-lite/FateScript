@@ -47,8 +47,8 @@ let allMessage = '';
         return;
     }
     await requireConfig()
-    await getAuthorShareCode();
-    await getAuthorShareCode2();
+    // await getAuthorShareCode();
+    // await getAuthorShareCode2();
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
@@ -471,6 +471,7 @@ function getAuthorShareCode(url = "https://a.nz.lu/jd_cash.json") {
         })
     })
 }
+
 function getAuthorShareCode2(url = "https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_updateCash.json") {
     return new Promise(resolve => {
         $.get({url, headers:{
@@ -493,6 +494,7 @@ function getAuthorShareCode2(url = "https://cdn.jsdelivr.net/gh/gitupdate/update
         })
     })
 }
+
 function TotalBean() {
     return new Promise(async resolve => {
         const options = {
