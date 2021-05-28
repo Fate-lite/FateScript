@@ -43,7 +43,6 @@ if ($.isNode()) {
     $.log('开始京喜工厂邀请码推送请求')
     for (let codeFate of factorySharCodesFate) {
         await dreamFactoryHelp(codeFate);
-
     };
 
 
