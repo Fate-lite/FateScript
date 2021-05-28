@@ -47,8 +47,8 @@ let allMessage = '';
         return;
     }
     await requireConfig()
-    //await getAuthorShareCode();
-    //await getAuthorShareCode2();
+    await getAuthorShareCode();
+    await getAuthorShareCode2();
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
@@ -94,8 +94,8 @@ async function jdCash() {
         for (let item of ["-1", "0", "1", "2", "3"]) {
             $.canLoop = true;
             if ($.canLoop) {
-                for (let i = 0; i < 4; i++) {
-                    await exchange2(item);//兑换200京豆(2元红包换200京豆，一周四次。)
+                for (let i = 0; i < 5; i++) {
+                    await exchange2(item);//兑换200京豆(2元红包换200京豆，一周5次。)
                 }
                 if (!$.canLoop) {
                     console.log(`已找到符合的兑换条件，跳出\n`);
@@ -110,7 +110,6 @@ async function jdCash() {
     await index(true)
     // await showMsg()
 }
-
 function index(info=false) {
     return new Promise((resolve) => {
         $.get(taskUrl("cash_mob_home",), async (err, resp, data) => {
@@ -130,7 +129,6 @@ function index(info=false) {
                                 console.log(`\n\n当前现金：${data.data.result.signMoney}元`);
                                 return
                             }
-                            console.log(`您的助力码为${data.data.result.inviteCode}`)
                             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.result.inviteCode}\n`);
                             let helpInfo = {
                                 'inviteCode': data.data.result.inviteCode,
@@ -173,25 +171,23 @@ function index(info=false) {
         })
     })
 }
-
 async function helpFriends() {
     $.canHelp = true
     for (let code of $.newShareCodes) {
         console.log(`去帮助好友${code['inviteCode']}`)
-        // await helpFriend(code)
+        await helpFriend(code)
         if(!$.canHelp) break
         await $.wait(1000)
     }
-    if (helpAuthor && $.authorCode) {
-        for(let helpInfo of $.authorCode){
-            console.log(`去帮助好友${helpInfo['inviteCode']}`)
-            await helpFriend(helpInfo)
-            if(!$.canHelp) break
-            await $.wait(1000)
-        }
-    }
+    // if (helpAuthor && $.authorCode) {
+    //   for(let helpInfo of $.authorCode){
+    //     console.log(`去帮助好友${helpInfo['inviteCode']}`)
+    //     await helpFriend(helpInfo)
+    //     if(!$.canHelp) break
+    //     await $.wait(1000)
+    //   }
+    // }
 }
-
 function helpFriend(helpInfo) {
     return new Promise((resolve) => {
         $.get(taskUrl("cash_mob_assist", {...helpInfo,"source":1}), (err, resp, data) => {
@@ -221,7 +217,6 @@ function helpFriend(helpInfo) {
         })
     })
 }
-
 function doTask(type,taskInfo) {
     return new Promise((resolve) => {
         $.get(taskUrl("cash_doTask",{"type":type,"taskInfo":taskInfo}), (err, resp, data) => {
@@ -344,7 +339,6 @@ function showMsg() {
         resolve()
     })
 }
-
 function readShareCode() {
     console.log(`开始`)
     return new Promise(async resolve => {
@@ -422,7 +416,6 @@ function requireConfig() {
         resolve()
     })
 }
-
 function deepCopy(obj) {
     let objClone = Array.isArray(obj) ? [] : {};
     if (obj && typeof obj === "object") {
@@ -440,7 +433,6 @@ function deepCopy(obj) {
     }
     return objClone;
 }
-
 function taskUrl(functionId, body = {}) {
     return {
         url: `${JD_API_HOST}?functionId=${functionId}&body=${escape(JSON.stringify(body))}&appid=CashRewardMiniH5Env&appid=9.1.0`,
@@ -457,7 +449,7 @@ function taskUrl(functionId, body = {}) {
     }
 }
 
-function getAuthorShareCode(url = "http://qr6pzoy01.hn-bkt.clouddn.com/jd_cash.json") {
+function getAuthorShareCode(url = "https://a.nz.lu/jd_cash.json") {
     return new Promise(resolve => {
         $.get({url, headers:{
                 "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
