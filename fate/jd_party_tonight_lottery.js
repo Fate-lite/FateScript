@@ -121,7 +121,7 @@ function lottery() {
                     if (safeGet(data)) {
                         data = JSON.parse(data);
                         if (data.code === 0 && data.data && data.data.success) {
-                            console.log(`抽奖成功，获得：${data.data.result}`)
+                            console.log(`抽奖成功，获得：${JSON.stringify(data.data.result)}`)
                         } else if (data.data.bizMsg) {
                             console.log(JSON.stringify(data.data.bizMsg));
                         } else {
