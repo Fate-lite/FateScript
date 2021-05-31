@@ -77,7 +77,7 @@ if ($.isNode()) {
     })
 
 async function startLotteery(){
-    for (let j = 0; j < 6; j++) {
+    for (let j = 0; j < 5; j++) {
         console.log(`\n开始第 ${j + 1} 次抽奖\n`);
         await lottery();
         await $.wait(5000)
