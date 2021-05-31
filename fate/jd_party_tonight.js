@@ -69,10 +69,10 @@ if ($.isNode()) {
     }
     console.log(`开始内部助力\n`)
     for (let i = 0; i < cookiesArr.length; i++) {
-        if (cookiesArr[i]) {
+        cookie = cookiesArr[i];
+        if (cookie) {
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
             console.log(`${$.UserName}去帮助下一个人\n`)
-            cookie = cookiesArr[i];
             for (let j = 0; j < $.inviteCodes.length; j++) {
                 let inviteCode = $.inviteCodes[j];
                 await help(inviteCode)

@@ -70,10 +70,10 @@ const JD_API_HOST = 'https://api.m.jd.com/';
         }
     }
     for (let i = 0; i < cookiesArr.length; i++) {
+        cookie = cookiesArr[i];
         if (cookiesArr[i]) {
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
             console.log(`${$.UserName}去帮助下一个人`)
-            cookie = cookiesArr[i];
             for (let j = 0; j < $.newShareCodes.length; j++) {
                 let code = $.newShareCodes[j];
                 await help(code[0], code[1])
