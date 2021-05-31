@@ -48,8 +48,6 @@ if (!$.cookieArr[0]) {
     .finally(() => $.done());
 
 
-
-
 function cashOut() {
     return new Promise(async (resolve) => {
 

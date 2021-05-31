@@ -90,20 +90,17 @@ if ($.isNode()) {
 
 async function jdPartyTonight() {
     await getUserInfo()
-    await $.wait(5000)
-}
+    await $.wait(2000)
+    await remind();
+    await $.wait(1000)
 
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
+
 }
 
 
 function getUserInfo() {
     return new Promise(resolve => {
-        const body = {
-        }
+        const body = {}
         $.post(taskUrl('partyTonight_init', body), async (err, resp, data) => {
             try {
                 if (err) {
@@ -112,7 +109,7 @@ function getUserInfo() {
                 } else {
                     if (safeGet(data)) {
                         data = JSON.parse(data);
-                        if (data.code == 0){
+                        if (data.code == 0) {
                             $.currentLotteryConfig = data.data.result.currentLotteryConfig;
                             console.log(`${$.name} 获取邀请码成功: ${data.data.result.inviteCode}\n`)
                             if ($.index <= helpUserNum) {
@@ -130,6 +127,36 @@ function getUserInfo() {
     })
 }
 
+function remind() {
+    return new Promise(resolve => {
+        const body = {}
+        $.post(taskUrl('partyTonight_remind', body), async (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`${JSON.stringify(err)}`)
+                    console.log(`${$.name} API请求失败，请检查网路重试`)
+                } else {
+                    if (safeGet(data)) {
+                        data = JSON.parse(data);
+                        if (data.code === 0 && data.data && data.data.bizCode === 0) {
+                            console.log(`预约成功，获得：${data.data.result.remindRedPacketValue}`)
+                        } else if (data.code === 0 && data.data && data.data.bizCode === -201) {
+                            console.log(JSON.stringify(data.data.bizMsg));
+                        } else {
+                            console.log(JSON.stringify(data));
+                        }
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp)
+            } finally {
+                resolve();
+            }
+        })
+    })
+
+}
+
 function help(inviteCode) {
     return new Promise(resolve => {
         const body = {
@@ -143,12 +170,11 @@ function help(inviteCode) {
                 } else {
                     if (safeGet(data)) {
                         data = JSON.parse(data);
-                        if (data.data.success){
+                        if (data.data.success) {
                             console.log(`【助力成功】${inviteCode}\n`)
-                        }else{
+                        } else {
                             console.log(`【助力失败】${data.data.bizMsg}\n`)
                         }
-
                     }
                 }
             } catch (e) {
@@ -161,26 +187,35 @@ function help(inviteCode) {
 }
 
 
-function taskGetUrl(function_id, body) {
-    return {
-        url: `${JD_API_HOST}client.action?functionId=${function_id}&body=${escape(JSON.stringify(body))}&appid=ld&clientVersion=9.2.0`,
-        headers: {
-            'Cookie': cookie,
-            'Host': 'api.m.jd.com',
-            'Accept': '*/*',
-            'Connection': 'keep-alive',
-            'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
-            'Accept-Language': 'zh-Hans-CN;q=1,en-CN;q=0.9',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Content-Type': "application/x-www-form-urlencoded"
-        }
-    }
-}
-
 function taskUrl(function_id, body) {
     return {
         url: JD_API_HOST,
         body: `functionId=${function_id}&body=${escape(JSON.stringify(body))}&client=wh5&clientVersion=1.0.0&uuid=`,
+        headers: {
+            'Accept': `application/json, text/plain, */*`,
+            'Origin': `https://h5static.m.jd.com`,
+            'Accept-Encoding': `gzip, deflate, br`,
+            'Cookie': cookie,
+            'Content-Type': `application/x-www-form-urlencoded`,
+            'Host': `api.m.jd.com`,
+            'Connection': `keep-alive`,
+            'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+            'Referer': `https://h5static.m.jd.com/babelDiy/Zeus/qEfNdq9oRsJfhYJ7XR1EahyLt9L/index.html`,
+            'Accept-Language': `zh-cn`
+        }
+    }
+}
+
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function taskGetUrl(function_id, body) {
+    return {
+        url: `${JD_API_HOST}client.action?functionId=${function_id}&body=${escape(JSON.stringify(body))}&appid=ld&clientVersion=9.2.0`,
         headers: {
             'Cookie': cookie,
             'Host': 'api.m.jd.com',
