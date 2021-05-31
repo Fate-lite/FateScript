@@ -1,21 +1,21 @@
 /*
-#沸腾之夜-全民瓜分18亿-全民瓜分18亿-全民瓜分18亿
+#沸腾之夜-全民瓜分18亿
 
-#沸腾之夜-全民瓜分18亿-全民瓜分18亿
+#沸腾之夜-全民瓜分18亿
 ================Loon==============
 [task_local]
 #沸腾之夜-全民瓜分18亿
-7 7 * * * https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js, tag=沸腾之夜-全民瓜分18亿, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_bean_home.png, enabled=true
+1 2 * * * https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js, tag=沸腾之夜-全民瓜分18亿, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_bean_home.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "7 7 * * *" script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js, tag=沸腾之夜-全民瓜分18亿
+cron "1 2 * * *" script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js, tag=沸腾之夜-全民瓜分18亿
 
 ===============Surge=================
-沸腾之夜-全民瓜分18亿 = type=cron,cronexp="7 7 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js
+沸腾之夜-全民瓜分18亿 = type=cron,cronexp="1 2 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js
 
 ============小火箭=========
-沸腾之夜-全民瓜分18亿 = type=cron,script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js, cronexpr="7 7 * * *", timeout=3600, enable=true
+沸腾之夜-全民瓜分18亿 = type=cron,script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js, cronexpr="1 2 * * *", timeout=3600, enable=true
  */
 const $ = new Env('沸腾之夜-全民瓜分18亿');
 

@@ -12,17 +12,17 @@
 ============Quantumultx===============
 [task_local]
 #东东爱消除
-40 7,8 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl.js, tag=东东爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xxl.jpg, enabled=true
+40 7,8 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_dd.js, tag=东东爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xxl.jpg, enabled=true
 
 ================Loon==============
 [Script]
-cron "40 7,8 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl.js,tag=东东爱消除
+cron "40 7,8 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_dd.js,tag=东东爱消除
 
 ===============Surge=================
-东东爱消除 = type=cron,cronexp="40 7,8 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl.js
+东东爱消除 = type=cron,cronexp="40 7,8 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_dd.js
 
 ============小火箭=========
-东东爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl.js, cronexpr="40 7,8 * * *", timeout=200, enable=true
+东东爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_dd.js, cronexpr="40 7,8 * * *", timeout=200, enable=true
  */
 const $ = new Env('东东爱消除');
 const notify = $.isNode() ? require('./sendNotify.js') : '';

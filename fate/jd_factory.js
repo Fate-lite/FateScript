@@ -13,14 +13,14 @@
  * 可设置每天通知时间
   quanx:
   [task_local]
-  7 * * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_factory.js, tag=京喜工厂, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdgc.png, enabled=true
+  7 * * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_factory.js, tag=京喜工厂, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdgc.png, enabled=true
 
   Loon:
   [Script]
-  cron "7 * * * *" script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_factory.js,tag=京喜工厂
+  cron "7 * * * *" script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_factory.js,tag=京喜工厂
 
   Surge:
-  京喜工厂 = type=cron,cronexp="7 * * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_factory.js
+  京喜工厂 = type=cron,cronexp="7 * * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_factory.js
 *
 **/
 // prettier-ignore

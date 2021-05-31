@@ -8,15 +8,15 @@
 
   quanx:
   [task_local]
-  0 * * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true
+  0 * * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan_push.js, tag=京东赚京东开团, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true
 
   loon:
   [Script]
-  cron "0 * * * *" script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团
+  cron "0 * * * *" script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan_push.js, tag=京东赚京东开团
 
   surge:
   [Script]
-  京东赚京东开团 = type=cron,cronexp=0 * * * *,timeout=60,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js,
+  京东赚京东开团 = type=cron,cronexp=0 * * * *,timeout=60,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan_push.js,
  *
  *
  **/

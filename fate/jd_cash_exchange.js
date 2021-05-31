@@ -4,17 +4,7 @@
 ============Quantumultx===============
 [task_local]
 #签到领现金兑换10元红包
-0 0 * * *
-
-================Loon==============
-[Script]
-cron "0 0 * * *"
-
-===============Surge=================
-签到领现金 = type=cron,cronexp="0 0 * * *",
-
-============小火箭=========
-签到领现金 = type=cron,script-pathjd_cash.js, cronexpr="0 0 * * *", timeout=3600, enable=true
+cron 0 0 * * * jd_cash_exchange.js
  */
 
 const $ = new Env('签到领现金兑换10元红包');

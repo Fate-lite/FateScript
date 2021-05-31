@@ -1,24 +1,7 @@
 /**
  *
  Name:财富岛提现
- Address: 京喜App
- Author：MoPoQAQ
- Update: 2021/2/2 13:00
-
- [task_local]
- 0 0 * * * https://raw.githubusercontent.com/dd_fruit.js
-
- Thanks:
- 💢疯疯💢
- 银河大佬：https://github.com/zbt494
- 获取Token方式：1
- 打开【❗️京喜农场❗️】，手动任意完成<工厂任务>、<签到任务>、<金牌厂长任务>一项，提示获取cookie成功即可，然后退出跑任务脚本
-
- $.tokenArr = [
- {farm_jstoken: "7656c1185faeb3e45d3944900486cef9", phoneid: "b912d9835412e94a", timestamp: "1620836529800"},
- {farm_jstoken: "480c812b62f90c8f2831b1547cbbf3ed", phoneid: "b912d9835412e94a", timestamp: "1620818234097"},
- {farm_jstoken: "07a41750ad3d890ef36be5b6703f0759", phoneid: "b912d9835412e94a", timestamp: "1620703998453"}
- ];
+ cron 0 0 * * * jx_fate_tx.js
  *
  **/
 
