@@ -1,23 +1,23 @@
 /*
-#沸腾之夜-全民瓜分18亿
+#沸腾之夜-抽奖
 
-#沸腾之夜-全民瓜分18亿
+#沸腾之夜-抽奖
 ================Loon==============
 [task_local]
-#沸腾之夜-全民瓜分18亿
-1 2 * * * https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js, tag=沸腾之夜-全民瓜分18亿, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_bean_home.png, enabled=true
+#沸腾之夜-抽奖
+0 20,21,22,23 * * * https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight_lottery.js, tag=沸腾之夜-抽奖, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_bean_home.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "1 2 * * *" script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js, tag=沸腾之夜-全民瓜分18亿
+cron "0 20,21,22,23 * * *" script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight_lottery.js, tag=沸腾之夜-抽奖
 
 ===============Surge=================
-沸腾之夜-全民瓜分18亿 = type=cron,cronexp="1 2 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js
+沸腾之夜-抽奖 = type=cron,cronexp="0 20,21,22,23 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight_lottery.js
 
 ============小火箭=========
-沸腾之夜-全民瓜分18亿 = type=cron,script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight.js, cronexpr="1 2 * * *", timeout=3600, enable=true
+沸腾之夜-抽奖 = type=cron,script-path=https://raw.githubusercontent.com/Fate-lite/FateScript/main/fate/jd_party_tonight_lottery.js, cronexpr="0 20,21,22,23 * * *", timeout=3600, enable=true
  */
-const $ = new Env('沸腾之夜-全民瓜分18亿');
+const $ = new Env('沸腾之夜-抽奖');
 
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -45,8 +45,7 @@ if ($.isNode()) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
         return;
     }
-    // for (let i = 0; i < cookiesArr.length; i++) {
-    for (let i = 0; i < helpUserNum; i++) {
+    for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -64,20 +63,9 @@ if ($.isNode()) {
                 }
                 continue
             }
-            await jdPartyTonight();
-        }
-    }
-    console.log(`开始内部助力\n`)
-    for (let i = 0; i < cookiesArr.length; i++) {
-        cookie = cookiesArr[i];
-        if (cookie) {
-            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-            console.log(`${$.UserName}去帮助下一个人\n`)
-            for (let j = 0; j < $.inviteCodes.length; j++) {
-                let inviteCode = $.inviteCodes[j];
-                await help(inviteCode)
-                await $.wait(2000)
-            }
+            await getUserInfo();
+            await $.wait(1000)
+            await startLotteery();
         }
     }
 })()
@@ -88,13 +76,13 @@ if ($.isNode()) {
         $.done();
     })
 
-async function jdPartyTonight() {
-    await getUserInfo()
-    await $.wait(2000)
-    await remind();
-    await $.wait(1000)
+async function startLotteery(){
+    for (let j = 0; j < 6; j++) {
+        console.log(`\n开始第 ${j + 1} 次抽奖\n`);
+        await lottery();
+        await $.wait(5000)
+    }
 }
-
 
 function getUserInfo() {
     return new Promise(resolve => {
@@ -109,10 +97,6 @@ function getUserInfo() {
                         data = JSON.parse(data);
                         if (data.code == 0) {
                             $.currentLotteryConfig = data.data.result.currentLotteryConfig;
-                            console.log(`${$.name} 获取邀请码成功: ${data.data.result.inviteCode}\n`)
-                            if ($.index <= helpUserNum) {
-                                $.inviteCodes.push(data.data.result.inviteCode)
-                            }
                         }
                     }
                 }
