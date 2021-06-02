@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-05-25 13:25
+更新时间：2021-06-01 17:21
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -15,10 +15,9 @@ cron "5 * * * *" script-path=https://raw.githubusercontent.com/yangtingxiao/Quan
 */
 const $ = new Env('动物联萌');
 //Node.js用户请在jdCookie.js处填写京东ck;
-const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '',secretp = '',shareCodeList = [],showCode = true;
-$.userName = 'Fate_test'
+let doPkSkill = true;  //自动放技能，不需要的改为false
 const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
 !(async () => {
     await requireConfig()
@@ -28,7 +27,6 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
     }
     for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];
-        $.userName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
         if (cookie) {
             if (i) console.log(`\n***************开始京东账号${i + 1}***************`)
             initial();
@@ -40,8 +38,10 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
                 continue;
             }
             console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
+            await zoo_sign()
             await zoo_pk_getHomeData();
             await zoo_getHomeData();
+            if (merge.black) continue;
             //await qryCompositeMaterials()
             await msgShow();
             //break;
@@ -51,16 +51,15 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
 
-
 //获取昵称（直接用，勿删）
 function QueryJDUserInfo(timeout = 0) {
     return new Promise((resolve) => {
-        setTimeout(() => {
+        setTimeout( ()=>{
             let url = {
-                url: `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
-                headers: {
-                    'Referer': `https://wqs.jd.com/my/iserinfo.html`,
-                    'Cookie': cookie
+                url : `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
+                headers : {
+                    'Referer' : `https://wqs.jd.com/my/iserinfo.html`,
+                    'Cookie' : cookie
                 }
             }
             $.get(url, (err, resp, data) => {
@@ -70,14 +69,14 @@ function QueryJDUserInfo(timeout = 0) {
                         merge.enabled = false
                         return
                     }
-                    merge.nickname = (data['base'] && data['base'].nickname) || $.userName;
+                    merge.nickname = data.base.nickname;
                 } catch (e) {
                     $.logErr(e, resp);
                 } finally {
                     resolve()
                 }
             })
-        }, timeout)
+        },timeout)
     })
 }
 
@@ -100,39 +99,28 @@ function zoo_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
                 },
                 body : `functionId=zoo_getTaskDetail&body={${appSign}"shopSign":"${shopSign}"}&client=wh5&clientVersion=1.0.0`
             }
-            //if (shopSign) {
-            //console.log(shopSign)
-            //  url.url = url.url.replace('zoo_getTaskDetail','zoo_shopLotteryInfo')
-            //  url.body = url.body.replace('zoo_getTaskDetail','zoo_shopLotteryInfo')
-            //}
+
             $.post(url, async (err, resp, data) => {
                 try {
                     //console.log('zoo_getTaskDetail:' + data)
                     data = JSON.parse(data);
                     if (shopSign === "") {
                         shopSign = '""'
-                        if (appSign === "" && data.data.result) console.log(`您的个人助力码：${data.data.result.inviteId}`)
+                        if (appSign === "" && typeof data.data.result.inviteId !== "undefined") console.log(`您的个人助力码：${data.data.result.inviteId}`)
                     }
                     if (!data.data.result) return
                     for (let i = 0;i < data.data.result.taskVos.length;i ++) {
                         //if (merge.black)  return ;
-                        console.log( "\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName + (appSign&&"（微信小程序）") + '-'  +  (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成")  )
+                        console.log( "\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName + (appSign&&"（小程序）") + '-'  +  (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成")  )
                         if ([1,3,5,7,9,26].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1 ) {
                             let list = data.data.result.taskVos[i].brandMemberVos||data.data.result.taskVos[i].followShopVo||data.data.result.taskVos[i].shoppingActivityVos||data.data.result.taskVos[i].browseShopVo
                             //console.log(list)
                             //if (data.data.result.taskVos[i].taskType === 9) continue
                             for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
-                                //body : `functionId=zoo_collectProduceScore&body={"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"xAX3mMUyCgH120XCrQXIZUw==\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\"},\\"businessData\\":{\\"taskId\\":\\"collectProducedCoin\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
                                 for (let j in list) {
                                     if (list[j].status === 1) {
-                                        let rnd = Math.round(Math.random()*1e6)
-                                        let nonstr = randomWord(false,10)
-                                        let time = Date.now()
-                                        let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-                                        let msg = `random=${rnd}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
-                                        let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase() //,\"random\":\"${rnd}\"
-                                        let taskBody = `functionId=zoo_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"taskToken" : "${list[j].taskToken}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_62\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}","itemId":"${list[j].itemId}","actionType":1,"shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
-                                        //console.log(taskBody)
+                                        //let taskBody = `functionId=zoo_collectScore&body={"taskId":"${data.data.result.taskVos[i].taskId}","actionType":1,"taskToken":"${list[j].taskToken}","ss":"{\\"extraData\\":{\\"log\\":\\"${sign}\\",\\"sceneid\\":\\"DR216hPageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}"}&client=wh5&clientVersion=1.0.0`
+                                        let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": data.data.result.taskVos[i].taskId,"actionType":1,"taskToken" : list[j].taskToken,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
                                         console.log("\n"+(list[j].title||list[j].shopName))
                                         await zoo_collectScore(taskBody,2000)
                                         //}
@@ -148,14 +136,9 @@ function zoo_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
                         if ([12,13].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1) {
                             //let  taskBody = `functionId=zoo_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
                             for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
-                                let rnd = Math.round(Math.random()*1e6)
-                                let nonstr = randomWord(false,10)
-                                let time = Date.now()
-                                let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-                                let msg = `random=${rnd}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
-                                let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
-                                //let taskBody = `functionId=zoo_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
-                                let taskBody = `functionId=zoo_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"taskToken" : "${list[j].taskToken}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_62\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}","itemId":"1","actionType":1,"shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
+                                //let taskBody = `functionId=zoo_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"QD216hPageh5\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
+                                //let taskBody = `functionId=zoo_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"taskToken" : "${list[j].taskToken}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_62\\",\\"sceneid\\":\\"QD216hPageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}","itemId":"1","actionType":1,"shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
+                                let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": data.data.result.taskVos[i].taskId,"taskToken" : list[j].taskToken,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
                                 if (merge.black)  return ;
                                 //if (typeof data.data.result.taskVos[i].simpleRecordInfoVo !== "undefined"){
                                 //  taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskVos[i].simpleRecordInfoVo.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
@@ -258,6 +241,39 @@ function zoo_pk_doPkSkill(skillType, timeout = 0){
     })
 }
 
+//签到
+function zoo_sign(timeout = 0){
+    return new Promise((resolve) => {
+        setTimeout( ()=>{
+            let url = {
+                url : `${JD_API_HOST}zoo_sign`,
+                headers : {
+                    'Origin' : `https://wbbny.m.jd.com`,
+                    'Cookie' : cookie,
+                    'Connection' : `keep-alive`,
+                    'Accept' : `application/json, text/plain, */*`,
+                    'Host' : `api.m.jd.com`,
+                    'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+                    'Accept-Encoding' : `gzip, deflate, br`,
+                    'Accept-Language' : `zh-cn`
+                },
+                body : `functionId=zoo_sign&body={}&client=wh5&clientVersion=1.0.0`
+            }
+            $.post(url, async (err, resp, data) => {
+                try {
+                    //console.log(data)
+                    data = JSON.parse(data);
+                    console.log('签到结果：' + data.data.bizMsg);
+                } catch (e) {
+                    $.logErr(e, resp);
+                } finally {
+                    resolve()
+                }
+            })
+        },timeout)
+    })
+}
+
 //逛商城
 function zoo_shopSignInWrite(shopSign,timeout = 0){
     return new Promise((resolve) => {
@@ -266,7 +282,7 @@ function zoo_shopSignInWrite(shopSign,timeout = 0){
         let nonstr = randomWord(false,10)
         let time = Date.now()
         let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-        let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${shopSign}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+        let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${shopSign}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=1`
         let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
 
         setTimeout( ()=>{
@@ -282,7 +298,7 @@ function zoo_shopSignInWrite(shopSign,timeout = 0){
                     'Accept-Encoding' : `gzip, deflate, br`,
                     'Accept-Language' : `zh-cn`
                 },
-                body : `functionId=zoo_shopSignInWrite&body={"shopSign":"${shopSign}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\"},\\"businessData\\":{\\"taskId\\":\\"${shopSign}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+                body : `functionId=zoo_shopSignInWrite&body={"shopSign":"${shopSign}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"QD216hPageh5\\"},\\"businessData\\":{\\"taskId\\":\\"${shopSign}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
             }
             $.post(url, async (err, resp, data) => {
                 try {
@@ -345,12 +361,6 @@ function zoo_shopSignInRead(shopSign,timeout = 0){
 //收金币
 function zoo_collectProduceScore(timeout = 0){
     return new Promise((resolve) => {
-        let rnd = Math.round(Math.random()*1e6)
-        let nonstr = randomWord(false,10)
-        let time = Date.now()
-        let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-        let msg = `random=${rnd}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
-        let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
         setTimeout( ()=>{
             let url = {
                 url : `${JD_API_HOST}zoo_collectProduceScore`,
@@ -362,9 +372,10 @@ function zoo_collectProduceScore(timeout = 0){
                     'Host' : `api.m.jd.com`,
                     'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
                     'Accept-Encoding' : `gzip, deflate, br`,
-                    'Accept-Language' : `zh-cn`
+                    'Accept-Language' : `zh-cn`,
+                    'Content-Type' : `application/x-www-form-urlencoded`
                 },
-                body : `functionId=zoo_collectProduceScore&body={"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_0\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}"}&client=wh5&clientVersion=1.0.0`
+                body : `functionId=zoo_collectProduceScore&body=${JSON.stringify({"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
             }
             //console.log(url.body)
             $.post(url, async (err, resp, data) => {
@@ -372,43 +383,11 @@ function zoo_collectProduceScore(timeout = 0){
                     //console.log(data)
                     data = JSON.parse(data);
                     if (data.data.bizCode === -1002) {
-                        //console.log('此账号暂不可使用脚本，脚本终止！')
-                        //merge.black = true;
+                        console.log('此账号暂不可使用脚本，脚本终止！')
+                        merge.black = true;
                         return ;
                     }
                     if (data.data.result) console.log(`\n收取金币：${data.data.result.produceScore}`)
-                } catch (e) {
-                    $.logErr(e, resp);
-                } finally {
-                    resolve()
-                }
-            })
-        },timeout)
-    })
-}
-
-//获取可偷
-function zoo_pk_getStealForms(taskBody,timeout = 0){
-    return new Promise((resolve) => {
-        setTimeout( ()=>{
-            let url = {
-                url : `${JD_API_HOST}zoo_pk_getStealForms`,
-                headers : {
-                    'Origin' : `https://wbbny.m.jd.com`,
-                    'Cookie' : cookie,
-                    'Connection' : `keep-alive`,
-                    'Accept' : `application/json, text/plain, */*`,
-                    'Host' : `api.m.jd.com`,
-                    'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
-                    'Accept-Encoding' : `gzip, deflate, br`,
-                    'Accept-Language' : `zh-cn`
-                },
-                body : taskBody
-            }
-            $.post(url, async (err, resp, data) => {
-                try {
-                    console.log(data)
-                    data = JSON.parse(data);
                 } catch (e) {
                     $.logErr(e, resp);
                 } finally {
@@ -445,11 +424,11 @@ function zoo_collectScore(taskBody,timeout = 0){
                     console.log('任务执行结果：' + data.data.bizMsg)
                     if (data.data.bizCode === -1002) {
                         //console.log(url.body)
-                        console.log('\n提示火爆，休息5秒')
-                        await $.wait(5000)
+                        //console.log('\n提示火爆，休息5秒')
+                        //await $.wait(5000)
                         //await zoo_collectScore(taskBody)
-                        //console.log('此账号暂不可使用脚本，脚本终止！')
-                        //merge.black = true;
+                        console.log('此账号暂不可使用脚本，脚本终止！')
+                        merge.black = true;
                         return ;
                     }
                     if (data.data.bizCode === 0 && typeof data.data.result.taskToken !== "undefined") {
@@ -536,16 +515,10 @@ function zoo_getFeedDetail(taskId,timeout = 0){
                         if (list[i].status === 1) {
                             for (let j in list[i].productInfoVos) {
                                 if (j >= 5)  break;
-
-                                let rnd = Math.round(Math.random()*1e6)
-                                let nonstr = randomWord(false,10)
-                                let time = Date.now()
-                                let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-                                let msg = `random=${rnd}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
-                                let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase() //,\"random\":\"${rnd}\"
-                                let taskBody = `functionId=zoo_collectScore&body={"taskId":${list[i].taskId},"taskToken" : "${list[i].productInfoVos[j].taskToken}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_62\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}","itemId":"${list[i].productInfoVos[j].skuId}","actionType":1}&client=wh5&clientVersion=1.0.0`
+                                //${JSON.stringify({"ss" : getBody()})}
+                                //let taskBody = `functionId=zoo_collectScore&body={"taskId":${list[i].taskId},"taskToken" : "${list[i].productInfoVos[j].taskToken}","ss":"{\\"extraData\\":{\\"log\\":\\"${sign}\\",\\"sceneid\\":\\"QD216hPageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}","actionType":1}&client=wh5&clientVersion=1.0.0`
+                                let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": list[i].taskId,"actionType":1,"taskToken" : list[i].productInfoVos[j].taskToken,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
                                 //console.log(taskBody)
-                                //body={"taskId":${list[i].taskId},"itemId":"${list[i].productInfoVos[j].skuId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\"},\\"random\\":\\"${rnd}\\",\\"secretp\\":\\"${secretp}\\"}","shopSign":""}&client=wh5&clientVersion=1.0.0`
                                 console.log(list[i].productInfoVos[j].skuName)
                                 await zoo_collectScore(taskBody,1000)
                             }
@@ -602,13 +575,6 @@ function qryViewkitCallbackResult(taskBody,timeout = 0) {
 //群组助力
 function zoo_pk_assistGroup(inviteId = "",timeout = 0) {
     return new Promise((resolve) => {
-        let rnd = Math.round(Math.random()*1e6)
-        let nonstr = randomWord(false,10)
-        let time = Date.now()
-        let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-        let msg = `random=${rnd}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
-        let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
-        //inviteId = "IgNWdiLGaPbb6ArIDg2g7t5ov9boGePFOlAq0hiVz-muX7bnH9gutA"
         setTimeout( ()=>{
             let url = {
                 url : `${JD_API_HOST}zoo_pk_assistGroup`  ,
@@ -623,7 +589,7 @@ function zoo_pk_assistGroup(inviteId = "",timeout = 0) {
                     'Accept-Language' : `zh-cn`,
                     'Refer' : `https://bunearth.m.jd.com/babelDiy/Zeus/4SJUHwGdUQYgg94PFzjZZbGZRjDd/index.html?jmddToSmartEntry=login`
                 },
-                body : `functionId=zoo_pk_assistGroup&body={"confirmFlag":1,"inviteId":"${inviteId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"pkPopupHelpButtonId\\",\\"sceneid\\":\\"sideTaskh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}"}&client=wh5&clientVersion=1.0.0`
+                body : `functionId=zoo_pk_assistGroup&body=${JSON.stringify({"confirmFlag": 1,"inviteId" : inviteId,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
             }
             //console.log(url.body)
             $.post(url, async (err, resp, data) => {
@@ -660,37 +626,21 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
             }
             $.post(url, async (err, resp, data) => {
                 try {
-                    //console.log(url.body)
-                    //if (merge.black)  return ;
                     data = JSON.parse(data);
                     if (data.code === 0) {
                         if (inviteId !== "") {
-                            //console.log('zoo_getHomeData2:' + JSON.stringify(data))
-                            //if (data.data.result.homeMainInfo.guestInfo.status === 0) {
-                            if (true) {
-                                let rnd = Math.round(Math.random()*1e6)
-                                let nonstr = randomWord(false,10)
-                                let time = Date.now()
-                                let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-                                let msg = `random=${rnd}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
-                                let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
-                                let taskBody = `functionId=zoo_collectScore&body={"taskId":2,"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"jmdd-react-smash_62\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}","inviteId":"${inviteId}","actionType":1}&client=wh5&clientVersion=1.0.0`
-                                await zoo_collectScore(taskBody, 1000)
-                                //let taskBody = `functionId=zoo_doAdditionalTask&body={"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.2\\",\\"client_version\\":\\"2.2.1\\",\\"buttonid\\":\\"homePopupHelpButtonId\\",\\"sceneid\\":\\"mainTaskh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}","inviteId":"cAxZdTXtIL3Z4wnNDAeu6UJH04V9-dkV6PTOUlAw2_pIXu8I-B8Mgnlc4UY"}&client=wh5&clientVersion=1.0.0`
-                                //await zoo_doAdditionalTask(taskBody,1000)
-                            }
+                            let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": 2,"inviteId":inviteId,"actionType":1,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
+                            await zoo_collectScore(taskBody, 1000)
                             return
                         }
-                        //console.log('zoo_getHomeData:' + JSON.stringify(data))
                         secretp = data.data.result.homeMainInfo.secretp
                         await zoo_collectProduceScore();
-                        //await zoo_pk_doPkSkill("2");
+                        if (merge.black) return ;
                         await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_mZneBluwe_DRzs1f90l6Q_p8OVxtoB-JJEErrVU4eHW7e2I')
-                        //await zoo_pk_assistGroup()
-                        if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 1 ) await zoo_raise(1000)
-                        await zoo_getHomeData('ZXTKT0225KkcRx4b8lbWJU72wvZZcwFjRWn6-7zx55awQ');
-                        await zoo_getTaskDetail("","app")
+                        if (parseInt(data.data.result.homeMainInfo.raiseInfo.totalScore) >= parseInt(data.data.result.homeMainInfo.raiseInfo.nextLevelScore) ) await zoo_raise(1000)
+                        await zoo_getHomeData('ZXTKT0225KkcRBka_FPTJBjzkv9YfAFjRWn6-7zx55awQ');
                         await zoo_getTaskDetail()
+                        await zoo_getTaskDetail("","app")
                     } else {
                         return
                     }
@@ -703,6 +653,7 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
         },timeout)
     })
 }
+
 
 //助力
 function collectFriendRecordColor(timeout = 0) {
@@ -836,7 +787,7 @@ function qryCompositeMaterials(timeout = 0) {
     })
 }
 
-function zoo_pk_getHomeData(body = "",timeout = 0) {
+function zoo_pk_getHomeData(inviteId = "",timeout = 0) {
     return new Promise((resolve) => {
         setTimeout( ()=>{
             let url = {
@@ -855,12 +806,12 @@ function zoo_pk_getHomeData(body = "",timeout = 0) {
             }
             $.post(url, async (err, resp, data) => {
                 try {
-                    if (body !== "") {
-                        await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_nianBeastShareCode.txt").then((text) => (shareCodeList = text.split('\n')))
-                        for (let i in shareCodeList) {
-                            if (shareCodeList[i]) await zoo_pk_assistGroup(shareCodeList[i]);
-                        }
-                        //await zoo_pk_assistGroup(body);
+                    if (inviteId !== "") {
+                        // await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_nianBeastShareCode.txt").then((text) => (shareCodeList = text.split('\n')))
+                        // for (let i in shareCodeList) {
+                        //     if (shareCodeList[i]) await zoo_pk_assistGroup(shareCodeList[i]);
+                        // }
+                        //await zoo_pk_assistGroup(inviteId);
                     } else {
                         //console.log(data);
                         data = JSON.parse(data);
@@ -868,10 +819,20 @@ function zoo_pk_getHomeData(body = "",timeout = 0) {
                             console.log('您的队伍助力码：' + data.data.result.groupInfo.groupAssistInviteId);
                             showCode = false;
                         }
-                        if (data.data.result.groupPkInfo.aheadFinish) return ;
+                        //if (data.data.result.groupPkInfo.aheadFinish) return ;
+                        if (!doPkSkill) return ;
+                        if (typeof data.data.result.groupPkInfo.dayTotalValue !== "undefined") {
+                            if (parseInt(data.data.result.groupPkInfo.dayTotalValue) >= parseInt(data.data.result.groupPkInfo.dayTargetSell)) return;
+                        }
+                        else
+                        if (typeof data.data.result.groupPkInfo.nightTotalValue !== "undefined") {
+                            if (parseInt(data.data.result.groupPkInfo.nightTotalValue) >= parseInt(data.data.result.groupPkInfo.nightTargetSell)) return;
+                        }
+                        else
+                            return;
                         for (let i in data.data.result.groupInfo.skillList) {
                             if (data.data.result.groupInfo.skillList[i].num > 0) {
-                                await zoo_pk_doPkSkill(data.data.result.groupInfo.skillList[i].code);
+                                await zoo_pk_doPkSkill(data.data.result.groupInfo.skillList[i].code,800);
                                 await zoo_pk_getHomeData();
                                 break;
                             }
@@ -939,6 +900,7 @@ function jsonParse(str) {
     }
 }
 
+
 function minusByByte(t, n) {
     var e = t.length
         , r = n.length
@@ -967,7 +929,6 @@ function toAscii (t) {
     }
     return n
 }
-
 function add0 (t, n) {
     return (Array(n).join("0") + t).slice(-n)
 }
@@ -1004,6 +965,18 @@ function bytesToWords(t) {
     return n
 }
 
+function getBody() {
+    let rnd = Math.floor(1e6 + 9e6 * Math.random()).toString()
+    s = JSON.stringify({
+        "extraData" : {
+            "log": "-1",
+            "sceneid": "QD216hPageh5"
+        },
+        "secretp": secretp,
+        "random": rnd.toString()
+    })
+    return s;
+}
 function getSign (t) {
     t = stringToBytes(t)
     var e = bytesToWords(t)
@@ -1054,6 +1027,7 @@ function initial() {
         merge[i].notify = "";
         merge[i].show = true;
     }
+    showCode = true;
 }
 //通知
 function msgShow() {
