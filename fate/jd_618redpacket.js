@@ -54,12 +54,6 @@ if (!$.cookieArr[0]) {
 }
 
 !(async () => {
-    if (!cookiesArr[0]) {
-        $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
-            "open-url": "https://bean.m.jd.com/"
-        });
-        return;
-    }
     message = "";
     for (let i = 0; i < $.cookieArr.length; i++) {
         cookie = $.cookieArr[i];
@@ -69,7 +63,6 @@ if (!$.cookieArr[0]) {
             $.isLogin = true;
             $.canDraw = true;
             $.prize = 0;
-            $.linkid = "YhCkrVusBVa_O2K-7xE6hA"
             $.message = `【京东账号${$.index}】${$.UserName}\n`
             console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
             if (!$.isLogin) {
@@ -200,7 +193,9 @@ function open(functionid, type) {
                     data = JSON.parse(data);
                     if (data.code === 0 && data.data) {
                         $.reward = data.data
-                        console.log("当前红包：" + data.data.rewardValue + "翻倍次数：" + data.data.changeTimes)
+                        if (!type){
+                            console.log("当前红包：" + data.data.rewardValue + "翻倍次数：" + data.data.changeTimes)
+                        }
                     } else {
                         $.canDraw = false
                         console.log(data.errMsg)
