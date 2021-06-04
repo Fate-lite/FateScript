@@ -96,7 +96,7 @@ if (!$.cookieArr[0]) {
             message += $.message + `\n累计获得：￥${$.prize}  \n\n`
         }
     }
-    await notify.sendNotify($.name, `${$.message}提现成功\n\n`)
+    await notify.sendNotify($.name, `${message}提现成功\n\n`)
 
 })()
     .catch((e) => $.logErr(e))
