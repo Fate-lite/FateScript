@@ -32,7 +32,7 @@ cron "1 0-23/1 * 6 *" script-path=https://raw.githubusercontent.com/Wenmoux/scri
 const $ = new Env('极速版翻翻乐');
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const openum = 5 // 翻牌次数 可以自己改
+const openum = process.env.JSOPENNUM; // 翻牌次数 可以自己改
 const notify = $.isNode() ? require('./sendNotify') : '';
 let merge = {}
 let codeList = []
