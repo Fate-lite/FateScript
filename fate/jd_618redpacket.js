@@ -93,7 +93,7 @@ if (!$.cookieArr[0]) {
                 }
             }
             await totalPrize()
-            message += $.message + `\n累计获得：￥${$.prize}  \n\n`
+            message += $.message + `\n累计获得：￥${$.prize} \n\n`
         }
     }
     await notify.sendNotify($.name, `${message}提现成功\n\n`)
