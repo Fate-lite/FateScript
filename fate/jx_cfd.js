@@ -108,9 +108,21 @@ $.groupIdMyself = [];
 $.shareIdMyself = [];
 $.index = 1;
 
+if ($.isNode()) {
+    $.cookieArr = Object.values(jdCookieNode);
+} else {
+    const CookiesJd = JSON.parse($.getdata("CookiesJD") || "[]").filter(x => !!x).map(x => x.cookie);
+    $.cookieArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd].filter(x => !!x);
+}
+if (!$.cookieArr[0]) {
+    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
+        'open-url': 'https://bean.m.jd.com/',
+    });
+    return false;
+}
+
+
 !(async () => {
-    if (!getCookies()) return;
-    // if (!getTokens()) return;
     for (let i = 0; i < $.cookieArr.length; i++) {
         $.index = i + 1;
         $.currentCookie = $.cookieArr[i];
@@ -119,21 +131,16 @@ $.index = 1;
             $.userName = decodeURIComponent($.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1]);
             $.index = i + 1;
             $.nickName = '';
-
             $.log(`\n开始【京东账号${i + 1}】${$.userName}`);
-
             const beginInfo = await getUserInfo();
-
             await $.wait(500);
             await querySignList();
 
             //领取岛主升级奖励
             promotionAward();
-
             //领取年终福利
             await $.wait(500);
             getAdvEmployee(1001);
-
             await $.wait(500);
             await getMoney();
 
@@ -142,28 +149,24 @@ $.index = 1;
             await getTaskList(0);
             await $.wait(500);
             await browserTask(0);
-
             //寻宝
             await $.wait(500);
             await treasureHunt();
-
             //偷财富
             await $.wait(500);
             await friendCircle();
-
             //成就任务
             await $.wait(500);
             await getTaskList(1);
             await $.wait(500);
             await browserTask(1);
-
             //抽奖
             await $.wait(500);
             await funCenterState();
 
             //领取寻宝宝箱
-            await $.wait(500);
-            await openPeriodBox();
+            // await $.wait(500);
+            // await openPeriodBox();
 
             const endInfo = await getUserInfo();
             $.result.push(
@@ -172,10 +175,11 @@ $.index = 1;
             );
 
             //出岛寻宝大作战
-            await $.wait(500);
-            await submitGroupId();
-            await $.wait(500);
-            await joinGroup();
+            // await $.wait(500);
+            // await submitGroupId();
+            // await $.wait(500);
+            // await joinGroup();
+
             //提交邀请码
             await $.wait(500);
             await submitInviteId($.userName);
@@ -923,19 +927,6 @@ function joinGroup() {
         } else {
             resolve();
         }
-
-
-        // $.get({url: 'https://api.ninesix.cc/api/jx-cfd-group'}, (err, resp, _data) => {
-        //     try {
-        //         const {data = {}} = JSON.parse(_data);
-        //
-        //
-        //     } catch (e) {
-        //         $.logErr(e, resp);
-        //     } finally {
-        //         resolve();
-        //     }
-        // });
     });
 }
 
