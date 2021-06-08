@@ -11,7 +11,8 @@
  https://www.orzlee.com/web-development/2021/03/03/lxk0301-jingdong-signin-scriptjingxi-factory-solves-the-problem-of-unable-to-signin.html
 
  ！！！先将新手任务做完，再执行本脚本，不然会出现未知错误
- cron 0 0-23/3 * * * jx_mc.js
+ Name:京喜牧场
+ cron 0 0-23/4 * * * jx_mc.js
  *
  **/
 
@@ -32,7 +33,7 @@ $.appId = 10028;
 !(async () => {
     if (!getCookies()) return;
     await requestAlgo();
-    for (let i = 4; i < $.cookieArr.length; i++) {
+    for (let i = 0; i < 3; i++) {
         $.currentCookie = $.cookieArr[i];
 
         if ($.currentCookie) {
@@ -388,7 +389,7 @@ function DoAction(type) {
                             message,
                             ret
                         } = JSON.parse(_data);
-                        $.log(_data)
+                        // $.log(_data)
                         $.log(`除草成功 ${ret === 0 ? `${message}，获得了 ¥${addcoins}金币` : message} \n ${$.showMsg ? _data : ""} `);
                         if (addcoins == 0) {
                             $.stopDoAction = true;
@@ -411,7 +412,7 @@ function DoAction(type) {
                             message,
                             ret
                         } = JSON.parse(_data);
-                        $.log(_data);
+                        // $.log(_data);
                         $.log(`扫鸡腿 ${ret === 0 ? `${message}，获得了 ¥${addcoins}金币` : message} \n ${$.showMsg ? _data : ""} `);
                         if (addcoins == 0) {
                             $.stopDoAction = true;
