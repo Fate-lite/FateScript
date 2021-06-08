@@ -30,29 +30,37 @@ $.allTask = [];
 $.stopDoAction = false;
 $.appId = 10028;
 
+
+if ($.isNode()) {
+    $.cookieArr = Object.values(jdCookieNode);
+} else {
+    const CookiesJd = JSON.parse($.getdata("CookiesJD") || "[]").filter(x => !!x).map(x => x.cookie);
+    $.cookieArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd].filter(x => !!x);
+}
+if (!$.cookieArr[0]) {
+    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
+        'open-url': 'https://bean.m.jd.com/',
+    });
+    return false;
+}
+
 !(async () => {
-    if (!getCookies()) return;
     await requestAlgo();
     for (let i = 0; i < 3; i++) {
         $.currentCookie = $.cookieArr[i];
-
         if ($.currentCookie) {
             $.userName = decodeURIComponent($.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1]);
             $.index = i + 1;
             $.log(`\n开始【京东账号${i + 1}】${$.userName}`);
-
             const homepageinfo = await GetHomePageInfo();
-
             // 领取金币
             await $.wait(500);
             await GetCoin(homepageinfo);
-
             // 获取成就任务列表
             await $.wait(500);
             await GetUserTaskStatusList(1);
             await $.wait(500);
             await Award();
-
             for (let j = 0; j < 6; j++) {
                 // 获取每日任务列表（待完成）
                 await $.wait(500);
