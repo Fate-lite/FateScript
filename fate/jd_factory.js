@@ -70,27 +70,93 @@ let cookie = ''
             }
             await $.wait(500);
             await submitInviteId(userName);
+            await submitInviteId2(userName);
             await $.wait(500);
-            await submitTuanId(userName);
-            await $.wait(500);
-            await getCommodityDetail();
-            if (checkProductProcess()) continue;
-            await $.wait(500);
-            await getCurrentElectricity();
-            await $.wait(500);
-            await getTaskList();
-            await $.wait(500);
-            await browserTask();
-            await $.wait(500);
-            await getHireRewardList();
-            await $.wait(500);
-            await awardTuan();
+            // await submitTuanId(userName);
+            // await $.wait(500);
+            // await getCommodityDetail();
+            // if (checkProductProcess()) continue;
+            // await $.wait(500);
+            // await getCurrentElectricity();
+            // await $.wait(500);
+            // await getTaskList();
+            // await $.wait(500);
+            // await browserTask();
+            // await $.wait(500);
+            // await getHireRewardList();
+            // await $.wait(500);
+            // await awardTuan();
         }
     }
     await showMsg();
 })()
     .catch(e => $.logErr(e))
     .finally(() => $.done());
+
+
+function requireConfig() {
+    return new Promise(async resolve => {
+        tuanActiveId = $.isNode() ? (process.env.TUAN_ACTIVEID || tuanActiveId) : ($.getdata('tuanActiveId') || tuanActiveId);
+        if (!tuanActiveId) {
+            await updateTuanIdsCDN();
+            if ($.tuanConfigs && $.tuanConfigs['tuanActiveId']) {
+                tuanActiveId = $.tuanConfigs['tuanActiveId'];
+                console.log(`拼团活动ID: 获取成功 ${tuanActiveId}\n`)
+            } else {
+                if (!$.tuanConfigs) {
+                    await updateTuanIdsCDN('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_updateFactoryTuanId.json');
+                    if ($.tuanConfigs && $.tuanConfigs['tuanActiveId']) {
+                        tuanActiveId = $.tuanConfigs['tuanActiveId'];
+                        console.log(`拼团活动ID: 获取成功 ${tuanActiveId}\n`)
+                    } else {
+                        console.log(`拼团活动ID：获取失败，将采取脚本内置活动ID\n`)
+                    }
+                }
+            }
+        } else {
+            console.log(`自定义拼团活动ID: 获取成功 ${tuanActiveId}`)
+        }
+    })
+}
+
+function updateTuanIdsCDN(url = 'https://raw.githubusercontent.com/gitupdate/updateTeam/master/shareCodes/jd_updateFactoryTuanId.json') {
+    return new Promise(async resolve => {
+        const options = {
+            url: `${url}?${new Date()}`, "timeout": 10000, headers: {
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+            }
+        };
+        if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
+            const tunnel = require("tunnel");
+            const agent = {
+                https: tunnel.httpsOverHttp({
+                    proxy: {
+                        host: process.env.TG_PROXY_HOST,
+                        port: process.env.TG_PROXY_PORT * 1
+                    }
+                })
+            }
+            Object.assign(options, { agent })
+        }
+        $.get(options, (err, resp, data) => {
+            try {
+                if (err) {
+                    // console.log(`${JSON.stringify(err)}`)
+                } else {
+                    if (safeGet(data)) {
+                        $.tuanConfigs = data = JSON.parse(data);
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp)
+            } finally {
+                resolve(data);
+            }
+        })
+        await $.wait(20000)
+        resolve();
+    })
+}
 
 function getCookies() {
     if ($.isNode()) {
@@ -494,7 +560,16 @@ function submitInviteId(userName) {
                 }
             },
         );
+    });
+}
 
+function submitInviteId2(userName) {
+    return new Promise(resolve => {
+        if (!$.info.user || !$.info.user.encryptPin) {
+            resolve();
+            return;
+        }
+        $.log('你的互助码: ' + $.info.user.encryptPin);
         $.post(
             {
                 url: `https://api.ninesix.cc/api/jx-factory/${$.info.user.encryptPin}/${encodeURIComponent(userName)}`,
@@ -515,7 +590,6 @@ function submitInviteId(userName) {
         );
     });
 }
-
 
 function createAssistUser() {
     return new Promise(resolve => {
@@ -543,7 +617,7 @@ function createAssistUser() {
 
 function getTuanId() {
     return new Promise(async resolve => {
-        $.get(taskUrl('tuan/QueryActiveConfig', `activeId=0_pzMedR7KhclCkMIgkTkg%3D%3D`, `_time,activeId,tuanId`), async (err, resp, data) => {
+        $.get(taskUrl('tuan/QueryActiveConfig', `activeId=${tuanActiveId}`, `_time,activeId,tuanId`), async (err, resp, data) => {
             try {
                 const { msg, data: { userTuanInfo } = {} } = JSON.parse(data);
                 $.log(`\n获取团id：${msg}\n${$.showLog ? data : ''}`);
@@ -567,9 +641,51 @@ function getTuanId() {
     });
 }
 
+function requireConfig() {
+    return new Promise(async resolve => {
+        tuanActiveId = $.isNode() ? (process.env.TUAN_ACTIVEID || tuanActiveId) : ($.getdata('tuanActiveId') || tuanActiveId);
+        if (!tuanActiveId) {
+            await updateTuanIdsCDN();
+            if ($.tuanConfigs && $.tuanConfigs['tuanActiveId']) {
+                tuanActiveId = $.tuanConfigs['tuanActiveId'];
+                console.log(`拼团活动ID: 获取成功 ${tuanActiveId}\n`)
+            } else {
+                if (!$.tuanConfigs) {
+                    await updateTuanIdsCDN('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_updateFactoryTuanId.json');
+                    if ($.tuanConfigs && $.tuanConfigs['tuanActiveId']) {
+                        tuanActiveId = $.tuanConfigs['tuanActiveId'];
+                        console.log(`拼团活动ID: 获取成功 ${tuanActiveId}\n`)
+                    } else {
+                        console.log(`拼团活动ID：获取失败，将采取脚本内置活动ID\n`)
+                    }
+                }
+            }
+        } else {
+            console.log(`自定义拼团活动ID: 获取成功 ${tuanActiveId}`)
+        }
+        console.log(`开始获取${$.name}配置文件\n`);
+        //Node.js用户请在jdCookie.js处填写京东ck;
+        const shareCodes = $.isNode() ? require('./jdDreamFactoryShareCodes.js') : '';
+        console.log(`共${cookiesArr.length}个京东账号\n`);
+        $.shareCodesArr = [];
+        if ($.isNode()) {
+            Object.keys(shareCodes).forEach((item) => {
+                if (shareCodes[item]) {
+                    $.shareCodesArr.push(shareCodes[item])
+                }
+            })
+        } else {
+            if ($.getdata('jd_jxFactory')) $.shareCodesArr = $.getdata('jd_jxFactory').split('\n').filter(item => item !== "" && item !== null && item !== undefined);
+            console.log(`\nBoxJs设置的${$.name}好友邀请码:${$.getdata('jd_jxFactory')}\n`);
+        }
+        console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
+        resolve()
+    })
+}
+
 function getTuanInfo(body) {
     return new Promise(async resolve => {
-        $.get(taskUrl('tuan/QueryTuan', `activeId=0_pzMedR7KhclCkMIgkTkg%3D%3D&${body}`, `_time,activeId,tuanId`), async (err, resp, data) => {
+        $.get(taskUrl('tuan/QueryTuan', `activeId=${tuanActiveId}&${body}`, `_time,activeId,tuanId`), async (err, resp, data) => {
             try {
                 const { msg, data: { tuanInfo = [] } = {} } = JSON.parse(data);
                 $.log(`\n获取开团信息：${msg}\n${$.showLog ? data : ''}`);
@@ -616,7 +732,7 @@ function submitTuanId(userName) {
 function createTuan() {
     return new Promise(async resolve => {
         $.get(
-            taskTuanUrl('tuan/CreateTuan', `activeId=0_pzMedR7KhclCkMIgkTkg%3D%3D&isOpenApp=1`, '_time,activeId,isOpenApp'),
+            taskTuanUrl('tuan/CreateTuan', `activeId=${tuanActiveId}&isOpenApp=1`, '_time,activeId,isOpenApp'),
             async (err, resp, _data) => {
                 try {
                     const { msg, data = {} } = JSON.parse(_data);
@@ -633,6 +749,7 @@ function createTuan() {
         );
     });
 }
+
 function joinTuan() {
     return new Promise(async resolve => {
         $.get({ url: 'https://api.ninesix.cc/api/jx-factory-tuan' }, (err, resp, _data) => {
@@ -640,7 +757,7 @@ function joinTuan() {
                 const { data = {} } = JSON.parse(_data);
                 $.log(`\n${data.value}\n${$.showLog ? _data : ''}`);
                 $.get(
-                    taskTuanUrl('tuan/JoinTuan', `activeId=0_pzMedR7KhclCkMIgkTkg%3D%3D&tuanId=${data.value}`, '_time,activeId,tuanId'),
+                    taskTuanUrl('tuan/JoinTuan', `activeId=${tuanActiveId}&tuanId=${data.value}`, '_time,activeId,tuanId'),
                     async (err, resp, data) => {
                         try {
                             const { msg } = JSON.parse(data);
@@ -671,7 +788,7 @@ function awardTuan() {
             return;
         }
         $.get(
-            taskTuanUrl('tuan/Award', `activeId=cKw-LGBsjl0XLu9coQ0d4A%3D%3D&tuanId=${$.userTuanInfo.tuanId}`, '_time,activeId,tuanId'),
+            taskTuanUrl('tuan/Award', `activeId=${tuanActiveId}&tuanId=${$.userTuanInfo.tuanId}`, '_time,activeId,tuanId'),
             async (err, resp, data) => {
                 try {
                     const { ret, msg, data: { electric = 0 } = {} } = JSON.parse(data);
