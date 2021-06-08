@@ -14,6 +14,7 @@ let tuanActiveId = `6S9y4sJUfA2vPQP6TLdVIQ==`;
 const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://wqsd.jd.com/pingou/dream_factory/index.html%22%20%7D`;
 let cookiesArr = [], cookie = '', message = '', allMessage = '';
 
+var cfdShareCode = ['F3087DD7E7B5500D273BBC627DE10AFEAEC136674B5D3E94844839F7F5446947', '5C7BB6680D99510763CC2211CB43EAD53A958BE6FA7E443F2DE0AC53ED200567','2B3820A7CF0EB78803E49CD6EE6030C90B7F36DE08A4694CCE4C9F8E414ADB04'];
 var factorySharCodesFate = ['Gskrh9hZJN5MJBkCIrN2eQ==', '5SY_XijoPDoVPKAzab3tRA==', 'phKfNTFXwHG_iQRYuBXXCw==', '87tEu9tp4_e9EUmE3f63Eg==', 'adSzD5Vcdx2u38wSle_YLQ==', 'tD2vV4oOZ-278u9c3YhN6A==', 'GP7OkbO_tfcozbkMpRw_DQ==', '-9GPm3huWJcq-lalq34pzQ==', 'j0jHl2b2ejP5EsWTTxVFRA=='];
 // var cashSharCodesFate = ['IR8-a-qzZfs78m7TwnMW,IRs1bey2Zv8', 'ZE9hMJTHBblZjTuduBM,IRs1bey2Zv8', 'eU9Ya-2xYvwl82eHwyBBhw,IRs1bey2Zv8', '9pCRtFUxsnSrrQ,IRs1bey2Zv8', 'ZE93G7rJPKl6pDSCrTU,IRs1bey2Zv8', 'eU9YarrhYKp1oGfdyXQT0A,IRs1bey2Zv8', 'eU9YarjjY_1z-TzQn3FF3g,IRs1bey2Zv8', 'eU9YDL7EBr1vrheRowJ0,IRs1bey2Zv8', 'eU9Yaeu7Yf8jpz-Ez3pAhw,IRs1bey2Zv8', 'eU9YaL7hZKp1-WqByCdF1Q,IRs1bey2Zv8', 'eU9Yae7gM_QhoGmGmnoS1A,IRs1bey2Zv8', 'chg1au66Zvo,IRs1bey2Zv8', 'eU9YaLnmY_typWnQyXES0g,IRs1bey2Zv8', 'eU9YLp7RMJ9klyeiuSR2,IRs1bey2Zv8', 'eU9YFYjbMYVPty-ztiJP,IRs1bey2Zv8', 'eU9YaejnYvwi8W7cw3QahA,IRs1bey2Zv8'];
 var plantBeanHelpSharCodesFate = ['3anhauzclvtd5xvo5pqwbe7tsnqwzmygsqdivxy', 'zmuoamarz6g57bc2xumnpe2esd2cz45k2t3udgq', '4npkonnsy7xi3f5ex4qzfk22pdqnxfknkrpjdya', 'ngmcv4pacszmzdxukxtgo654km', '45syqbie6cumajez6zyh652objprakie2xaae7a', 'olmijoxgmjutylqcwdocjor5tg2e4fgmflkztgq', 'olmijoxgmjutz77fqmdbw37he4fo66sduuj76zq', 'wrqpt6mmzjh2zh43qm3lhpoxolztzq5hsz7sxui', 'mlrdw3aw26j3w5ains777eex4kqcnqzjpm44bgq', 'e7lhibzb3zek2ka5m3jh2ass6dyvy5vap4w35si', 'mlrdw3aw26j3xljhnl5eclhagjlxbknrecn2yda', '72rx7jhpzm6rxw57zsxuyuzyke', 'e7lhibzb3zek33nilnkjryxyx4ybyhqm7ossppa', '4vvbjlml6tdfcb35xxka5hvfbpt76ddzkn27miy', 'qmnmamd3ukiwrrsjljlvu42kupdmw4randel3aq', 'mlrdw3aw26j3xwu7huqqwhyx5ex5jdmfzrdz6uy'];
@@ -33,12 +34,6 @@ if ($.isNode()) {
     cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 !(async () => {
-    $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
-    await requireConfig();
-    if (!cookiesArr[0]) {
-        $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-        return;
-    }
 
     $.log('开始京喜工厂邀请码推送请求')
     for (let codeFate of factorySharCodesFate) {
@@ -73,6 +68,14 @@ if ($.isNode()) {
         await bookShopHelp(codeFate);
     };
 
+    // $.log('开始财富岛邀请码推送请求')
+    // let i = 1;
+    // for (let codeFate of cfdShareCode) {
+    //     $.strMyShareId = codeFate;
+    //     await submitCfd("Fate" + i);
+    //     await $.wait(1000);
+    //     i++;
+    // };
 
 })()
     .catch((e) => {
@@ -89,6 +92,30 @@ async function jdDreamFactory() {
     } catch (e) {
         $.logErr(e)
     }
+}
+
+function submitCfd(userName) {
+    return new Promise(resolve => {
+        $.log('\n【🏖岛主】你的互助码: ' + $.strMyShareId);
+        $.post(
+            {
+                url: `https://api.ninesix.cc/api/jx-cfd/${$.strMyShareId}/${encodeURIComponent(userName)}`,
+            },
+            async (err, resp, _data) => {
+                try {
+                    const {data = {}, code} = JSON.parse(_data);
+                    $.log(`\n【🏖岛主】邀请码提交：${code}\n${$.showLog ? _data : ''}`);
+                    if (data.value) {
+                        $.result.push('【🏖岛主】邀请码提交成功！');
+                    }
+                } catch (e) {
+                    $.logErr(e, resp);
+                } finally {
+                    resolve();
+                }
+            },
+        );
+    });
 }
 
 function dreamFactoryHelp(codeFate) {
@@ -255,100 +282,11 @@ function bookShopHelp(codeFate) {
 
 }
 
-// 收取发电机的电力
-function collectElectricity(facId = $.factoryId, help = false, master) {
-    return new Promise(async resolve => {
-        // let url = `/dreamfactory/generator/CollectCurrentElectricity?zone=dream_factory&apptoken=&pgtimestamp=&phoneID=&factoryid=${facId}&doubleflag=1&sceneval=2&g_login_type=1`;
-        // if (help && master) {
-        //   url = `/dreamfactory/generator/CollectCurrentElectricity?zone=dream_factory&factoryid=${facId}&master=${master}&sceneval=2&g_login_type=1`;
-        // }
-        let body = `factoryid=${facId}&apptoken=&pgtimestamp=&phoneID=&doubleflag=1`;
-        if (help && master) {
-            body += `factoryid=${facId}&master=${master}`;
-        }
-        $.get(taskurl(`generator/CollectCurrentElectricity`, body, `_time,apptoken,doubleflag,factoryid,pgtimestamp,phoneID,timeStamp,zone`), (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`)
-                    console.log(`${$.name} API请求失败，请检查网路重试`)
-                } else {
-                    if (safeGet(data)) {
-                        data = JSON.parse(data);
-                        if (data['ret'] === 0) {
-                            if (help) {
-                                $.ele += Number(data.data['loginPinCollectElectricity'])
-                                console.log(`帮助好友收取 ${data.data['CollectElectricity']} 电力，获得 ${data.data['loginPinCollectElectricity']} 电力`);
-                                message += `【帮助好友】帮助成功，获得 ${data.data['loginPinCollectElectricity']} 电力\n`
-                            } else {
-                                $.ele += Number(data.data['CollectElectricity'])
-                                console.log(`收取电力成功: 共${data.data['CollectElectricity']} `);
-                                message += `【收取发电站】收取成功，获得 ${data.data['CollectElectricity']} 电力\n`
-                            }
-                        } else {
-                            if (help) {
-                                console.log(`收取好友电力失败:${data.msg}\n`);
-                            } else {
-                                console.log(`收取电力失败:${data.msg}\n`);
-                            }
-                        }
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve();
-            }
-        })
-    })
-}
 
 
 
 
 
-
-
-
-
-async function PickUp(encryptPin = $.encryptPin, help = false) {
-    $.pickUpMyselfComponent = true;
-    const GetUserComponentRes = await GetUserComponent(encryptPin, 500);
-    if (GetUserComponentRes && GetUserComponentRes['ret'] === 0) {
-        const { componentList } = GetUserComponentRes['data'];
-        if (componentList && componentList.length <= 0) {
-            if (help) {
-                $.log(`好友【${encryptPin}】地下暂无零件可收`)
-            } else {
-                $.log(`自家地下暂无零件可收`)
-            }
-            $.pickUpMyselfComponent = false;
-        }
-        for (let item of componentList) {
-            await $.wait(1000);
-            const PickUpComponentRes = await PickUpComponent(item['placeId'], encryptPin);
-            if (PickUpComponentRes) {
-                if (PickUpComponentRes['ret'] === 0) {
-                    const data = PickUpComponentRes['data'];
-                    if (help) {
-                        console.log(`收取好友[${encryptPin}]零件成功:获得${data['increaseElectric']}电力\n`);
-                        $.pickFriendEle += data['increaseElectric'];
-                    } else {
-                        console.log(`收取自家零件成功:获得${data['increaseElectric']}电力\n`);
-                        $.pickEle += data['increaseElectric'];
-                    }
-                } else {
-                    if (help) {
-                        console.log(`收好友[${encryptPin}]零件失败：${PickUpComponentRes.msg},直接跳出`)
-                    } else {
-                        console.log(`收自己地下零件失败：${PickUpComponentRes.msg},直接跳出`);
-                        $.pickUpMyselfComponent = false;
-                    }
-                    break
-                }
-            }
-        }
-    }
-}
 function GetUserComponent(pin = $.encryptPin, timeout = 0) {
     return new Promise(resolve => {
         setTimeout(() => {
@@ -376,44 +314,8 @@ function GetUserComponent(pin = $.encryptPin, timeout = 0) {
         }, timeout)
     })
 }
-//收取地下随机零件电力API
 
-function PickUpComponent(index, encryptPin) {
-    return new Promise(resolve => {
-        $.get(taskurl('usermaterial/PickUpComponent', `placeId=${index}&pin=${encryptPin}`, `_time,pin,placeId,zone`), (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`)
-                    console.log(`${$.name} API请求失败，请检查网路重试`)
-                } else {
-                    if (safeGet(data)) {
-                        data = JSON.parse(data);
-                        // if (data['ret'] === 0) {
-                        //   data = data['data'];
-                        //   if (help) {
-                        //     console.log(`收取好友[${encryptPin}]零件成功:获得${data['increaseElectric']}电力\n`);
-                        //     $.pickFriendEle += data['increaseElectric'];
-                        //   } else {
-                        //     console.log(`收取自家零件成功:获得${data['increaseElectric']}电力\n`);
-                        //     $.pickEle += data['increaseElectric'];
-                        //   }
-                        // } else {
-                        //   if (help) {
-                        //     console.log(`收好友[${encryptPin}]零件失败：${JSON.stringify(data)}`)
-                        //   } else {
-                        //     console.log(`收零件失败：${JSON.stringify(data)}`)
-                        //   }
-                        // }
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve(data);
-            }
-        })
-    })
-}
+
 
 function getFriendList(sort = 0) {
     return new Promise(async resolve => {

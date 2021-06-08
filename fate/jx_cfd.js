@@ -123,7 +123,7 @@ if (!$.cookieArr[0]) {
 
 
 !(async () => {
-    for (let i = 0; i < $.cookieArr.length; i++) {
+    for (let i = 0; i < 1; i++) {
         $.index = i + 1;
         $.currentCookie = $.cookieArr[i];
         $.currentToken = $.tokenArr[i] || {};
@@ -133,62 +133,62 @@ if (!$.cookieArr[0]) {
             $.nickName = '';
             $.log(`\n开始【京东账号${i + 1}】${$.userName}`);
             const beginInfo = await getUserInfo();
-            await $.wait(500);
-            await querySignList();
-
-            //领取岛主升级奖励
-            promotionAward();
-            //领取年终福利
-            await $.wait(500);
-            getAdvEmployee(1001);
-            await $.wait(500);
-            await getMoney();
-
-            //日常任务
-            await $.wait(500);
-            await getTaskList(0);
-            await $.wait(500);
-            await browserTask(0);
-            //寻宝
-            await $.wait(500);
-            await treasureHunt();
-            //偷财富
-            await $.wait(500);
-            await friendCircle();
-            //成就任务
-            await $.wait(500);
-            await getTaskList(1);
-            await $.wait(500);
-            await browserTask(1);
-            //抽奖
-            await $.wait(500);
-            await funCenterState();
-
-            //领取寻宝宝箱
+            await $.wait(5000);
+            // await querySignList();
+            //
+            // //领取岛主升级奖励
+            // promotionAward();
+            // //领取年终福利
             // await $.wait(500);
-            // await openPeriodBox();
-
-            const endInfo = await getUserInfo();
-            $.result.push(
-                `【💵财富值】任务前: ${beginInfo.ddwMoney}\n【💵财富值】任务后: ${endInfo.ddwMoney}`,
-                `【💵财富值】净增值: ${endInfo.ddwMoney - beginInfo.ddwMoney}`
-            );
-
-            //出岛寻宝大作战
+            // getAdvEmployee(1001);
             // await $.wait(500);
-            // await submitGroupId();
+            // await getMoney();
+            //
+            // //日常任务
             // await $.wait(500);
-            // await joinGroup();
-
-            //提交邀请码
-            await $.wait(500);
-            await submitInviteId($.userName);
-            //超级助力
-            await $.wait(500);
-            await createSuperAssistUser();
-            //普通助力
-            await $.wait(500);
-            await createAssistUser2();
+            // await getTaskList(0);
+            // await $.wait(500);
+            // await browserTask(0);
+            // //寻宝
+            // await $.wait(500);
+            // await treasureHunt();
+            // //偷财富
+            // await $.wait(500);
+            // await friendCircle();
+            // //成就任务
+            // await $.wait(500);
+            // await getTaskList(1);
+            // await $.wait(500);
+            // await browserTask(1);
+            // //抽奖
+            // await $.wait(500);
+            // await funCenterState();
+            //
+            // //领取寻宝宝箱
+            // // await $.wait(500);
+            // // await openPeriodBox();
+            //
+            // const endInfo = await getUserInfo();
+            // $.result.push(
+            //     `【💵财富值】任务前: ${beginInfo.ddwMoney}\n【💵财富值】任务后: ${endInfo.ddwMoney}`,
+            //     `【💵财富值】净增值: ${endInfo.ddwMoney - beginInfo.ddwMoney}`
+            // );
+            //
+            // //出岛寻宝大作战
+            // // await $.wait(500);
+            // // await submitGroupId();
+            // // await $.wait(500);
+            // // await joinGroup();
+            //
+            // //提交邀请码
+            // await $.wait(500);
+            // await submitInviteId($.userName);
+            // //超级助力
+            // await $.wait(500);
+            // await createSuperAssistUser();
+            // //普通助力
+            // await $.wait(500);
+            // await createAssistUser2();
         }
     }
     await $.wait(500);
@@ -1006,15 +1006,16 @@ function getTokens() {
 
 function taskUrl(function_path, body) {
     return {
-        url: `${JD_API_HOST}jxcfd/${function_path}?strZone=jxcfd&bizCode=jxcfd&source=jxcfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=138631.26.55&${body}&_ste=1&_=${Date.now()}&sceneval=2&g_login_type=1&g_ty=ls`,
+        url: `${JD_API_HOST}jxcfd/${function_path}?strZone=jxcfd&bizCode=jxcfd&source=jxcfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=&${body}&_ste=1&_=${Date.now()}&sceneval=2&g_login_type=1&g_ty=ls`,
         headers: {
             Cookie: $.currentCookie,
             Accept: "*/*",
             Connection: "keep-alive",
-            Referer: "https://st.jingxi.com/fortune_island/index.html?ptag=138631.26.55",
+            // Referer: "https://st.jingxi.com/fortune_island/index.html?ptag=138631.26.55",
+            Referer: "https://st.jingxi.com/fortune_island/index.html?ptag=7155.9.470.18.28&sceneval=2",
             "Accept-Encoding": "gzip, deflate, br",
             Host: "m.jingxi.com",
-            "User-Agent": `jdpingou;iPhone;3.15.2;14.2.1;ea00763447803eb0f32045dcba629c248ea53bb3;network/wifi;model/iPhone13,2;appBuild/100365;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2015_311210;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`,
+            "User-Agent": `jdpingou;android;4.9.2;9;c4f73e23c80b5751;network/wifi;model/MI 6;appBuild/16910;partner/xiaomi;;session/${Math.random * 110 + 1};aid/c4f73e23c80b5751;oaid/8076701e352fd2fa;pap/JA2019_3111789;brand/Xiaomi;eu/3643667333562333;fv/3683032653735313;Mozilla/5.0 (Linux; Android 9; MI 6 Build/PKQ1.190118.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/80.0.3987.99 Mobile Safari/537.36`,
             "Accept-Language": "zh-cn",
         },
     };
@@ -1027,10 +1028,11 @@ function taskListUrl(function_path, body) {
             Cookie: $.currentCookie,
             Accept: "*/*",
             Connection: "keep-alive",
-            Referer: "https://st.jingxi.com/fortune_island/index.html?ptag=138631.26.55",
+            // Referer: "https://st.jingxi.com/fortune_island/index.html?ptag=138631.26.55",
+            Referer: "https://st.jingxi.com/fortune_island/index.html?ptag=7155.9.470.18.28&sceneval=2",
             "Accept-Encoding": "gzip, deflate, br",
             Host: "m.jingxi.com",
-            "User-Agent": `jdpingou;iPhone;3.15.2;14.2.1;ea00763447803eb0f32045dcba629c248ea53bb3;network/wifi;model/iPhone13,2;appBuild/100365;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2015_311210;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`,
+            "User-Agent": `jdpingou;android;4.9.2;9;c4f73e23c80b5751;network/wifi;model/MI 6;appBuild/16910;partner/xiaomi;;session/${Math.random * 110 + 1};aid/c4f73e23c80b5751;oaid/8076701e352fd2fa;pap/JA2019_3111789;brand/Xiaomi;eu/3643667333562333;fv/3683032653735313;Mozilla/5.0 (Linux; Android 9; MI 6 Build/PKQ1.190118.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/80.0.3987.99 Mobile Safari/537.36`,
             "Accept-Language": "zh-cn",
         },
     };
