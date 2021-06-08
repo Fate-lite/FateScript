@@ -11,10 +11,7 @@
  https://www.orzlee.com/web-development/2021/03/03/lxk0301-jingdong-signin-scriptjingxi-factory-solves-the-problem-of-unable-to-signin.html
 
  ！！！先将新手任务做完，再执行本脚本，不然会出现未知错误
-
- cron表达式 0 * * * * 或者 0 0 * * * *
- hostname = m.jingxi.com
-
+ cron 0 0-23/3 * * * jx_mc.js
  *
  **/
 
@@ -66,6 +63,7 @@ $.appId = 10028;
                     break;
                 }
             }
+
             // 获取每日任务列表（待完成）
             await $.wait(500);
             await GetUserTaskStatusList(3);
