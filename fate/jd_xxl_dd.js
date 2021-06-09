@@ -28,7 +28,7 @@ const $ = new Env('东东爱消除');
 const notify = $.isNode() ? require('./sendNotify.js') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let exchangeName = '京豆*1888'
-$.maxLevel = 400;
+$.maxLevel = 440;
 let ACT_ID = 'A_112790_R_1_D_20201028'
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
