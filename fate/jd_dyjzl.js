@@ -76,6 +76,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
                     console.log("为大号助力ing...")
                     await help($.rid, $.inviter, $.helptype)
                 } else {
+                    break;
                     console.log("没获取到助力码,停止运行")
                 }
             }
