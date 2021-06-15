@@ -22,7 +22,7 @@ $.inviteCodeList = [];
 let cookiesArr = [];
 $.stopDoAction = false;
 $.appId = 10001;
-
+$.inviteCodeList = [];
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
@@ -80,7 +80,11 @@ async function pasture() {
             console.log(`\n温馨提示：${$.UserName} 请先手动完成【新手指导任务】再运行脚本再运行脚本\n`);
             return;
         }
-        console.log('获取活动信息成功');
+        console.log('获取活动信息成功\n');
+        console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.homeInfo.sharekey}`);
+        if ($.homeInfo.sharekey){
+            $.inviteCodeList.push($.homeInfo.sharekey)
+        }
         for (let i = 0; i < $.homeInfo.petinfo.length; i++) {
             $.onepetInfo = $.homeInfo.petinfo[i];
             $.petidList.push($.onepetInfo.petid);
@@ -93,12 +97,6 @@ async function pasture() {
         $.crowInfo = $.homeInfo.cow;
     }
 
-    await $.wait(2000);
-    if ($.crowInfo.lastgettime) {
-        console.log('收奶牛金币');
-        await takeGetRequest('cow');
-        await $.wait(2000);
-    }
     $.taskList = [];
     $.dateType = ``;
     for (let j = 2; j >= 0; j--) {
@@ -113,7 +111,7 @@ async function pasture() {
         await $.wait(2000);
         if (j === 2) {
             //割草
-            for (let i = 0; i < 150; i++) {
+            for (let i = 0; i < 200; i++) {
                 $.mowingInfo = {};
                 await takeGetRequest('mowing');
                 await $.wait(4000);
@@ -121,7 +119,7 @@ async function pasture() {
                     //除草礼盒
                     console.log(`领取除草礼盒`);
                     await takeGetRequest('GetSelfResult');
-                    await $.wait(5000);
+                    await $.wait(3000);
                 }
                 if ($.mowingInfo.addcoins == 0){
                     console.log("本次除草" + i + "次，除草已达上限! \n")
@@ -129,10 +127,9 @@ async function pasture() {
                 }
             }
             //横扫鸡腿
-            for (let i = 0; i < 150; i++) {
-                console.log(`开始第${i + 1}次横扫鸡腿`);
+            for (let i = 0; i < 200; i++) {
                 await takeGetRequest('jump');
-                await $.wait(4000);
+                await $.wait(3000);
                 if ($.mowingInfo.addcoins == 0){
                     console.log("本次横扫鸡腿" + i + "次，横扫鸡腿已达上限!\n")
                     break;
@@ -142,47 +139,6 @@ async function pasture() {
     }
     await takeGetRequest('GetHomePageInfo');
     await $.wait(2000);
-
-    if (Number($.homeInfo.coins) > 5000) {
-        let canBuyTimes = Math.floor(Number($.homeInfo.coins) / 5000);
-        console.log(`\n共有金币${$.homeInfo.coins},可以购买${canBuyTimes}次白菜`);
-        for (let j = 0; j < canBuyTimes; j++) {
-            console.log(`第${j + 1}次购买白菜`);
-            await takeGetRequest('buy');
-            await $.wait(2000);
-        }
-        await takeGetRequest('GetHomePageInfo');
-        await $.wait(2000);
-    }
-    let materialinfoList = $.homeInfo.materialinfo;
-    for (let j = 0; j < materialinfoList.length; j++) {
-        if (materialinfoList[j].type !== 1) {
-            continue;
-        }
-        if (Number(materialinfoList[j].value) > 10) {
-            $.canFeedTimes = Math.floor(Number(materialinfoList[j].value) / 10);
-            console.log(`\n共有白菜${materialinfoList[j].value}颗，每次喂10颗，可以喂${$.canFeedTimes}次`);
-            $.runFeed = true;
-            for (let k = 0; k < $.canFeedTimes && $.runFeed && k < 40; k++) {
-                $.pause = false;
-                console.log(`开始第${k + 1}次喂白菜`);
-                await takeGetRequest('feed');
-                await $.wait(2000);
-                if ($.pause) {
-                    await takeGetRequest('GetHomePageInfo');
-                    await $.wait(1000);
-                    for (let n = 0; n < $.homeInfo.petinfo.length; n++) {
-                        $.onepetInfo = $.homeInfo.petinfo[n];
-                        if ($.onepetInfo.cangetborn === 1) {
-                            console.log(`开始收鸡蛋`);
-                            await takeGetRequest('GetEgg');
-                            await $.wait(1000);
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 async function doTask() {
@@ -276,6 +232,11 @@ async function takeGetRequest(type) {
             url = `https://m.jingxi.com/jxmc/operservice/GetSelfResult?channel=7&sceneid=1001&type=11&itemid=${$.onepetInfo.petid}&_stk=channel%2Citemid%2Csceneid%2Ctype&_ste=1`;
             url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
             myRequest = getGetRequest(`GetEgg`, url);
+            break;
+        case 'help':
+            url = `https://m.jingxi.com/jxmc/operservice/EnrollFriend?sharekey=${$.oneCodeInfo.code}&channel=7&sceneid=1001&_stk=channel%2Csceneid%2Csharekey&_ste=1`;
+            url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
+            myRequest = getGetRequest(`help`, url);
             break;
         default:
             console.log(`错误${type}`);
@@ -376,6 +337,20 @@ function dealReturn(type, data) {
         case 'DoTask':
             if (data.ret === 0) {
                 console.log(`执行任务成功`);
+            }
+            break;
+        case 'help':
+            data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+            if (data.ret === 0 && data.data.result === 0 ) {
+                console.log(`助力成功`);
+            }else if (data.ret === 0 && data.data.result === 4){
+                console.log(`助力次数已用完 或者已助力`);
+                //$.canHelp = false;
+            }else if(data.ret === 0 && data.data.result === 5){
+                console.log(`助力已满`);
+                $.oneCodeInfo.max = true;
+            }else{
+                console.log(JSON.stringify(data))
             }
             break;
         default:
