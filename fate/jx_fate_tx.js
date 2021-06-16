@@ -18,7 +18,8 @@ $.currentToken = {
     "timestamp": "1623777886772",
     "pin": "24976137-306905"
 };
-$.cookie = process.env.CFDCOOKIE;
+// $.cookie = process.env.CFDCOOKIE;
+$.cookie = 'pt_key=AAJgwXGQADDygzXIuFka5AZJ3d-8KuWCWTs1dgaDQLKiyCY7I0nA8ykC0ns3OTBrcK6RxD0MJWg;pt_pin=24976137-306905;';
 $.userName = '';
 
 !(async () => {
