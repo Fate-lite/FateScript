@@ -18,33 +18,21 @@ $.currentToken = {
     "timestamp": "1623777886772",
     "pin": "24976137-306905"
 };
-// $.cookie = process.env.CFDCOOKIE;
+
 if ($.isNode()) {
-    $.cookieArr = Object.values(jdCookieNode);
+    Object.keys(jdCookieNode).forEach((item) => {
+        $.cookiesArr.push(jdCookieNode[item])
+    })
+    if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
+    if (process.env.DREAMFACTORY_FORBID_ACCOUNT) process.env.DREAMFACTORY_FORBID_ACCOUNT.split('&').map((item, index) => Number(item) === 0 ? cookiesArr = [] : cookiesArr.splice(Number(item) - 1 - index, 1))
 } else {
-    const CookiesJd = JSON.parse($.getdata("CookiesJD") || "[]").filter(x => !!x).map(x => x.cookie);
-    $.cookieArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd].filter(x => !!x);
-}
-if (!$.cookieArr[0]) {
-    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
-        'open-url': 'https://bean.m.jd.com/',
-    });
-    return false;
+    $.cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 
 !(async () => {
-    $.cookie =  $.cookieArr[0];
+    $.cookie =  $.cookiesArr[0];
     if ($.cookie) {
-        $.nickName = '';
-        await TotalBean();
-        $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-        console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
-        if (!$.isLogin) {
-            $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-            if ($.isNode()) {
-                await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-            }
-        }
+        $.userName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
         $.log(`\n开始【京东账号】${$.userName}`);
         await cashOut();
     }
