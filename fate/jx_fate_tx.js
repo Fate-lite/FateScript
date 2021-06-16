@@ -7,12 +7,18 @@
 
 const $ = new Env("京喜财富岛提现Fate");
 
+// $.currentToken = {
+//     "farm_jstoken": "a1155b5ad0a2ce67a0bca79d572ba328",
+//     "phoneid": "d2b7cf60afce53c7",
+//     "timestamp": "1623777886772",
+//     "pin": "24976137-306905"
+// };
 $.currentToken = {
-    "farm_jstoken": "a1155b5ad0a2ce67a0bca79d572ba328",
+    "farm_jstoken": "e0d30fe4de03e0ca4920f89154e2abdd",
     "phoneid": "d2b7cf60afce53c7",
-    "timestamp": "1623777886772",
+    "timestamp": "1621237999420",
     "pin": "24976137-306905"
-};
+}
 const JD_API_HOST = "https://m.jingxi.com/";
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -22,7 +28,8 @@ if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
     })
-    if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
+    if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
+    };
 } else {
     cookiesArr = [
         $.getdata("CookieJD"),
@@ -30,7 +37,7 @@ if ($.isNode()) {
         ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
 !(async () => {
-    $.cookie =  cookiesArr[0];
+    $.cookie = cookiesArr[0];
     if ($.cookie) {
         $.userName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
         $.log(`\n开始【京东账号】${$.userName}`);
