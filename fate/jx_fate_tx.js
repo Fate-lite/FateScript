@@ -19,10 +19,21 @@ $.currentToken = {
     "pin": "24976137-306905"
 };
 // $.cookie = process.env.CFDCOOKIE;
-$.cookie = 'pt_key=AAJgwXGQADDygzXIuFka5AZJ3d-8KuWCWTs1dgaDQLKiyCY7I0nA8ykC0ns3OTBrcK6RxD0MJWg;pt_pin=24976137-306905;';
-$.userName = '';
+if ($.isNode()) {
+    $.cookieArr = Object.values(jdCookieNode);
+} else {
+    const CookiesJd = JSON.parse($.getdata("CookiesJD") || "[]").filter(x => !!x).map(x => x.cookie);
+    $.cookieArr = [$.getdata("CookieJD") || "", $.getdata("CookieJD2") || "", ...CookiesJd].filter(x => !!x);
+}
+if (!$.cookieArr[0]) {
+    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
+        'open-url': 'https://bean.m.jd.com/',
+    });
+    return false;
+}
 
 !(async () => {
+    $.cookie =  $.cookieArr[0];
     if ($.cookie) {
         $.nickName = '';
         await TotalBean();
