@@ -194,34 +194,6 @@ function getcode() {
     });
 }
 
-function acode() {
-	console.log("获取作者助力码");
-	return new Promise((resolve) => {
-		let options = {
-			"url": "https://ghproxy.com/https://raw.githubusercontent.com/Wenmoux/sources/master/other/rid.json",
-			"headers": {
-			}
-		}
-		$.get(options, (err, resp, data) => {
-			try {
-				if (data) {
-					if (data) {
-						data=JSON.parse(data)
-						console.log(data)
-						console.log(data.rid)
-						$.authorCode=data
-					}
-
-				}
-			} catch (e) {
-				console.log(e);
-			} finally {
-				resolve(data);
-			}
-		})
-	});
-}
-
 
 function taskUrl(function_id, body) {
     return {
