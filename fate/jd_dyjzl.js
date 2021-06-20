@@ -124,13 +124,13 @@ function getid() {
                     if (data.success && data.data) {
                         console.log(`获取成功redEnvelopeId： ${data.data.redEnvelopeId} \n markPin：${data.data.markedPin}`)
                         if ($.index == 1){
-                            $.rid = data.data.redEnvelopeId
-                            $.inviter = data.data.markedPin
+                            $.rid = data.data.redEnvelopeId;
+                            $.inviter = data.data.markedPin;
                         }
                         console.log(`当前余额：${data.data.amount} 还需 ${data.data.needAmount} `)
                         if(data.data.needAmount==="0"){
-                        $.helptype=2
-                        console.log("66")
+                            $.helptype=2
+                            console.log("66")
                         }
                     } else {
                         console.log(data)
@@ -155,10 +155,8 @@ function help(rid, inviter,type) {
                     console.log(`${$.name} API请求失败，请检查网路重试`);
                 } else {
                     data = JSON.parse(data);
-                    //       console.log(JSON.stringify(data.data.helpResult))
                     console.log(data.data.helpResult.errMsg)
                 }
-
             } catch (e) {
                 $.logErr(e, resp);
             } finally {
