@@ -126,7 +126,6 @@ function help() {
                 "Host": "api.m.jd.com",
                 "Content-Type": "application/x-www-form-urlencoded",
                 "USER_Agent": "jdapp;android;10.0.4;9;D203035636031-6664316239313;network/wifi;model/MI 6;addressid/3005006119;aid/b912d9835412e94a;oaid/8076701e352fd2fa;osVer/28;appBuild/88641;partner/xiaomi001;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 9; MI 6 Build/PKQ1.190118.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/6.2 TBS/045131 Mobile Safari/537.36",
-                //"User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
                 "Cookie": "cuid=eidIe2798122d1s4GEix%252FuspRjy92JqJ273YghhIs3JZdi%252F4JjftGCWZOLgY3glC5gGXsTY1vGLRKckMeHq2opKqTBNLiayOHJtx2EhExIqlbarZpTFa;" + cookie,
             }
         }
@@ -143,6 +142,7 @@ function help() {
             } catch (e) {
                 $.logErr(e, resp);
             } finally {
+                $.log("\n 错误");
                 resolve();
             }
         });
