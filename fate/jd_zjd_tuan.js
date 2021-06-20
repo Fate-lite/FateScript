@@ -42,7 +42,7 @@ $.canHelp = true;
     $.tuanExtra = [];
     await (8000);
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 4; i++) {
         $.currentCookie = $.cookiesArr[i];
         const userName = decodeURIComponent(
             $.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1],
@@ -56,8 +56,6 @@ $.canHelp = true;
             await (2000);
         }
     }
-
-
 
     console.log(`\n开始账号内部相互进团\n`);
     for (let i = 0; i < $.cookiesArr.length; i++) {

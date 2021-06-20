@@ -145,7 +145,6 @@ function getid() {
     });
 }
 
-
 function help(rid, inviter,type) {
     return new Promise(async (resolve) => {
         let options = taskUrl("openRedEnvelopeInteract", `{"linkId":"${$.linkid}","redEnvelopeId":"${rid}","inviter":"${inviter}","helpType":"${type}"}`)
@@ -168,7 +167,6 @@ function help(rid, inviter,type) {
         });
     });
 }
-
 
 function getcode() {
     return new Promise(async (resolve) => {
@@ -193,7 +191,6 @@ function getcode() {
         });
     });
 }
-
 
 function taskUrl(function_id, body) {
     return {
