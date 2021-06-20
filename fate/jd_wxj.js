@@ -34,7 +34,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
         return;
     }
 
-    for (let i = 0; i < 1 i++) {
+    for (let i = 0; i < 1; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -50,7 +50,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
                 if ($.isNode()) {
                     await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
                 }
-                continue
+                continue;
             }
             await list1()
             await info()
