@@ -3,10 +3,10 @@
 运行一次查看邀请码 变量你的邀请码
 export shareCode="FCD4A7E5CB4AF69377D77E9B4553CF6CAD1DAAB9A3E3F6CBAFDE81EEB7393333"
 [task_local]
-0 10 * * *
+0 10 * * * jd_wxj.js
 */
 
-const $ = new Env('柠檬全民挖现金');
+const $ = new Env('全民挖现金');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -34,7 +34,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
         return;
     }
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -55,12 +55,8 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
             await list1()
             await info()
             await help()
-            if (process.env.HELPAUTHOR_WXJ && process.env.HELPAUTHOR_WXJ === 'false') {
-                await dslq()
-            } else {
-                await helpAuthor()
-                await dslq()
-            }
+            await dslq()
+
         }
     }
     if ($.isNode() && allMessage) {
@@ -301,38 +297,38 @@ function info() {
 }
 
 
-function helpAuthor() {
-    return new Promise(async (resolve) => {
-
-        let options = {
-            url: `https://api.m.jd.com/client.action`,
-
-            body: `functionId=help_activity&body={"shareCode":"643D0BFC40F7B8710B354BD0D24F13D0AD1DAAB9A3E3F6CBAFDE81EEB7393333","name":"","imageUrl":""}&client=wh5&clientVersion=1.0.0&osVersion=10&uuid=7049442d7e415232`,
-            headers: {
-                "Origin": "https://h5.m.jd.com",
-                "Host": "api.m.jd.com",
-                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
-                "Cookie": "cuid=eidIe2798122d1s4GEix%252FuspRjy92JqJ273YghhIs3JZdi%252F4JjftGCWZOLgY3glC5gGXsTY1vGLRKckMeHq2opKqTBNLiayOHJtx2EhExIqlbarZpTFa;" + cookie,
-            }
-        }
-        $.post(options, async (err, resp, data) => {
-            try {
-                data = JSON.parse(data);
-                if (data.ret == 0) {
-                    $.log("\n助力：" + data.helpAmount * 0.01)
-                } else if (data.ret == 2) {
-                    $.log(`\n${data.msg}`)
-                } else if (data.ret == 7) {
-                    $.log(`\n${data.msg}`)
-                }
-            } catch (e) {
-                $.logErr(e, resp);
-            } finally {
-                resolve();
-            }
-        });
-    });
-}
+// function helpAuthor() {
+//     return new Promise(async (resolve) => {
+//
+//         let options = {
+//             url: `https://api.m.jd.com/client.action`,
+//
+//             body: `functionId=help_activity&body={"shareCode":"643D0BFC40F7B8710B354BD0D24F13D0AD1DAAB9A3E3F6CBAFDE81EEB7393333","name":"","imageUrl":""}&client=wh5&clientVersion=1.0.0&osVersion=10&uuid=7049442d7e415232`,
+//             headers: {
+//                 "Origin": "https://h5.m.jd.com",
+//                 "Host": "api.m.jd.com",
+//                 "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+//                 "Cookie": "cuid=eidIe2798122d1s4GEix%252FuspRjy92JqJ273YghhIs3JZdi%252F4JjftGCWZOLgY3glC5gGXsTY1vGLRKckMeHq2opKqTBNLiayOHJtx2EhExIqlbarZpTFa;" + cookie,
+//             }
+//         }
+//         $.post(options, async (err, resp, data) => {
+//             try {
+//                 data = JSON.parse(data);
+//                 if (data.ret == 0) {
+//                     $.log("\n助力：" + data.helpAmount * 0.01)
+//                 } else if (data.ret == 2) {
+//                     $.log(`\n${data.msg}`)
+//                 } else if (data.ret == 7) {
+//                     $.log(`\n${data.msg}`)
+//                 }
+//             } catch (e) {
+//                 $.logErr(e, resp);
+//             } finally {
+//                 resolve();
+//             }
+//         });
+//     });
+// }
 
 function TotalBean() {
     return new Promise(async resolve => {
