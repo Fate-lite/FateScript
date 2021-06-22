@@ -31,7 +31,7 @@ $.tuanExtra = [];
 $.canHelp = true;
 !(async () => {
     if (!getCookies()) return;
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 4; i++) {
         $.log();
         $.currentCookie = $.cookiesArr[i];
         if ($.currentCookie) {
