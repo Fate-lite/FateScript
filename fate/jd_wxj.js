@@ -6,7 +6,7 @@ export shareCode="FCD4A7E5CB4AF69377D77E9B4553CF6CAD1DAAB9A3E3F6CBAFDE81EEB73933
 0 10 * * *
 */
 
-const $ = new Env('柠檬全民挖现金');
+const $ = new Env('全民挖现金');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -77,7 +77,6 @@ function list1() {
 
         let options = {
             url: `https://api.m.jd.com/client.action`,
-
             body: `functionId=tc_taskList&body={"appId":"1EFRSww"}&client=wh5&clientVersion=1.0.0&osVersion=14.3&uuid=6898c30638c55142969304c8e2167997fa59eb51`,
             headers: {
                 "Origin": "https://h5.m.jd.com",
