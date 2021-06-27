@@ -28,10 +28,11 @@ $.cookiesArr = [];
 $.currentCookie = '';
 $.tuan = null;
 $.tuanExtra = [];
+$.helpUser = 3;
 $.canHelp = true;
 !(async () => {
     if (!getCookies()) return;
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < $.helpUser; i++) {
         $.log();
         $.currentCookie = $.cookiesArr[i];
         if ($.currentCookie) {
@@ -39,10 +40,10 @@ $.canHelp = true;
             await (2000);
         }
     }
+
     $.tuanExtra = [];
     await (8000);
-
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < $.helpUser; i++) {
         $.currentCookie = $.cookiesArr[i];
         const userName = decodeURIComponent(
             $.currentCookie.match(/pt_pin=(.+?);/) && $.currentCookie.match(/pt_pin=(.+?);/)[1],
