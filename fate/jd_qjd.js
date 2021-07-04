@@ -2,7 +2,7 @@
  * 项目名称:
  功能：全民抢京豆（7.2-7.15）：https://h5.m.jd.com/rn/3MQXMdRUTeat9xqBSZDSCCAE9Eqz/index.html?has_native=0
  *
- Name:财富岛提现
+ Name:全民抢京豆
  cron 20 0 * * * jd_qjd.js
  *
  */
