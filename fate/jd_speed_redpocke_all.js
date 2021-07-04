@@ -149,8 +149,8 @@ async function jsRedPacket() {
     //提现
     // await exchange()
     // 翻翻乐
-    await fanfanle();
-    console.log("===================签到提现===================");
+    // await fanfanle();
+    // console.log("===================签到提现===================");
 
     await sign();
     $.speedUp = true;
