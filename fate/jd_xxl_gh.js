@@ -29,7 +29,7 @@ const $ = new Env('个护爱消除');
 const notify = $.isNode() ? require('./sendNotify.js') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let exchangeName = $.isNode() ? (process.env.EXCHANGE_EC ? process.env.EXCHANGE_EC : '京豆*1888') : ($.getdata('JDEC') ? $.getdata('JDEC') : '京豆*1888')
-
+$.maxLevel = 400;
 let ACT_ID = 'A_112790_R_3_D_20201102'
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
@@ -122,8 +122,8 @@ async function helpFriends() {
     await $.wait(500)
   }
 }
-// 获得IsvToken
 
+// 获得IsvToken
 function getIsvToken() {
   return new Promise(resolve => {
     $.post(jdUrl('encrypt/pin?appId=dafbe42d5bff9d82298e5230eb8c3f79'), async (err, resp, data) => {
@@ -134,7 +134,7 @@ function getIsvToken() {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            $.lkEPin = data.data
+            $.lkEPin = data.data.lkEPin;
           }
         }
       } catch (e) {
@@ -270,8 +270,12 @@ function getTaskList() {
                 if (task.res.sName === "闯关集星") {
                   $.level = task.state.value + 1
                   console.log(`当前关卡：${$.level}`)
-                  while ($.strength >= 5 && $.level <= 240) {
-                    await beginLevel()
+                  let count = 0;
+                  while ($.strength >= 5 && $.level <= $.maxLevel) {
+                    await beginLevel();
+                    if (count++ > 10){
+                      break;
+                    }
                   }
                   if($.not3Star.length && $.strength >= 5){
                     console.log(`去完成尚未三星的关卡`)

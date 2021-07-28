@@ -28,7 +28,7 @@ const $ = new Env('东东爱消除');
 const notify = $.isNode() ? require('./sendNotify.js') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let exchangeName = '京豆*1888'
-$.maxLevel = 480;
+$.maxLevel = 520;
 let ACT_ID = 'A_112790_R_1_D_20201028'
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
@@ -210,8 +210,8 @@ function setHelp() {
   });
 }
 
-// 获得IsvToken
 
+// 获得IsvToken
 function getIsvToken() {
   return new Promise(resolve => {
     $.post(jdUrl('encrypt/pin?appId=dafbe42d5bff9d82298e5230eb8c3f79'), async (err, resp, data) => {
@@ -219,9 +219,10 @@ function getIsvToken() {
         if (err) {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
+          console.log(data);
           if (safeGet(data)) {
             data = JSON.parse(data);
-            $.lkEPin = data.data
+            $.lkEPin = data.data.lkEPin
           }
         }
       } catch (e) {
@@ -233,15 +234,16 @@ function getIsvToken() {
   })
 }
 
+
 // 获得对应游戏的访问Token
 function getIsvToken2() {
   return new Promise(resolve => {
-    $.post(jdUrl('user/token?appId=dafbe42d5bff9d82298e5230eb8c3f79&client=m&url=pengyougou.m.jd.com'), async (err,
-                                                                                                               resp, data) => {
+    $.post(jdUrl('user/token?appId=dafbe42d5bff9d82298e5230eb8c3f79&client=m&url=pengyougou.m.jd.com'), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
+          console.log(data);
           if (safeGet(data)) {
             data = JSON.parse(data);
             $.token = data.data

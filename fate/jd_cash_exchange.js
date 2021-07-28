@@ -15,7 +15,6 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
-
 let indexes = [0, 1];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -32,23 +31,21 @@ let allMessage = '';
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
-
   for(let i of indexes){
     cookie = cookiesArr[i];
     if (cookie) {
       $.index = i + 1;
-      await  QueryJDUserInfo();
+      await QueryJDUserInfo();
       if (i+1) $.log(`\n***************开始京东账号${i + 1}【${$.nickname}】***************`)
       //initial();
       if (!$.isLogin)  //cookie不可用
       {
-        //$.setdata('', `CookieJD${i ? i + 1 : "" }`);//cookie失效，故清空cookie。
         $.msg($.name, `【提示】京东账号${i + 1} cookie已过期！请先获取cookie\n直接使用NobyDa的京东签到获取`, 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
       else{
         await exchange_redpocket();
-        await msgShow();
+        // await msgShow();
       }
     }
   }
