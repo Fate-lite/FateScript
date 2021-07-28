@@ -29,7 +29,7 @@ const $ = new Env('个护爱消除');
 const notify = $.isNode() ? require('./sendNotify.js') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let exchangeName = $.isNode() ? (process.env.EXCHANGE_EC ? process.env.EXCHANGE_EC : '京豆*1888') : ($.getdata('JDEC') ? $.getdata('JDEC') : '京豆*1888')
-$.maxLevel = 400;
+$.maxLevel = process.env.xxlMaxLevel ?? 400;
 let ACT_ID = 'A_112790_R_3_D_20201102'
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
