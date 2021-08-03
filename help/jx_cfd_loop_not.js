@@ -220,7 +220,7 @@ async function pickshell(body) {
                     } else if (data.iRet === 5403 || data.sErrMsg === '这种小贝壳背包放不下啦，先去卖掉一些吧~') {
                         console.log(`捡贝壳失败：${data.sErrMsg}`)
                         await $.wait(3000)
-                        await querystorageroom()
+                        // await querystorageroom()
                     } else {
                         console.log(`捡贝壳失败：${data.sErrMsg}`)
                     }
