@@ -35,6 +35,7 @@ $.shareCodes = [];
 let cookiesArr = [], cookie = '', token = '';
 let UA, UAInfo = {}
 let nowTimes;
+let userNum = process.env.loopUser ?? "25"
 
 const randomCount = $.isNode() ? 3 : 3;
 if ($.isNode()) {
@@ -56,7 +57,7 @@ $.appId = 10028;
     }
     $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
     await requestAlgo();
-    for (let i = 0; i < cookiesArr.length; i++) {
+    for (let i = 0; i < userNum; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
