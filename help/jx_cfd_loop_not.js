@@ -47,25 +47,24 @@ $.appId = 10028;
     await requestAlgo();
     await $.wait(1000)
     console.log('\n')
-    while (true) {
-        count++
-        console.log(`============开始第${count}次挂机=============`)
-        for (let i = 0; i < userNum; i++) {
-            if (cookiesArr[i]) {
-                cookie = cookiesArr[i];
-                $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-                $.index = i + 1;
-                $.nickName = '';
-                $.isLogin = true;
-                console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-                $.info = {}
-                token = await getJxToken()
-                await cfd();
-                let time = process.env.CFD_LOOP_SLEEPTIME ? (process.env.CFD_LOOP_SLEEPTIME * 1 > 1000 ? process.env.CFD_LOOP_SLEEPTIME : process.env.CFD_LOOP_SLEEPTIME * 1000) : 5000
-                await $.wait(time)
-            }
+    count++
+    console.log(`============开始第${count}次挂机=============`)
+    for (let i = 0; i < userNum; i++) {
+        if (cookiesArr[i]) {
+            cookie = cookiesArr[i];
+            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+            $.index = i + 1;
+            $.nickName = '';
+            $.isLogin = true;
+            console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
+            $.info = {}
+            token = await getJxToken()
+            await cfd();
+            let time = process.env.CFD_LOOP_SLEEPTIME ? (process.env.CFD_LOOP_SLEEPTIME * 1 > 1000 ? process.env.CFD_LOOP_SLEEPTIME : process.env.CFD_LOOP_SLEEPTIME * 1000) : 5000
+            await $.wait(time)
         }
     }
+
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done());
