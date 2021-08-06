@@ -54,17 +54,21 @@ $.appId = 10032;
         去找吧
         `)
     await requestAlgo();
-    for (let i = 0; i < userNum; i++) {
-        if (cookiesArr[i]) {
-            $.cookie = cookiesArr[i] + '';
-            $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-            $.index = i + 1;
-            $.isLogin = true;
-            console.log(`\n*****开始【京东账号${$.index}】${$.UserName}****\n`);
-            UA = `jdapp;iPhone;10.0.5;${Math.ceil(Math.random() * 2 + 12)}.${Math.ceil(Math.random() * 4)};${randomString(40)};`
-            await run();
+    for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < userNum; i++) {
+            if (cookiesArr[i]) {
+                $.cookie = cookiesArr[i] + '';
+                $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+                $.index = i + 1;
+                $.isLogin = true;
+                console.log(`\n*****开始【京东账号${$.index}】${$.UserName}****\n`);
+                UA = `jdapp;iPhone;10.0.5;${Math.ceil(Math.random() * 2 + 12)}.${Math.ceil(Math.random() * 4)};${randomString(40)};`
+                await run();
+                await $.wait(1000)
+            }
         }
     }
+
 })()
     .catch((e) => {
         $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')

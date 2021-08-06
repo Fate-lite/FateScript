@@ -260,7 +260,8 @@ async function doTask(j) {
                 await takeGetRequest('Award');
                 await $.wait(2000);
             }
-        } else {//每日任务
+        } else {
+            //每日任务
             if($.oneTask.awardStatus === 1){
                 if(j===0){
                     console.log(`任务：${$.oneTask.taskName},已完成`);
@@ -273,7 +274,8 @@ async function doTask(j) {
                 }else if(j===0){
                     console.log(`任务：${$.oneTask.taskName},未完成`);
                 }
-            }else if ($.oneTask.awardStatus === 2 && $.oneTask.taskCaller === 1) {//浏览任务
+            }else if ($.oneTask.awardStatus === 2 && $.oneTask.taskCaller === 1) {
+                //浏览任务
                 if (Number($.oneTask.completedTimes) > 0 && $.oneTask.completedTimes === $.oneTask.targetTimes) {
                     console.log(`完成任务：${$.oneTask.taskName}`);
                     await takeGetRequest('Award');
