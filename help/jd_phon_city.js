@@ -83,6 +83,16 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
             await JD818();
         }
     }
+
+    let msg ="";
+    for (let j = 0; j < 5; j++) {
+        msg += $.temp[j];
+        if(i < 4){
+            msg += "&"
+        }
+    }
+    if ($.isNode()) await notify.sendNotify($.name + "互助码", msg);
+
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
@@ -104,16 +114,6 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
                 console.log(`\n\n如果有剩余助力机会，则给作者以及随机码助力`)
                 await doHelp();
             }
-
-            let msg ="";
-            for (let j = 0; j < 5; j++) {
-                msg += $.temp[i];
-                if(i < 4){
-                    msg += "&"
-                }
-            }
-            if ($.isNode()) await notify.sendNotify($.name + "互助码", msg);
-
         }
     }
     // console.log(JSON.stringify($.temp))
