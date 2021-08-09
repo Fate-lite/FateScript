@@ -87,7 +87,7 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
     let msg ="";
     for (let j = 0; j < 5; j++) {
         msg += $.temp[j];
-        if(i < 4){
+        if(j < 4){
             msg += "&"
         }
     }
