@@ -77,9 +77,42 @@ async function run() {
         $.Biztask = []
         $.Aggrtask = []
         $.Employtask = []
+
         await GetHomePageInfo()
+
+        if ($.HomeInfo) {
+            $.InviteList.push($.HomeInfo.strMyShareId)
+            console.log(`等级:${$.HomeInfo.dwLandLvl} 当前金币:${$.HomeInfo.ddwCoinBalance} 当前财富:${$.HomeInfo.ddwRichBalance} 助力码:${$.HomeInfo.strMyShareId}`)
+        }
+        if ($.LeadInfo && $.LeadInfo.dwLeadType == 2) {
+            await $.wait(2000)
+            console.log(`\n新手引导`)
+            await noviceTask()
+            await GetHomePageInfo()
+            await $.wait(1000)
+        }
+        // 故事会
+        await StoryInfo()
+        // 建筑升级
+        await buildList()
+        // 签到 邀请奖励
+        await sign()
+        // 签到-小程序
+        await signs()
         // 捡垃圾
         await pickshell(1)
+        // 热气球接客
+        await service(serviceNum)
+        // 倒垃圾
+        await RubbishOper()
+        // 导游
+        await Guide()
+        // 撸珍珠
+        await Pearl()
+        // 牛牛任务
+        await ActTask()
+        // 日常任务、成就任务
+        await UserTask()
 
     } catch (e) {
         console.log(e);

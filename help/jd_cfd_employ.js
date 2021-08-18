@@ -88,8 +88,8 @@ async function run() {
         await buildList()
         // 导游
         await Guide()
-        // 撸珍珠
-        await Pearl()
+        // 贝壳
+        await pickshell(1)
     } catch (e) {
         console.log(e);
     }
@@ -108,6 +108,45 @@ async function GetHomePageInfo() {
         }
     }
 }
+
+
+// 捡垃圾
+async function pickshell(num = 1) {
+    return new Promise(async (resolve) => {
+        try {
+            console.log(`\n捡垃圾`)
+            // pickshell dwType 1珍珠 2海螺 3大海螺  4海星 5小贝壳 6扇贝
+            for (i = 1; num--; i++) {
+                await $.wait(2000)
+                $.queryshell = await taskGet(`story/queryshell`, '_cfd_t,bizCode,dwEnv,ptag,source,strZone', `&ptag=`)
+                let c = 6
+                for (i = 1; c--; i++) {
+                    let o = 1
+                    let name = '珍珠'
+                    if (i == 2) name = '海螺'
+                    if (i == 3) name = '大海螺'
+                    if (i == 4) name = '海星'
+                    if (i == 5) name = '小贝壳'
+                    if (i == 6) name = '扇贝'
+                    do {
+                        console.log(`去捡${name}第${o}次`)
+                        o++;
+                        let res = await taskGet(`story/pickshell`, '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', `&ptag=&dwType=${i}`)
+                        await $.wait(200)
+                        if (!res || res.iRet != 0) {
+                            break
+                        }
+                    } while (o < 20)
+                }
+            }
+        } catch (e) {
+            $.logErr(e);
+        } finally {
+            resolve();
+        }
+    })
+}
+
 
 // 建筑升级
 async function buildList() {
