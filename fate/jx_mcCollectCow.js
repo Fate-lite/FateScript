@@ -107,12 +107,21 @@ async function pasture() {
                     'max': false
                 }
             );
-            await $.wait(2000);
-            if ($.crowInfo.lastgettime) {
-                console.log('收奶牛金币');
-                await takeGetRequest('cow');
-                await $.wait(2000);
+            for (let i = 0; i < $.homeInfo.petinfo.length; i++) {
+                $.onepetInfo = $.homeInfo.petinfo[i];
+                $.petidList.push($.onepetInfo.petid);
+                if ($.onepetInfo.cangetborn === 1) {
+                    console.log(`开始收鸡蛋`);
+                    await takeGetRequest('GetEgg');
+                    await $.wait(1000);
+                }
             }
+            $.crowInfo = $.homeInfo.cow;
+        }
+        if ($.crowInfo.lastgettime) {
+            console.log('收奶牛金币');
+            await takeGetRequest('cow');
+            await $.wait(2000);
         }
     } catch (e) {
         $.logErr(e)
