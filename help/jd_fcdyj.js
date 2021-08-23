@@ -86,7 +86,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
         }
     }
 
-    for (let i = 0; i < cookiesArr.length && $.needhelp; i++) {
+    for (let i = cookiesArr.length -1 ; i >= 0 && $.needhelp; i--) {
         cookie = cookiesArr[i];
         if (cookie) {
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -95,15 +95,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
             $.message = `【京东账号${$.index}】${$.UserName}\n`
             console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
         }
-        //抽取一名幸运娃儿助力
-        if (helpAuthorFlag && helpAuthorInfo.length > 0) {
-            let authorList = getRandomArrayElements(helpAuthorInfo, 1);
-            let author = authorList[0];
-            console.log(`${$.UserName}给作者助力一次`)
-            await help(author.rid, author.inviter, $.helptype)
-            helpAuthorFlag = false;
-            await $.wait(1000)
-        }
+
         if ($.rid && $.inviter && $.needhelp) {
             await help($.rid, $.inviter, $.helptype)
         } else {
