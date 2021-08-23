@@ -95,7 +95,6 @@ const JD_API_HOST = `https://api.m.jd.com`;
             $.message = `【京东账号${$.index}】${$.UserName}\n`
             console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
         }
-
         if ($.rid && $.inviter && $.needhelp) {
             await help($.rid, $.inviter, $.helptype)
         } else {

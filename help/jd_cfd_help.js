@@ -87,7 +87,7 @@ $.appId = 10032;
     }else{
         $.InviteLists.push(...$.InviteList);
     }
-    for (let i = 0; i < cookiesArr.length; i++) {
+    for (let i = cookiesArr.length - 1; i >= 0 ; i--) {
         UA = `jdapp;iPhone;10.0.5;${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString(40)};`
         $.cookie = cookiesArr[i];
         $.canHelp = true;
