@@ -11,17 +11,17 @@
 ============Quantumultx===============
 [task_local]
 #母婴爱消除
-10 7,8 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jjd_xxl_my.js, tag=母婴爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xxl_gh.png, enabled=true
+10 1-23/4 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jjd_xxl_my.js, tag=母婴爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xxl_gh.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "10 7,8 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jjd_xxl_my.js,tag=母婴爱消除
+cron "10 1-23/4 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jjd_xxl_my.js,tag=母婴爱消除
 
 ===============Surge=================
-母婴爱消除 = type=cron,cronexp="10 7,8 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jjd_xxl_my.js
+母婴爱消除 = type=cron,cronexp="10 1-23/4 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jjd_xxl_my.js
 
 ============小火箭=========
-母婴爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jjd_xxl_my.js, cronexpr="10 7,8 * * *", timeout=200, enable=true
+母婴爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jjd_xxl_my.js, cronexpr="10 1-23/4 * * *", timeout=200, enable=true
 
  */
 const $ = new Env('母婴爱消除');
@@ -36,6 +36,7 @@ let cookiesArr = [], cookie = '', message;
 let inviteCodes = [
   '2867233@2117046@3756861@3087864@3844023@3844050@3284134@3844101@3844126@3869869@3912376@4030068@4189531',
 ]
+$.shareCodes = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -108,12 +109,12 @@ async function jdBeauty(help = true) {
   await getIsvToken2()
   await getActInfo()
   await getTaskList()
-  await getDailyMatch()
+  // await getDailyMatch()
   // await marketGoods()
   if(help)await helpFriends()
 }
 async function helpFriends() {
-  for (let code of $.newShareCodes) {
+  for (let code of $.shareCodes) {
     if (!code) continue
     console.log(`去助力好友${code}`)
     await getActInfo(code)
@@ -133,6 +134,7 @@ function getIsvToken() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             $.lkEPin = data.data.lkEPin;
+            $.lkToken = data.data.lkToken;
           }
         }
       } catch (e) {
@@ -171,12 +173,16 @@ function getActInfo(inviter=null) {
   let body = {
     "inviter": inviter,
     "activeId": ACT_ID,
-    "refid": "wojing",
     "lkEPin": $.lkEPin,
     "token": $.token,
-    "un_area": "12_904_908_57903",
-    "source": "wojing",
-    "scene": "3"
+    "lkToken": $.lkToken,
+    "lng": "103.981503",
+    "lat": "30.768354",
+    "sid": "09adc1afe148a27039f20df0e1e7c4ew",
+    "un_area": "19_1601_36953_50397",
+    "collectionId": "294",
+    "refid": "1",
+    "source": "1"
   }
   return new Promise(resolve => {
     $.post(taskUrl("platform/active/role/login", body), async (err, resp, data) => {
@@ -195,6 +201,7 @@ function getActInfo(inviter=null) {
               $.money = JSON.parse(data.info.platform)['money']
               console.log(`您的好友助力码为：${$.id}`)
               console.log(`当前星星：${$.money}`)
+              $.shareCodes.push($.id);
               // SecrectUtil2.InitEncryptInfo(data.token, data.info.pltId)
               await checkLogin()
             }
@@ -272,7 +279,7 @@ function getTaskList() {
                     while ($.strength >= 5 && $.level <= $.maxLevel) {
                       await beginLevel();
                       if (count++ > 10){
-                       break;
+                        break;
                       }
                     }
                     if($.not3Star.length && $.strength >= 5){
@@ -845,6 +852,9 @@ function jdUrl(functionId, body = '') {
     }
   }
 }
+
+
+
 function TotalBean() {
   return new Promise(async resolve => {
     const options = {
@@ -857,7 +867,7 @@ function TotalBean() {
         "Connection": "keep-alive",
         "Cookie": cookie,
         "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0") : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
       }
     }
     $.post(options, (err, resp, data) => {
@@ -872,7 +882,11 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            $.nickName = data['base'].nickname;
+            if (data['retcode'] === 0) {
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
+            } else {
+              $.nickName = $.UserName
+            }
           } else {
             console.log(`京东服务器返回空数据`)
           }
@@ -885,7 +899,6 @@ function TotalBean() {
     })
   })
 }
-
 //格式化助力码
 function shareCodesFormat() {
   return new Promise(async resolve => {

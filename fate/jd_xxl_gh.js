@@ -12,17 +12,17 @@
 ============Quantumultx===============
 [task_local]
 #个护爱消除
-20 7,8 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js, tag=个护爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xxl_gh.png, enabled=true
+30 1-23/4 * * * https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js, tag=个护爱消除, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_xxl_gh.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "20 7,8 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js,tag=个护爱消除
+cron "30 1-23/4 * * *" script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js,tag=个护爱消除
 
 ===============Surge=================
-个护爱消除 = type=cron,cronexp="20 7,8 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js
+个护爱消除 = type=cron,cronexp="30 1-23/4 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js
 
 ============小火箭=========
-个护爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js, cronexpr="20 7,8 * * *", timeout=200, enable=true
+个护爱消除 = type=cron,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_xxl_gh.js, cronexpr="30 1-23/4 * * *", timeout=200, enable=true
 
  */
 const $ = new Env('个护爱消除');
@@ -37,6 +37,7 @@ let cookiesArr = [], cookie = '', message;
 let inviteCodes = [
   '2867233@2117046@3756861@3087864@3844023@3844050@3284134@3844101@3844126@3869869@3912376@4030068@4189531',
 ]
+$.shareCodes = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -52,6 +53,8 @@ if ($.isNode()) {
   cookiesArr.reverse();
   cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
 }
+
+
 
 function obj2param(obj) {
   let str = "";
@@ -72,7 +75,7 @@ function obj2param(obj) {
   await requireConfig()
 
   $.shareCodesArr = []
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 24; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
@@ -97,12 +100,12 @@ function obj2param(obj) {
     }
   }
 })()
-  .catch((e) => {
-    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-  })
-  .finally(() => {
-    $.done();
-  })
+    .catch((e) => {
+      $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+    })
+    .finally(() => {
+      $.done();
+    })
 
 async function jdBeauty(help = true) {
   $.reqId = 1
@@ -110,12 +113,12 @@ async function jdBeauty(help = true) {
   await getIsvToken2()
   await getActInfo()
   await getTaskList()
-  await getDailyMatch()
+  //await getDailyMatch()
   // await marketGoods()
   if(help)await helpFriends()
 }
 async function helpFriends() {
-  for (let code of $.newShareCodes) {
+  for (let code of $.shareCodes) {
     if (!code) continue
     console.log(`去助力好友${code}`)
     await getActInfo(code)
@@ -135,6 +138,7 @@ function getIsvToken() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             $.lkEPin = data.data.lkEPin;
+            $.lkToken = data.data.lkToken;
           }
         }
       } catch (e) {
@@ -173,12 +177,16 @@ function getActInfo(inviter=null) {
   let body = {
     "inviter": inviter,
     "activeId": ACT_ID,
-    "refid": "wojing",
     "lkEPin": $.lkEPin,
     "token": $.token,
-    "un_area": "12_904_908_57903",
-    "source": "wojing",
-    "scene": "3"
+    "lkToken": $.lkToken,
+    "lng": "103.981503",
+    "lat": "30.768354",
+    "sid": "09adc1afe148a27039f20df0e1e7c4ew",
+    "un_area": "19_1601_36953_50397",
+    "collectionId": "294",
+    "refid": "1",
+    "source": "1"
   }
   return new Promise(resolve => {
     $.post(taskUrl("platform/active/role/login", body), async (err, resp, data) => {
@@ -197,6 +205,7 @@ function getActInfo(inviter=null) {
               $.money = JSON.parse(data.info.platform)['money']
               console.log(`您的好友助力码为：${$.id}`)
               console.log(`当前星星：${$.money}`)
+              $.shareCodes.push($.id);
               // SecrectUtil2.InitEncryptInfo(data.token, data.info.pltId)
               await checkLogin()
             }
@@ -253,132 +262,132 @@ function checkLogin() {
 function getTaskList() {
   return new Promise(resolve => {
     $.post(taskUrl("platform/active/jingdong/gametasks", {
-        "activeid": ACT_ID,
-        "id": $.id,
-        "token": $.gameToken,
-        "authcode": $.authcode,
-      }),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              for (let task of data.tasks) {
-                if (task.res.sName === "闯关集星") {
-                  $.level = task.state.value + 1
-                  console.log(`当前关卡：${$.level}`)
-                  let count = 0;
-                  while ($.strength >= 5 && $.level <= $.maxLevel) {
-                    await beginLevel();
-                    if (count++ > 10){
-                      break;
+          "activeid": ACT_ID,
+          "id": $.id,
+          "token": $.gameToken,
+          "authcode": $.authcode,
+        }),
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                for (let task of data.tasks) {
+                  if (task.res.sName === "闯关集星") {
+                    $.level = task.state.value + 1
+                    console.log(`当前关卡：${$.level}`)
+                    let count = 0;
+                    while ($.strength >= 5 && $.level <= $.maxLevel) {
+                      await beginLevel();
+                      if (count++ > 10){
+                        break;
+                      }
                     }
-                  }
-                  if($.not3Star.length && $.strength >= 5){
-                    console.log(`去完成尚未三星的关卡`)
-                    for(let level of $.not3Star){
-                      $.level = parseInt(level)
-                      await beginLevel()
-                      if($.strength<5) break
+                    if($.not3Star.length && $.strength >= 5){
+                      console.log(`去完成尚未三星的关卡`)
+                      for(let level of $.not3Star){
+                        $.level = parseInt(level)
+                        await beginLevel()
+                        if($.strength<5) break
+                      }
                     }
-                  }
-                } else if (task.res.sName === "逛逛店铺") {
-                  if (task.state.iFreshTimes < task.res.iFreshTimes)
-                    console.log(`去做${task.res.sName}任务`)
-                  for (let i = task.state.iFreshTimes; i < task.res.iFreshTimes; ++i) {
-                    await uploadTask(task.res.eType, task.res.iValue)
-                    await $.wait(500)
-                    await finishTask(task.res.sID)
-                  }
-                } else if (task.res.sName === "收藏商品") {
-                  if (task.state.iFreshTimes < task.res.iFreshTimes) {
-                    console.log(`去做${task.res.sName}任务`)
-                    let body = {
-                      "api": "followSku",
-                      "skuId": task.adInfo.sValue,
-                      "id": $.id,
-                      "activeid": ACT_ID,
-                      "activeId": ACT_ID,
-                      "authcode": $.authcode,
-                    }
-                    await execute(body)
-                    await $.wait(500)
-                    await finishTask(task.res.sID)
-                  }
-                } else if (task.res.sName === '加入会员') {
-                  continue
-                  if (!task.state.get) {
-                    console.log(`去做${task.res.sName}任务`)
-                    let body = {
-                      "api": "checkMember",
-                      "memberId": task.adInfo.sValue,
-                      "id": $.id,
-                      "activeid": ACT_ID,
-                      "activeId": ACT_ID,
-                      "authcode": $.authcode,
-                    }
-                    await execute(body)
-                    // await uploadTask(task.res.eType,task.res.iValue)
-                    await $.wait(500)
-                    await finishTask(task.res.sID)
-                  }
-                } else if (task.res.sName === '下单有礼') {
-                  // console.log(task)
-                } else if (task.res.sName === '商品加购') {
-                  for (let i = task.state.iFreshTimes; i < task.res.iFreshTimes; ++i) {
-                    console.log(`去做${task.res.sName}任务`)
-                    let body = {
-                      "api": "addProductToCart",
-                      "skuList": task.adInfo.sValue,
-                      "id": $.id,
-                      "activeid": ACT_ID,
-                      "activeId": ACT_ID,
-                      "authcode": $.authcode,
-                    }
-                    await execute(body)
-                    await $.wait(500)
-                    await finishTask(task.res.sID)
-                  }
-                } else if (task.res.sName === '关注店铺') {
-                  if (task.state.iFreshTimes < task.res.iFreshTimes)
-                    console.log(`去做${task.res.sName}任务`)
-                  for (let i = task.state.iFreshTimes; i < task.res.iFreshTimes; ++i) {
-                    let body = {
-                      "api": "followShop",
-                      "shopId": task.adInfo.sValue,
-                      "id": $.id,
-                      "activeid": ACT_ID,
-                      "activeId": ACT_ID,
-                      "authcode": $.authcode,
-                    }
-                    await execute(body)
-                    await $.wait(500)
-                    await finishTask(task.res.sID)
-                  }
-                } else if (task.res.sName === '喂养狗狗' || task.res.sName === '每日签到') {
-                  if (!task.state.get) {
+                  } else if (task.res.sName === "逛逛店铺") {
                     if (task.state.iFreshTimes < task.res.iFreshTimes)
                       console.log(`去做${task.res.sName}任务`)
-                    await uploadTask(task.res.eType, task.res.iValue)
-                    await $.wait(500)
+                    for (let i = task.state.iFreshTimes; i < task.res.iFreshTimes; ++i) {
+                      await uploadTask(task.res.eType, task.res.iValue)
+                      await $.wait(500)
+                      await finishTask(task.res.sID)
+                    }
+                  } else if (task.res.sName === "收藏商品") {
+                    if (task.state.iFreshTimes < task.res.iFreshTimes) {
+                      console.log(`去做${task.res.sName}任务`)
+                      let body = {
+                        "api": "followSku",
+                        "skuId": task.adInfo.sValue,
+                        "id": $.id,
+                        "activeid": ACT_ID,
+                        "activeId": ACT_ID,
+                        "authcode": $.authcode,
+                      }
+                      await execute(body)
+                      await $.wait(500)
+                      await finishTask(task.res.sID)
+                    }
+                  } else if (task.res.sName === '加入会员') {
+                    continue
+                    if (!task.state.get) {
+                      console.log(`去做${task.res.sName}任务`)
+                      let body = {
+                        "api": "checkMember",
+                        "memberId": task.adInfo.sValue,
+                        "id": $.id,
+                        "activeid": ACT_ID,
+                        "activeId": ACT_ID,
+                        "authcode": $.authcode,
+                      }
+                      await execute(body)
+                      // await uploadTask(task.res.eType,task.res.iValue)
+                      await $.wait(500)
+                      await finishTask(task.res.sID)
+                    }
+                  } else if (task.res.sName === '下单有礼') {
+                    // console.log(task)
+                  } else if (task.res.sName === '商品加购') {
+                    for (let i = task.state.iFreshTimes; i < task.res.iFreshTimes; ++i) {
+                      console.log(`去做${task.res.sName}任务`)
+                      let body = {
+                        "api": "addProductToCart",
+                        "skuList": task.adInfo.sValue,
+                        "id": $.id,
+                        "activeid": ACT_ID,
+                        "activeId": ACT_ID,
+                        "authcode": $.authcode,
+                      }
+                      await execute(body)
+                      await $.wait(500)
+                      await finishTask(task.res.sID)
+                    }
+                  } else if (task.res.sName === '关注店铺') {
+                    if (task.state.iFreshTimes < task.res.iFreshTimes)
+                      console.log(`去做${task.res.sName}任务`)
+                    for (let i = task.state.iFreshTimes; i < task.res.iFreshTimes; ++i) {
+                      let body = {
+                        "api": "followShop",
+                        "shopId": task.adInfo.sValue,
+                        "id": $.id,
+                        "activeid": ACT_ID,
+                        "activeId": ACT_ID,
+                        "authcode": $.authcode,
+                      }
+                      await execute(body)
+                      await $.wait(500)
+                      await finishTask(task.res.sID)
+                    }
+                  } else if (task.res.sName === '喂养狗狗' || task.res.sName === '每日签到') {
+                    if (!task.state.get) {
+                      if (task.state.iFreshTimes < task.res.iFreshTimes)
+                        console.log(`去做${task.res.sName}任务`)
+                      await uploadTask(task.res.eType, task.res.iValue)
+                      await $.wait(500)
+                      await finishTask(task.res.sID)
+                    }
+                  } else if(task.res.sName === '好友助力') {
+                    console.log(`去领取好友助力任务`)
                     await finishTask(task.res.sID)
                   }
-                } else if(task.res.sName === '好友助力') {
-                  console.log(`去领取好友助力任务`)
-                  await finishTask(task.res.sID)
                 }
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 
@@ -398,36 +407,36 @@ function beginLevel() {
   }
   return new Promise(resolve => {
     $.post(taskUrl("eliminate_jd/game/local/beginLevel", obj2param(body), true),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(resp)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              // console.log(data)
-              if (data.code === 0) {
-                console.log(`第${$.level}关卡开启成功，等待30秒完成`)
-                $.strength -= 5
-                await $.wait(30000)
-                await endLevel()
-              } else if (data.code === 20001) {
-                $.strength = 0
-                console.log(`关卡开启失败，体力不足`)
-              } else {
-                $.strength = 0
-                // console.log(`关卡开启失败，错误信息：${JSON.stringify(data)}`)
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(resp)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                // console.log(data)
+                if (data.code === 0) {
+                  console.log(`第${$.level}关卡开启成功，等待30秒完成`)
+                  $.strength -= 5
+                  await $.wait(30000)
+                  await endLevel()
+                } else if (data.code === 20001) {
+                  $.strength = 0
+                  console.log(`关卡开启失败，体力不足`)
+                } else {
+                  $.strength = 0
+                  // console.log(`关卡开启失败，错误信息：${JSON.stringify(data)}`)
+                }
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 
@@ -441,34 +450,34 @@ function endLevel() {
   }
   return new Promise(resolve => {
     $.post(taskUrl("eliminate_jd/game/local/endLevel", obj2param(body), true),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(resp)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              // console.log(data)
-              if (data.code === 0) {
-                const level = data.allLevels.filter(vo => parseInt(vo.id) === $.level)
-                if (level.length > 0) {
-                  console.log(`第${$.level++}关已通关，上报${level[0].maxScore}分，获得${level[0].maxStar}星星`)
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(resp)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                // console.log(data)
+                if (data.code === 0) {
+                  const level = data.allLevels.filter(vo => parseInt(vo.id) === $.level)
+                  if (level.length > 0) {
+                    console.log(`第${$.level++}关已通关，上报${level[0].maxScore}分，获得${level[0].maxStar}星星`)
+                  } else {
+                    console.log(`第${$.level}关分数上报失败，错误信息:${JSON.stringify(data)}`)
+                  }
                 } else {
                   console.log(`第${$.level}关分数上报失败，错误信息:${JSON.stringify(data)}`)
                 }
-              } else {
-                console.log(`第${$.level}关分数上报失败，错误信息:${JSON.stringify(data)}`)
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 
@@ -483,25 +492,25 @@ function uploadTask(taskType, value) {
   }
   return new Promise(resolve => {
     $.post(taskUrl("platform//role/base/uploadtask", body),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              if (data.code === 0) {
-                console.log('任务上报成功')
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                if (data.code === 0) {
+                  console.log('任务上报成功')
+                }
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 
@@ -517,64 +526,64 @@ function finishTask(taskId) {
   }
   return new Promise(resolve => {
     $.post(taskUrl("/platform/active/jingdong/finishtask", body),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              if (data.code === 0) {
-                let msg = `任务完成成功，获得`
-                for (let item of data.item) {
-                  if (item['itemid'] === 'JD01') {
-                    msg += ` 体力*${item['count']}`
-                  } else if (item['itemid'] === 'X028') {
-                    msg += ` 消消乐星星*${item['count']}`
-                  } else {
-                    msg += ` ${item['itemid']}*${item['count']}`
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                if (data.code === 0) {
+                  let msg = `任务完成成功，获得`
+                  for (let item of data.item) {
+                    if (item['itemid'] === 'JD01') {
+                      msg += ` 体力*${item['count']}`
+                    } else if (item['itemid'] === 'X028') {
+                      msg += ` 消消乐星星*${item['count']}`
+                    } else {
+                      msg += ` ${item['itemid']}*${item['count']}`
+                    }
                   }
+                  console.log(msg)
+                } else {
+                  console.log(`暂无每日挑战任务`)
                 }
-                console.log(msg)
-              } else {
-                console.log(`暂无每日挑战任务`)
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 
 function execute(body) {
   return new Promise(resolve => {
     $.post(taskUrl("/platform/active/jingdong/execute", body),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              if (data.code === 0) {
-                console.log('任务上报成功')
-              } else {
-                console.log(`任务上报失败，错误信息：${JSON.stringify(data)}`)
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                if (data.code === 0) {
+                  console.log('任务上报成功')
+                } else {
+                  console.log(`任务上报失败，错误信息：${JSON.stringify(data)}`)
+                }
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 
@@ -586,36 +595,37 @@ function getDailyMatch() {
   }
   return new Promise(resolve => {
     $.post(taskUrl("eliminate_jd/game/local/getDailyMatch", obj2param(body), true),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(resp)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              // console.log(data)
-              if (data.code === 0) {
-                // console.log(data)
-                $.maxScore = parseInt(data.dailyMatchList[data.dailyMatchList.length - 1]['sScore'])
-                if (data.dayInfo.score >= $.maxScore && data.dayInfo.boxAwardIndex < 2) {
-                  await getDailyMatchAward()
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(resp)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                console.log(data)
+                data = JSON.parse(data)
+
+                if (data.code === 0) {
+                  console.log(data)
+                  $.maxScore = parseInt(data.dailyMatchList[data.dailyMatchList.length - 1]['sScore'])
+                  if (data.dayInfo.score >= $.maxScore && data.dayInfo.boxAwardIndex < 2) {
+                    await getDailyMatchAward()
+                  }
+                  if (data.dayInfo.dayPlayNums < 2) {
+                    await beginDailyMatch()
+                  }
+                } else {
+                  console.log(`关卡开启失败，错误信息：${JSON.stringify(data)}`)
                 }
-                if (data.dayInfo.dayPlayNums < 2) {
-                  await beginDailyMatch()
-                }
-              } else {
-                console.log(`关卡开启失败，错误信息：${JSON.stringify(data)}`)
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 
@@ -628,32 +638,32 @@ function beginDailyMatch() {
   }
   return new Promise(resolve => {
     $.post(taskUrl("eliminate_jd/game/local/beginDailyMatch", obj2param(body), true),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(resp)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              // console.log(data)
-              if (data.code === 0) {
-                console.log(`每日挑战开启成功，本日挑战次数${data.dayInfo.dayPlayNums}/2`)
-                $.curLevel = data.dayInfo.curLevel
-                await $.wait(30000)
-                await endDailyMatch()
-              } else {
-                console.log(`每日挑战开启失败，错误信息：${JSON.stringify(data)}`)
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(resp)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                console.log(data)
+                if (data.code === 0) {
+                  console.log(`每日挑战开启成功，本日挑战次数${data.dayInfo.dayPlayNums}/2`)
+                  $.curLevel = data.dayInfo.curLevel
+                  await $.wait(30000)
+                  await endDailyMatch()
+                } else {
+                  console.log(`每日挑战开启失败，错误信息：${JSON.stringify(data)}`)
+                }
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 
@@ -667,29 +677,29 @@ function endDailyMatch() {
   }
   return new Promise(resolve => {
     $.post(taskUrl("eliminate_jd/game/local/endDailyMatch", obj2param(body), true),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(resp)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              // console.log(data)
-              if (data.code === 0) {
-                console.log(`每日挑战完成成功，本日分数${data.dayInfo.score}`)
-              } else {
-                console.log(`每日挑战完成失败，错误信息：${JSON.stringify(data)}`)
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(resp)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                // console.log(data)
+                if (data.code === 0) {
+                  console.log(`每日挑战完成成功，本日分数${data.dayInfo.score}`)
+                } else {
+                  console.log(`每日挑战完成失败，错误信息：${JSON.stringify(data)}`)
+                }
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 
@@ -701,29 +711,29 @@ function getDailyMatchAward() {
   }
   return new Promise(resolve => {
     $.post(taskUrl("eliminate_jd/game/local/getDailyMatchAward", obj2param(body), true),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(resp)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              // console.log(data)
-              if (data.code === 0) {
-                console.log(`每日挑战领取成功，获得${data.reward[0] === '11001' ? '消消乐星星' : '未知道具'}*${data.reward[1]}`)
-              } else {
-                console.log(`每日挑战领取失败，错误信息：${JSON.stringify(data)}`)
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(resp)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                // console.log(data)
+                if (data.code === 0) {
+                  console.log(`每日挑战领取成功，获得${data.reward[0] === '11001' ? '消消乐星星' : '未知道具'}*${data.reward[1]}`)
+                } else {
+                  console.log(`每日挑战领取失败，错误信息：${JSON.stringify(data)}`)
+                }
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 function marketGoods() {
@@ -736,34 +746,34 @@ function marketGoods() {
   }
   return new Promise(resolve => {
     $.post(taskUrl("/platform/active/role/marketgoods", body),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              if (data.code === 0) {
-                for (let vo of data.list) {
-                  if (vo.name === exchangeName) {
-                    let cond = vo['res']['asConsume'][0].split(',')
-                    if (vo['left'] === 1 && vo['count'] !== 0 && cond[0] === 'X028' && parseInt(cond[1]) <= $.money) {
-                      await buyGood(vo['res']['sID'])
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                if (data.code === 0) {
+                  for (let vo of data.list) {
+                    if (vo.name === exchangeName) {
+                      let cond = vo['res']['asConsume'][0].split(',')
+                      if (vo['left'] === 1 && vo['count'] !== 0 && cond[0] === 'X028' && parseInt(cond[1]) <= $.money) {
+                        await buyGood(vo['res']['sID'])
+                      }
                     }
                   }
+                } else {
+                  console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
                 }
-              } else {
-                console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 
@@ -778,27 +788,27 @@ function buyGood(consumeid) {
   }
   return new Promise(resolve => {
     $.post(taskUrl("/platform/active/role/marketbuy", body),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${err}`)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data)
-              if (data.code === 0) {
-                console.log(`商品兑换成功，获得${data.item[0].itemid === 'JD29' ? '京豆' : '未知奖品'} * ${data.item[0].count}`)
-              } else {
-                console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
+        async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${err}`)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data)
+                if (data.code === 0) {
+                  console.log(`商品兑换成功，获得${data.item[0].itemid === 'JD29' ? '京豆' : '未知奖品'} * ${data.item[0].count}`)
+                } else {
+                  console.log(`任务完成失败，错误信息：${JSON.stringify(data)}`)
+                }
               }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
+        })
   })
 }
 function taskUrl(functionId, body = {}, decrypt = false) {
@@ -827,9 +837,9 @@ function getDailyReward() {
     'Cookie': cookie
   };
   let body =
-    {"platform":1,"unionActId":"31125","actId":"8mCuSXtK1MgxzDTbJEPtYU1AchA","unionShareId":"","type":1,"eid":"DPIFTWTK6N7EEVHNJW3JW7PZDALZNTODNUBBYWQBAYXPAJCH7AMIUEGY7LVCWCRILXXEYOAM5DXZJKY5Y5AZNHQFJI"}
+      {"platform":1,"unionActId":"31125","actId":"8mCuSXtK1MgxzDTbJEPtYU1AchA","unionShareId":"","type":1,"eid":"DPIFTWTK6N7EEVHNJW3JW7PZDALZNTODNUBBYWQBAYXPAJCH7AMIUEGY7LVCWCRILXXEYOAM5DXZJKY5Y5AZNHQFJI"}
   $.get({url:
-      `https://api.m.jd.com/api?functionId=getCoupons&appid=u&_=${new Date().getTime()}&loginType=2&body=${escape(JSON.stringify(body))}&client=wh5&clientVersion=1.0.0`,
+        `https://api.m.jd.com/api?functionId=getCoupons&appid=u&_=${new Date().getTime()}&loginType=2&body=${escape(JSON.stringify(body))}&client=wh5&clientVersion=1.0.0`,
     headers: headers},(err,resp,data)=>{
     console.log(data)
   })
@@ -860,7 +870,7 @@ function TotalBean() {
         "Connection": "keep-alive",
         "Cookie": cookie,
         "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0") : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
       }
     }
     $.post(options, (err, resp, data) => {
@@ -875,7 +885,11 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            $.nickName = data['base'].nickname;
+            if (data['retcode'] === 0) {
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
+            } else {
+              $.nickName = $.UserName
+            }
           } else {
             console.log(`京东服务器返回空数据`)
           }
