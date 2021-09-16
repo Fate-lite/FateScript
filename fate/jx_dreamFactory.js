@@ -124,10 +124,7 @@ async function jdDreamFactory() {
 // 收取发电机的电力
 function collectElectricity(facId = $.factoryId, help = false, master) {
     return new Promise(async resolve => {
-        // let url = `/dreamfactory/generator/CollectCurrentElectricity?zone=dream_factory&apptoken=&pgtimestamp=&phoneID=&factoryid=${facId}&doubleflag=1&sceneval=2&g_login_type=1`;
-        // if (help && master) {
-        //   url = `/dreamfactory/generator/CollectCurrentElectricity?zone=dream_factory&factoryid=${facId}&master=${master}&sceneval=2&g_login_type=1`;
-        // }
+
         let body = `factoryid=${facId}&apptoken=&pgtimestamp=&phoneID=&doubleflag=1`;
         if (help && master) {
             body += `factoryid=${facId}&master=${master}`;
