@@ -42,6 +42,7 @@ let tuanActiveId = ``, hasSend = false;
 const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://wqsd.jd.com/pingou/dream_factory/index.html%22%20%7D`;
 let cookiesArr = [], cookie = '', message = '', allMessage = '';
 const inviteCodes = ['Gskrh9hZJN5MJBkCIrN2eQ==@5SY_XijoPDoVPKAzab3tRA==@87tEu9tp4_e9EUmE3f63Eg=='];
+$.newShareCodes = []
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.tuanIds = [];
 $.appId = 10001;
@@ -89,29 +90,6 @@ if ($.isNode()) {
             await jdDreamFactory()
         }
     }
-    for (let i = 0; i < cookiesArr.length; i++) {
-        if (cookiesArr[i]) {
-            cookie = cookiesArr[i];
-            $.isLogin = true;
-            $.canHelp = true;//能否参团
-            await TotalBean();
-            if (!$.isLogin) {
-                continue
-            }
-            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-
-            if ((cookiesArr && cookiesArr.length >= ($.tuanNum || 5)) && $.canHelp) {
-                console.log(`\n账号${$.UserName} 内部相互进团\n`);
-                for (let item of $.tuanIds) {
-                    console.log(`\n${$.UserName} 去参加团 ${item}`);
-                    if (!$.canHelp) break;
-                    await JoinTuan(item);
-                    await $.wait(1000);
-                }
-            }
-            // if ($.canHelp) await joinLeaderTuan();//参团
-        }
-    }
     if ($.isNode() && allMessage) {
         await notify.sendNotify(`${$.name}`, `${allMessage}`, { url: jxOpenUrl })
     }
@@ -127,10 +105,8 @@ async function jdDreamFactory() {
     try {
         await userInfo();
         await QueryFriendList();//查询今日招工情况以及剩余助力次数
-        // await joinLeaderTuan();//参团
         await helpFriends();
         if (!$.unActive) return
-        // await collectElectricity()
         await getUserElectricity();
         await taskList();
         await investElectric();
@@ -590,6 +566,9 @@ function userInfo() {
                                 console.log(`当前电力：${data.user.electric}`)
                                 console.log(`当前等级：${data.user.currentLevel}`)
                                 console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.user.encryptPin}`);
+                                if ($.index < 15){
+                                    $.newShareCodes.push(data.user.encryptPin);
+                                }
                                 console.log(`已投入电力：${production.investedElectric}`);
                                 console.log(`所需电力：${production.needElectric}`);
                                 console.log(`生产进度：${((production.investedElectric / production.needElectric) * 100).toFixed(2)}%`);
@@ -1324,25 +1303,25 @@ function readShareCode() {
     })
 }
 //格式化助力码
-function shareCodesFormat() {
-    return new Promise(async resolve => {
-        // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
-        $.newShareCodes = [];
-        if ($.shareCodesArr[$.index - 1]) {
-            $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
-        } else {
-            console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-            const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-            $.newShareCodes = inviteCodes[tempIndex].split('@');
-        }
-        // const readShareCodeRes = await readShareCode();
-        // if (readShareCodeRes && readShareCodeRes.code === 200) {
-        //     $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-        // }
-        console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
-        resolve();
-    })
-}
+// function shareCodesFormat() {
+//     return new Promise(async resolve => {
+//         // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
+//         $.newShareCodes = [];
+//         if ($.shareCodesArr[$.index - 1]) {
+//             $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
+//         } else {
+//             console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+//             const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
+//             $.newShareCodes = inviteCodes[tempIndex].split('@');
+//         }
+//         // const readShareCodeRes = await readShareCode();
+//         // if (readShareCodeRes && readShareCodeRes.code === 200) {
+//         //     $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+//         // }
+//         console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
+//         resolve();
+//     })
+// }
 function requireConfig() {
     return new Promise(async resolve => {
         tuanActiveId = $.isNode() ? (process.env.TUAN_ACTIVEID || tuanActiveId) : ($.getdata('tuanActiveId') || tuanActiveId);
