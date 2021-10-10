@@ -1,6 +1,6 @@
 /*
 京喜财富岛合成月饼
-cron 1 * * * * jx_makecake.js
+cron 1 * * * * jx_cfd_makecake.js
 更新时间：2021-9-11
 活动入口：京喜APP-我的-京喜财富岛
 
@@ -67,7 +67,7 @@ $.appId = 10028;
         res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/cfd.json')
     }
     $.strMyShareIds = []
-    for (let i = 0; i < cookiesArr.length; i++) {
+    for (let i = 0; i < 5; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -94,7 +94,7 @@ $.appId = 10028;
             UAInfo[$.UserName] = UA
         }
     }
-    for (let i = cookiesArr - 1; i >= 0; i--) {
+    for (let i = cookiesArr.length - 1; i >= 0; i--) {
         cookie = cookiesArr[i];
         $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
         $.canHelp = true
