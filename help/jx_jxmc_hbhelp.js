@@ -61,9 +61,9 @@ let token ='';
     }
     console.log('\n##################开始账号内互助(红包)#################\n');
     $.inviteCodeList_hb = [...($.inviteCodeList_hb || []), ...($.shareCode || [])]
-    for(let i = $.helpCkList.length - 1;i >= 0;i--){
+    for(let i = $.cookiesArr.length - 1;i >= 0;i--){
         $.can_help = true
-        $.cookie = $.helpCkList[i]
+        $.cookie = cookiesArr[i];
         token = await getJxToken()
         $.UserName = decodeURIComponent($.cookie.match(/pt_pin=(.+?);/) && $.cookie.match(/pt_pin=(.+?);/)[1])
         for (let j = 0; j < $.inviteCodeList_hb.length && $.can_help; j++) {
