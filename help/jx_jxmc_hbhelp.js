@@ -178,6 +178,7 @@ async function pasture() {
             }
             $.crowInfo = $.homeInfo.cow;
         }
+        await takeGetRequest('GetInviteStatus')
     } catch (e) {
         $.logErr(e)
     }
