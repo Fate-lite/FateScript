@@ -67,7 +67,7 @@ $.appId = 10028;
         res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/cfd.json')
     }
     $.strMyShareIds = []
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -136,26 +136,6 @@ async function cfd() {
                 return
             }
         }
-
-        // //抽奖
-        // await $.wait(2000)
-        // await composePearlState(4)
-        //
-        // //助力奖励
-        // await $.wait(2000)
-        // await composePearlState(2)
-        //
-        // //合成月饼
-        // let count = $.isNode() ? (process.env.JD_CFD_RUNNUM ? process.env.JD_CFD_RUNNUM * 1 : Math.floor((Math.random() * 2)) + 3) : ($.getdata('JD_CFD_RUNNUM') ? $.getdata('JD_CFD_RUNNUM') * 1 : Math.floor((Math.random() * 2)) + 3);
-        // console.log(`\n合成月饼`)
-        // console.log(`合成月饼运行次数为：${count}\n`)
-        // let num = 0
-        // do {
-        //     await $.wait(2000)
-        //     await composePearlState(3)
-        //     num++
-        // } while (!$.stop && num < count)
-
     } catch (e) {
         $.logErr(e)
     }
@@ -486,7 +466,9 @@ function getUserInfo(showInvite = true) {
                     if (showInvite && strMyShareId) {
                         console.log(`财富岛好友互助码每次运行都变化,旧的可继续使用`);
                         console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}\n\n`);
-                        $.shareCodes.push(strMyShareId)
+                        if($.index < 5){
+                            $.shareCodes.push(strMyShareId)
+                        }
                     }
                     $.info = {
                         ...$.info,
