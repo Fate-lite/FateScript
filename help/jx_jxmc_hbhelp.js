@@ -62,7 +62,7 @@ let token ='';
     console.log('\n##################开始账号内互助(红包)#################\n');
     // await getShareCode('jxmc_hb.json')
     $.inviteCodeList_hb = [...($.inviteCodeList_hb || []), ...($.shareCode || [])]
-    for(let i = cookiesArr.length ;i >= 0; i--){
+    for(let i = cookiesArr.length - 1;i >= 0; i--){
         $.can_help = true
         $.cookie = cookiesArr[i];
         token = await getJxToken()
