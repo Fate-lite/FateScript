@@ -58,7 +58,7 @@ $.appId = 10028;
     $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
     await requestAlgo();
     await $.wait(1000)
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -1126,7 +1126,10 @@ function getUserInfo(showInvite = true) {
                         console.log(`财富岛好友互助码每次运行都变化,旧的当天有效`);
                         console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}`);
                         $.shareCodes.push(strMyShareId)
-                        await uploadShareCode(strMyShareId, $.UserName)
+                        if ($.index < 6){
+                            await uploadShareCode(strMyShareId, $.UserName)
+                        }
+
                     }
                     $.info = {
                         ...$.info,
