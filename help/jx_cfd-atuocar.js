@@ -1,6 +1,6 @@
 /*
 京喜财富岛
-cron 0,1 * * * * jd_cfd.js
+cron 1 1,2 0 * * * jx_cfd-atuocar.js
 更新时间：2021-9-11
 活动入口：京喜APP-我的-京喜财富岛
 
@@ -9,7 +9,7 @@ cron 0,1 * * * * jd_cfd.js
 ============Quantumultx===============
 [task_local]
 #京喜财富岛
-1 * * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_cfd.js, tag=京喜财富岛, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jxcfd.png, enabled=true
+ 1 * * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_cfd.js, tag=京喜财富岛, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jxcfd.png, enabled=true
 
 ================Loon==============
 [Script]
