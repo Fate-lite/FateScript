@@ -1,7 +1,7 @@
 /**
  * 京喜app->领88元红包
  * 先内部，后助力HW.ts
- * cron: 5 0,6,18 * * *
+ * cron: 5 2-16 * * *
  */
 
 import {requireConfig, wait, h5st, getBeanShareCode, getFarmShareCode} from "./TS_USER_AGENTS";
