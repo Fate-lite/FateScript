@@ -23,7 +23,7 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
     }
     let except: string[] = exceptCookie(path.basename(__filename));
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 15; i++) {
         cookie = cookiesArr[i];
         UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)![1])
         index = i + 1;
