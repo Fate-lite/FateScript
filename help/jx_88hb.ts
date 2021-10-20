@@ -157,10 +157,7 @@ async function makeShareCodes(code: string) {
     let bean: string = await getBeanShareCode(cookie)
     let farm: string = await getFarmShareCode(cookie)
     let pin: string = cookie.match(/pt_pin=([^;]*)/)![1]
-    console.log(pin)
     pin = Md5.hashStr(pin)
-    console.log(pin)
-    console.log(code +','+ bean +','+ farm)
     try {
         let {data}: any = await axios.get(`https://api.jdsharecode.xyz/api/autoInsert/hb88?sharecode=${code}&bean=${bean}&farm=${farm}&pin=${pin}`, {timeout: 10000})
         if (data.code === 200)
