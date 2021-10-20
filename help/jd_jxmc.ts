@@ -1,6 +1,6 @@
 /**
  * 京喜牧场
- * cron: 0 0,1 * * *
+ * cron: 15 2-15 * * *
  */
 
 import axios from 'axios';
