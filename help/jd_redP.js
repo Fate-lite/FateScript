@@ -11,7 +11,7 @@ Last Modified time: 2021-05-19 16:27:18
 0 0,2,18 * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_redP.js, tag=京东全民开红包, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
 ===================Loon==============
 [Script]
-cron "1 0,2,18 * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_redP.js, tag=京东全民开红包
+cron "0 0,2,18 * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_redP.js, tag=京东全民开红包
 ===============Surge===============
 [Script]
 京东全民开红包 = type=cron,cronexp="1 0,2,18 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_redP.js
