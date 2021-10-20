@@ -71,7 +71,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
         }
         await $.wait(2000)
     }
-    for (let i = 0; i < cookiesArr.length; i++) {
+    for (let i = cookiesArr.length - 1; i >= 0; i--) {
         cookie = cookiesArr[i];
         $.index = i + 1;
         $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -79,7 +79,6 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
         $.redPacketId = [...new Set($.redPacketId)];
         if (!isLoginInfo[$.UserName]) continue
         if (cookiesArr && cookiesArr.length >= 2) {
-            // let codes = await getShareCodes();
             console.log(`\n\n自己账号内部互助`);
             for (let j = 0; j < $.redPacketId.length && $.canHelp; j++) {
                 console.log(`账号 ${$.index} ${$.UserName} 开始给 ${$.redPacketId[j]} 进行助力`)
@@ -263,7 +262,7 @@ async function red() {
         console.log(`\n${$.h5activityIndex.data.biz_msg}\n`);
     }
 }
-
+// 提交助力码
 function makeShareCodes(redPacketId) {
     return new Promise(resolve => {
         let pin = cookie.match(/pt_pin=([^;]*)/)[1]
@@ -458,7 +457,7 @@ function jinli_h5assist(redPacketId) {
                     if (data && data.data && data.data.biz_code === 0) {
                         // status ,0:助力成功，1:不能重复助力，3:助力次数耗尽，8:不能为自己助力
                         console.log(`助力结果：${data.data.result.statusDesc}`)
-                        // if (data.data.result.status === 2) $.max = true;
+                        if (data.data.result.status === 2) $.max = true;
                         if (data.data.result.status === 3) $.canHelp = false;
                         if (data.data.result.status === 9) $.canHelp = false;
                     } else {
@@ -515,7 +514,7 @@ function h5launch() {
                     if (data && data.data && data.data.biz_code === 0) {
                         if (data.data.result.redPacketId) {
                             console.log(`\n\n发起助力红包 成功：红包ID ${data.data.result.redPacketId}`)
-                            $.redPacketId.push();
+                            $.redPacketId.push(data.data.result.redPacketId);
                             $.redPacketIdNew = data.data.result.redPacketId;
                         } else {
                             console.log(`\n\n发起助力红包 失败：${data.data.result.statusDesc}`)

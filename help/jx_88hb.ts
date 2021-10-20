@@ -36,12 +36,12 @@ let shareCodesSelf: string[] = [], shareCodes: string[] = [], shareCodesHW: stri
 
     console.log('内部助力码：', shareCodesSelf)
 
-    for (let i = 0; i < cookiesArr.length; i++) {
+    for (let i = cookiesArr.length - 1; i >= 0; i--) {
         cookie = cookiesArr[i];
         UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)![1])
 
-        await getCodesHW()
-        shareCodes = Array.from(new Set([...shareCodesSelf, ...shareCodesHW]))
+        // await getCodesHW()
+        shareCodes = Array.from(new Set([...shareCodesSelf]))
         if (shareCodesHW.length !== 0) {
             console.log('获取随机助力码')
             res = await getCodesPool();

@@ -79,7 +79,7 @@ $.appId = 10032;
     $.InviteLists = []
     let getShareNum = 10
     let getShareNums = 0
-
+    $.InviteLists.push(...$.InviteList);
     for (let i = cookiesArr.length - 1; i >= 0 ; i--) {
         UA = `jdapp;iPhone;10.0.5;${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString(40)};`
         $.cookie = cookiesArr[i];
@@ -105,7 +105,7 @@ $.appId = 10032;
         }
         $.InviteLists = []
         $.innerInviteLists = getRandomArrayElements([...res, ...res2], [...res, ...res2].length >= getShareNum ? getShareNum : [...res, ...res2].length );
-        $.InviteLists.push(...$.InviteList,...$.innerInviteList,...$.innerInviteLists);
+        $.InviteLists.push(...$.InviteList);
     }
 })()
     .catch((e) => {
