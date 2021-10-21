@@ -58,11 +58,13 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
         let coins = homePageInfo.data.coins;
 
         console.log('助力码:', homePageInfo.data.sharekey);
-        shareCodesSelf.push(homePageInfo.data.sharekey);
-        try {
-            await makeShareCodes(homePageInfo.data.sharekey);
-        } catch (e: any) {
-            console.log(e)
+        if (homePageInfo.data.sharekey != undefined){
+            shareCodesSelf.push(homePageInfo.data.sharekey);
+            try {
+                await makeShareCodes(homePageInfo.data.sharekey);
+            } catch (e: any) {
+                console.log(e)
+            }
         }
 
         console.log('现有草:', food);
@@ -71,10 +73,12 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
         // 红包
         res = await api('operservice/GetInviteStatus', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')
         console.log('红包助力:', res.data.sharekey)
-        shareCodesHbSelf.push(res.data.sharekey)
-        try {
-            await makeShareCodesHb(res.data.sharekey)
-        } catch (e: any) {
+        if (res.data.sharekey != undefined){
+            shareCodesHbSelf.push(res.data.sharekey)
+            try {
+                await makeShareCodesHb(res.data.sharekey)
+            } catch (e: any) {
+            }
         }
 
         // 收牛牛

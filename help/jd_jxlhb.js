@@ -29,8 +29,8 @@ if ($.isNode()) {
   cookiesArr = [$.getdata("CookieJD"), $.getdata("CookieJD2"), ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
 $.packetIdArr = [];
-$.activeId = '489177';
-const BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
+$.activeId = '525597';
+const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
 
 
 !(async () => {
@@ -284,34 +284,56 @@ function getAuthorShareCode(url) {
   })
 }
 
+// function taskurl(function_path, body = '', stk) {
+//   let url = `${BASE_URL}/${function_path}?activeId=${$.activeId}&publishFlag=1&channel=7&${body}&sceneval=2&g_login_type=1&timestamp=${Date.now()}&_=${Date.now() + 2}&_ste=1`
+//   const deviceId = `${
+//       Math.random().toString(36).slice(2, 10) +
+//       Math.random().toString(36).slice(2, 10) +
+//       Math.random().toString(36).slice(2, 10) +
+//       Math.random().toString(36).slice(2, 10) +
+//       Math.random().toString(36).slice(2, 10)
+//   }`
+//   url += `&phoneid=${deviceId}`
+//   url += `&stepreward_jstoken=${
+//       Math.random().toString(36).slice(2, 10) +
+//       Math.random().toString(36).slice(2, 10) +
+//       Math.random().toString(36).slice(2, 10) +
+//       Math.random().toString(36).slice(2, 10)
+//   }`
+//   if (stk) {
+//     url += '&_stk=' + encodeURIComponent(stk)
+//   }
+//   return {
+//     'url': url,
+//     'headers': {
+//       'Host': 'm.jingxi.com',
+//       'Cookie': cookie,
+//       'accept': "*/*",
+//       'user-agent': `jdpingou;iPhone;4.8.2;14.5.1;${deviceId};network/wifi;model/iPhone13,4;appBuild/100546;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/318;pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`,
+//       'accept-language': 'zh-cn',
+//       'referer': `https://wqactive.jd.com/cube/front/activePublish/step_reward/${$.activeId}.html?aid=${$.activeId}`
+//     }
+//   }
+// }
+
+
 function taskurl(function_path, body = '', stk) {
-  let url = `${BASE_URL}/${function_path}?activeId=${$.activeId}&publishFlag=1&channel=7&${body}&sceneval=2&g_login_type=1&timestamp=${Date.now()}&_=${Date.now() + 2}&_ste=1`
-  const deviceId = `${
-      Math.random().toString(36).slice(2, 10) +
-      Math.random().toString(36).slice(2, 10) +
-      Math.random().toString(36).slice(2, 10) +
-      Math.random().toString(36).slice(2, 10) +
-      Math.random().toString(36).slice(2, 10)
-  }`
-  url += `&phoneid=${deviceId}`
-  url += `&stepreward_jstoken=${
-      Math.random().toString(36).slice(2, 10) +
-      Math.random().toString(36).slice(2, 10) +
-      Math.random().toString(36).slice(2, 10) +
-      Math.random().toString(36).slice(2, 10)
-  }`
+  let url = `${BASE_URL}/${function_path}?activeId=${$.activeId}&publishFlag=1&channel=7&${body}&sceneval=2&g_login_type=1&timestamp=${token['timestamp']}&_=${Date.now() + 2}&_ste=1`
+  url += `&phoneid=${token['phoneid']}`
+  url += `&stepreward_jstoken=${token['farm_jstoken']}`
   if (stk) {
     url += '&_stk=' + encodeURIComponent(stk)
   }
   return {
-    'url': url,
-    'headers': {
-      'Host': 'wq.jd.com',
+    url: url,
+    headers: {
+      'Host': 'm.jingxi.com',
       'Cookie': cookie,
-      'accept': "*/*",
-      'user-agent': `jdpingou;iPhone;4.8.2;14.5.1;${deviceId};network/wifi;model/iPhone13,4;appBuild/100546;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/318;pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`,
-      'accept-language': 'zh-cn',
-      'referer': `https://wqactive.jd.com/cube/front/activePublish/step_reward/${$.activeId}.html?aid=${$.activeId}`
+      'Accept': "*/*",
+      'Accept-Encoding': 'gzip, deflate, br',
+      'User-Agent': 'jdpingou;android;5.6.2;9;c4f73e23c80b5751;network/wifi;model/MI 6;appBuild/18780;partner/xiaomi;;session/360;aid/c4f73e23c80b5751;oaid/8076701e352fd2fa;pap/JA2019_3111789;brand/Xiaomi;eu/3643667333562333;fv/3683032653735313;Mozilla/5.0 (Linux; Android 9; MI 6 Build/PKQ1.190118.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/80.0.3987.99 Mobile Safari/537.36',
+      'Accept-Language': 'zh-cn',
+      'Referer': `https://act.jingxi.com/cube/front/activePublish/step_reward/${$.activeId}.html`
     }
   }
 }
