@@ -19,7 +19,7 @@ if ($.isNode()) {
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let inviteCodes = [
     'ZXASTT020vPl6RxgY9lPKIxrynfcPFjRWn6u7zB55awQ',
-    'ZXASTT0225KkcRx8a8VTUIhOmnKRYJQFjRWn6u7zB55awQ',
+    'ZXASTT019-aklHGZslhGoXE-855cFjRWn6u7zB55awQ',
 ]
 $.shareCodesArr = [];
 
@@ -28,7 +28,6 @@ $.shareCodesArr = [];
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
         return;
     }
-
     $.inviteIdCodesArr = {}
     for (let i = 0; i < cookiesArr.length && true; i++) {
         if (cookiesArr[i]) {
@@ -47,7 +46,7 @@ $.shareCodesArr = [];
             $.nickName = '';
             message = '';
             console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-            await shareCodesFormat()
+            // await shareCodesFormat()
             for (let i = 0; i < inviteIdSelf.length && true; ++i) {
                 console.log(`\n开始助力 【${inviteIdSelf[i]}】`)
                 let res = await getInfo(inviteIdSelf[i])
@@ -62,12 +61,12 @@ $.shareCodesArr = [];
                 }
                 if ((res && res['status'] && res['status'] === '3') || (res && res.data && res.data.bizCode === -11)) {
                     // 助力次数耗尽 || 黑号
+                    console.log("退出")
                     break
                 }
             }
             try {
                 await get_secretp()
-
                 do {
                     var conti = false
                     await travel_collectAtuoScore()
@@ -77,7 +76,6 @@ $.shareCodesArr = [];
                         if (res.lotteryTaskVos[0].badgeAwardVos[p].status==3){
                             await travel_getBadgeAward(res.lotteryTaskVos[0].badgeAwardVos[p].awardToken)
                         }
-
                     }
                     let task =[]
                     let r=[]
@@ -152,13 +150,10 @@ $.shareCodesArr = [];
                     }
                     await $.wait(1000)
                 } while(conti)
-
-
                 await travel_sign()
                 do {
                     var ret = await travel_raise()
                 }while(ret)
-                console.log(`\n\n助力码：${res.inviteId}\n`)
             }catch(e){
                 $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
             }
@@ -323,7 +318,7 @@ function travel_getTaskDetail(){
                                     resolve("")
                                 }else {
                                     console.log(`\n\n助力码：${data.data.result.inviteId}\n`)
-                                    if ($.inviteId < 15) {
+                                    if ($.index < 15) {
                                         inviteIdSelf.push(data.data.result.inviteId)
                                     }
                                     resolve(data.data.result)
