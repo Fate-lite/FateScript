@@ -37,7 +37,7 @@ let inviteCodes = []
     } else {
         console.log(`脚本不会自动抽奖，建议活动快结束开启，默认关闭(在10.29日自动开启抽奖),如需自动抽奖请设置环境变量  JD_CITY_EXCHANGE 为true`);
     }
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 5; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -83,62 +83,6 @@ let inviteCodes = []
             await $.wait(1000)
         }
     }
-    // await shareCodesFormat()
-    // for (let i = 0; i < cookiesArr.length; i++) {
-    //     cookie = cookiesArr[i];
-    //     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-    //     $.index = i + 1;
-    //     uuid = randomString(40)
-    //     if (i === 0) {
-    //         for (let j = 0; j < $.readShareCode.length; j++) {
-    //             console.log(`\nCK1 ${$.UserName} 开始助力 助力池 【${$.readShareCode[j]}】`)
-    //             await $.wait(1000)
-    //             let res = await getInfo($.readShareCode[j])
-    //             if (res && res['data'] && res['data']['bizCode'] === 0) {
-    //                 if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0] && res['data']['result']['toasts'][0]['status'] === '3') {
-    //                     console.log(`助力次数已耗尽，跳出`)
-    //                     break
-    //                 }
-    //                 if (res['data']['result']['toasts']) {
-    //                     if (res['data']['result']['toasts'][0]) {
-    //                         console.log(`助力 【${$.readShareCode[j]}】:${res.data.result.toasts[0].msg}`)
-    //                     } else {
-    //                         console.log(`未知错误，跳出`)
-    //                         break
-    //                     }
-    //                 }
-    //             }
-    //             if ((res && res['status'] && res['status'] === '3') || (res && res.data && res.data.bizCode === -11)) {
-    //                 // 助力次数耗尽 || 黑号
-    //                 break
-    //             }
-    //         }
-    //     } else {
-    //         for (let j = 0; j < $.newShareCodes.length; j++) {
-    //             console.log(`\n${$.UserName} 开始助力 【${$.newShareCodes[j]}】`)
-    //             await $.wait(1000)
-    //             let res = await getInfo($.newShareCodes[j])
-    //             if (res && res['data'] && res['data']['bizCode'] === 0) {
-    //                 if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0] && res['data']['result']['toasts'][0]['status'] === '3') {
-    //                     console.log(`助力次数已耗尽，跳出`)
-    //                     break
-    //                 }
-    //                 if (res['data']['result']['toasts']) {
-    //                     if (res['data']['result']['toasts'][0]) {
-    //                         console.log(`助力 【${$.readShareCode[j]}】:${res.data.result.toasts[0].msg}`)
-    //                     } else {
-    //                         console.log(`未知错误，跳出`)
-    //                         break
-    //                     }
-    //                 }
-    //             }
-    //             if ((res && res['status'] && res['status'] === '3') || (res && res.data && res.data.bizCode === -11)) {
-    //                 // 助力次数耗尽 || 黑号
-    //                 break
-    //             }
-    //         }
-    //     }
-    // }
 })()
     .catch((e) => {
         $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')

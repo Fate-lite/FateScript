@@ -1,6 +1,6 @@
 /*
 京喜财富岛
-cron 1 * * * * jd_bp.js
+cron 21 * * * * jd_bp.js
 更新时间：2021-9-11
 活动入口：京喜APP-我的-京喜财富岛
 
@@ -42,7 +42,7 @@ $.appId = 10028;
     $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
     await requestAlgo();
     await $.wait(1000)
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 5; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -68,36 +68,6 @@ $.appId = 10028;
             await $.wait(2000);
         }
     }
-    // let res = await getAuthorShareCode('https://raw.githubusercontent.com/Aaron-lv/updateTeam/master/shareCodes/cfd.json')
-    // if (!res) {
-    //     $.http.get({url: 'https://purge.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/cfd.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
-    //     await $.wait(1000)
-    //     res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/cfd.json')
-    // }
-    // $.strMyShareIds = [...(res && res.shareId || [])]
-    // // await shareCodesFormat()
-    // for (let i = 0; i < cookiesArr.length; i++) {
-    //     cookie = cookiesArr[i];
-    //     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-    //     $.canHelp = true
-    //     UA = UAInfo[$.UserName]
-    //     if ($.newShareCodes && $.newShareCodes.length) {
-    //         console.log(`\n开始互助\n`);
-    //         for (let j = 0; j < $.newShareCodes.length && $.canHelp; j++) {
-    //             console.log(`账号${$.UserName} 去助力 ${$.newShareCodes[j]}`)
-    //             $.delcode = false
-    //             await helpByStage($.newShareCodes[j])
-    //             await $.wait(2000)
-    //             if ($.delcode) {
-    //                 $.newShareCodes.splice(j, 1)
-    //                 j--
-    //                 continue
-    //             }
-    //         }
-    //     } else {
-    //         break
-    //     }
-    // }
     await showMsg();
 })()
     .catch((e) => $.logErr(e))
@@ -119,153 +89,6 @@ async function cfd() {
                 return
             }
         }
-
-        // 寻宝
-        console.log(`寻宝`)
-        let XBDetail = beginInfo.XbStatus.XBDetail.filter((x) => x.dwRemainCnt !== 0)
-        if (XBDetail.length !== 0) {
-            console.log(`开始寻宝`)
-            $.break = false
-            for (let key of Object.keys(XBDetail)) {
-                let vo = XBDetail[key]
-                await $.wait(2000)
-                await TreasureHunt(vo.strIndex)
-                if ($.break) break
-            }
-        } else {
-            console.log(`暂无宝物`)
-        }
-
-        //每日签到
-        await $.wait(2000)
-        await getTakeAggrPage('sign')
-
-        //小程序每日签到
-        await $.wait(2000)
-        await getTakeAggrPage('wxsign')
-
-        //助力奖励
-        await $.wait(2000)
-        await getTakeAggrPage('helpdraw')
-
-        console.log('')
-        //卖贝壳
-        // await $.wait(2000)
-        // await querystorageroom('1')
-
-        //升级建筑
-        await $.wait(2000)
-        for(let key of Object.keys($.info.buildInfo.buildList)) {
-            let vo = $.info.buildInfo.buildList[key]
-            let body = `strBuildIndex=${vo.strBuildIndex}`
-            await getBuildInfo(body, vo)
-            await $.wait(2000)
-        }
-
-        //合成珍珠
-        // if (nowTimes.getHours() >= 5) {
-        //   await $.wait(2000)
-        //   await composeGameState()
-        // }
-
-        //接待贵宾
-        console.log(`接待贵宾`)
-        if ($.info.StoryInfo.StoryList) {
-            await $.wait(2000)
-            for (let key of Object.keys($.info.StoryInfo.StoryList)) {
-                let vo = $.info.StoryInfo.StoryList[key]
-                if (vo.Special) {
-                    console.log(`请贵宾下船，需等待${vo.Special.dwWaitTime}秒`)
-                    await specialUserOper(vo.strStoryId, '2', vo.ddwTriggerDay, vo)
-                    await $.wait(vo.Special.dwWaitTime * 1000)
-                    await specialUserOper(vo.strStoryId, '3', vo.ddwTriggerDay, vo)
-                    await $.wait(2000)
-                } else {
-                    console.log(`当前暂无贵宾\n`)
-                }
-            }
-        } else {
-            console.log(`当前暂无贵宾\n`)
-        }
-
-        //收藏家
-        console.log(`收藏家`)
-        if ($.info.StoryInfo.StoryList) {
-            await $.wait(2000)
-            for (let key of Object.keys($.info.StoryInfo.StoryList)) {
-                let vo = $.info.StoryInfo.StoryList[key]
-                if (vo.Collector) {
-                    console.log(`喜欢贝壳的收藏家来了，快去卖贝壳吧~`)
-                    await collectorOper(vo.strStoryId, '2', vo.ddwTriggerDay)
-                    await $.wait(2000)
-                    await querystorageroom('2')
-                    await $.wait(2000)
-                    await collectorOper(vo.strStoryId, '4', vo.ddwTriggerDay)
-                } else {
-                    console.log(`当前暂无收藏家\n`)
-                }
-            }
-        } else {
-            console.log(`当前暂无收藏家\n`)
-        }
-
-        //美人鱼
-        console.log(`美人鱼`)
-        if ($.info.StoryInfo.StoryList) {
-            await $.wait(2000)
-            for (let key of Object.keys($.info.StoryInfo.StoryList)) {
-                let vo = $.info.StoryInfo.StoryList[key]
-                if (vo.Mermaid) {
-                    if (vo.Mermaid.dwIsToday === 1) {
-                        console.log(`可怜的美人鱼困在沙滩上了，快去解救她吧~`)
-                        await mermaidOper(vo.strStoryId, '1', vo.ddwTriggerDay)
-                    } else if (vo.Mermaid.dwIsToday === 0) {
-                        await mermaidOper(vo.strStoryId, '4', vo.ddwTriggerDay)
-                    }
-                } else {
-                    console.log(`当前暂无美人鱼\n`)
-                }
-            }
-        } else {
-            console.log(`当前暂无美人鱼\n`)
-        }
-
-        //倒垃圾
-        await $.wait(2000)
-        await queryRubbishInfo()
-
-        //雇导游
-        await $.wait(2000);
-        await employTourGuideInfo();
-
-        console.log(`\n做任务`)
-        //牛牛任务
-        await $.wait(2000)
-        await getActTask()
-
-        //日常任务
-        await $.wait(2000);
-        await getTaskList(0);
-        await $.wait(2000);
-        await browserTask(0);
-
-        //成就任务
-        await $.wait(2000);
-        await getTaskList(1);
-        await $.wait(2000);
-        await browserTask(1);
-
-        await $.wait(2000);
-        const endInfo = await getUserInfo(false);
-        $.result.push(
-            `【京东账号${$.index}】${$.nickName || $.UserName}`,
-            `【🥇金币】${endInfo.ddwCoinBalance}`,
-            `【💵财富值】${endInfo.ddwRichBalance}\n`,
-        );
-
-    } catch (e) {
-        $.logErr(e)
-    }
 }
 
 // 寻宝
