@@ -8,7 +8,7 @@
 0 0-23/1 * * * jd_bp2.js
  */
 const $ = new Env('城城领现金2');
-const notify = $.isNode() ? require('./sendNotify') : '';
+const notify = $.isNode() ? require('../jddj/sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //自动抽奖 ，环境变量  JD_CITY_EXCHANGE

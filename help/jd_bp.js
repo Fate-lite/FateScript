@@ -14,7 +14,7 @@ cron 1 * * * * jd_bp.js
 });
 const $ = new Env("京喜财富岛2");
 const JD_API_HOST = "https://m.jingxi.com/";
-const notify = $.isNode() ? require('./sendNotify') : '';
+const notify = $.isNode() ? require('../jddj/sendNotify') : '';
 const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 $.showLog = $.getdata("cfd_showLog") ? $.getdata("cfd_showLog") === "true" : false;
 $.notifyTime = $.getdata("cfd_notifyTime");
