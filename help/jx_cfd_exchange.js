@@ -1358,7 +1358,7 @@ async function exchangeState(dwType = 2){
                                 if (resExchange.iRet === 0 || resExchange.sErrMsg === 'success') {
                                     console.log(`\n 兑换 ${resExchange.strAwardDetail.strName} 成功。`);
                                 } else {
-                                    console.log(`\n 兑换 ${resExchange.strAwardDetail.strName} 失败: ${resExchange.sErrMsg}`);
+                                    console.log(`\n 兑换失败: ${resExchange.sErrMsg}`);
                                 }
                             }
                         }
