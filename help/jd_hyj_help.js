@@ -39,6 +39,7 @@ $.shareCodesArr = ['ZXASTT020vPl6RxgY9lPKIxrynfcPFjRWn6u7zB55awQ'];
             await getUA()
         }
     }
+    let taskLists;
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
@@ -64,19 +65,22 @@ $.shareCodesArr = ['ZXASTT020vPl6RxgY9lPKIxrynfcPFjRWn6u7zB55awQ'];
                 try {
                     await get_secretp()
                     do {
-                        var conti = false
+                        let conti = false
                         await travel_collectAtuoScore()
-                        res = await travel_getTaskDetail()
-
-                        for (var p = 0; p < res.lotteryTaskVos[0].badgeAwardVos.length; p++) {
-                            if (res.lotteryTaskVos[0].badgeAwardVos[p].status == 3) {
-                                await travel_getBadgeAward(res.lotteryTaskVos[0].badgeAwardVos[p].awardToken)
+                        taskLists = await travel_getTaskDetail()
+                        if (taskLists.data.result.inviteId == null) {
+                            console.log("黑号")
+                            continue
+                        }
+                        for (let p = 0; p < taskLists.lotteryTaskVos[0].badgeAwardVos.length; p++) {
+                            if (taskLists.lotteryTaskVos[0].badgeAwardVos[p].status == 3) {
+                                await travel_getBadgeAward(taskLists.lotteryTaskVos[0].badgeAwardVos[p].awardToken)
                             }
                         }
                         let task = []
                         let r = []
-                        for (var p = 0; p < res.taskVos.length; p++) {
-                            task = res.taskVos[p]
+                        for (let p = 0; p < taskLists.taskVos.length; p++) {
+                            task = taskLists.taskVos[p]
                             if (task.status != 1) continue
                             switch (task.taskType) {
                                 case 7:
@@ -468,7 +472,7 @@ function travel_getBadgeAward(taskToken) {
                                             console.log(`\n\n 获得${data.data.result.myAwardVos[i].pointVo.score}币?`)
                                             break
                                         case 1:
-                                            console.log(`\n\n 获得优惠券 满${data.result.myAwardVos[1].couponVo.usageThreshold}-${data.result.myAwardVos[i].couponVo.quota}  ${data.result.myAwardVos[i].couponVo.useRange}`)
+                                            console.log(`\n\n 获得优惠券满${data.result.myAwardVos[1].couponVo.usageThreshold}-${data.result.myAwardVos[i].couponVo.quota}  ${data.result.myAwardVos[i].couponVo.useRange}`)
                                             break
                                     }
                                 }
