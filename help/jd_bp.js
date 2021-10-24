@@ -89,6 +89,11 @@ async function cfd() {
                 return
             }
         }
+    }catch (e) {
+        $.logErr(e, resp);
+    } finally {
+
+    }
 }
 
 // 寻宝
