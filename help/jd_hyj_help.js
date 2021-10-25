@@ -71,7 +71,7 @@ $.shareCodesArr = ['ZXASTT020vPl6RxgY9lPKIxrynfcPFjRWn6u7zB55awQ'];
                         conti = false
                         await travel_collectAtuoScore()
                         let taskLists = await travel_getTaskDetail()
-                        console.log(taskLists)
+                        // console.log(taskLists)
                         for (let p = 0; p < taskLists.lotteryTaskVos[0].badgeAwardVos.length; p++) {
                             if (taskLists.lotteryTaskVos[0].badgeAwardVos[p].status == 3) {
                                 await travel_getBadgeAward(taskLists.lotteryTaskVos[0].badgeAwardVos[p].awardToken)
@@ -335,7 +335,7 @@ function travel_getTaskDetail() {
                 } else {
                     if (safeGet(data)) {
                         data = JSON.parse(data);
-                        console.log(data)
+                        // console.log(data)
                         if (data.code === 0) {
                             if (data.data && data['data']['bizCode'] === 0) {
                                 if (data.data.result.inviteId == null) {
