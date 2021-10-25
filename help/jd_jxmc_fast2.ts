@@ -1,12 +1,13 @@
 /**
  * 京喜牧场
- * cron: 0 0,1 * * *
+ * cron: 10 0,12,18 * * *
  */
 
 import axios from 'axios';
 import {Md5} from "ts-md5";
 import * as path from 'path';
-import {requireConfig, getBeanShareCode, getFarmShareCode, wait, requestAlgo, h5st, exceptCookie} from './TS_USER_AGENTS';
+import {sendNotify} from './sendNotify';
+import {requireConfig, getBeanShareCode, getFarmShareCode, wait, requestAlgo, h5st, exceptCookie, resetHosts} from './TS_USER_AGENTS';
 
 const cow = require('./utils/jd_jxmc.js').cow;
 const token = require('./utils/jd_jxmc.js').token;
@@ -15,6 +16,12 @@ let cookie: string = '', res: any = '', shareCodes: string[] = [], homePageInfo:
 let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSelf: string[] = [], shareCodesHW: string[] = [];
 
 !(async () => {
+    try {
+        resetHosts();
+    } catch (e) {
+        await sendNotify("脚本执行出错", "删除TS_USER_AGENT.js\n\n删js ! 不是ts !");
+        return;
+    }
     await requestAlgo();
     let cookiesArr: any = await requireConfig();
     if (process.argv[2]) {
@@ -38,6 +45,7 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
             isquerypicksite: 1,
             isqueryinviteicon: 1
         })
+        console.log(JSON.stringify(homePageInfo))
         let lastgettime: number
         if (homePageInfo.data?.cow?.lastgettime) {
             lastgettime = homePageInfo.data.cow.lastgettime
@@ -52,20 +60,19 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
             console.log('未开通？黑号？')
             continue
         }
-
+        let petid: string = homePageInfo.data.petinfo[0].petid;
+        let coins = homePageInfo.data.coins;
         console.log('助力码:', homePageInfo.data.sharekey);
-        if (homePageInfo.data.sharekey != undefined){
-            shareCodesSelf.push(homePageInfo.data.sharekey);
-            try {
-                await makeShareCodes(homePageInfo.data.sharekey);
-            } catch (e: any) {
-                console.log(e)
-            }
+        shareCodesSelf.push(homePageInfo.data.sharekey);
+        try {
+            await makeShareCodes(homePageInfo.data.sharekey);
+        } catch (e: any) {
+            console.log(e)
         }
     }
 
-    for (let i = 0; i < cookiesArr.length; i++) {
-        await getCodes();
+    for (let i = cookiesArr.length - 1; i >= 0; i--) {
+        // 获取随机助力码
         shareCodes = Array.from(new Set([...shareCodesSelf]))
         cookie = cookiesArr[i]
         jxToken = await token(cookie);
@@ -162,7 +169,8 @@ function makeShareCodes(code: string) {
         let farm: string = await getFarmShareCode(cookie)
         let pin: string = cookie.match(/pt_pin=([^;]*)/)![1]
         pin = Md5.hashStr(pin)
-        await axios.get(`${require('./USER_AGENTS').hwApi}autoInsert/jxmc?sharecode=${code}&bean=${bean}&farm=${farm}&pin=${pin}`, {timeout: 10000})
+        resetHosts()
+        await axios.get(`https://api.jdsharecode.xyz/api/autoInsert/jxmc?sharecode=${code}&bean=${bean}&farm=${farm}&pin=${pin}`, {timeout: 10000})
             .then((res: any) => {
                 if (res.data.code === 200)
                     console.log('已自动提交助力码')
@@ -182,7 +190,8 @@ function makeShareCodesHb(code: string) {
         let farm: string = await getFarmShareCode(cookie)
         let pin: string = cookie.match(/pt_pin=([^;]*)/)![1]
         pin = Md5.hashStr(pin)
-        await axios.get(`${require('./USER_AGENTS').hwApi}autoInsert/jxmchb?sharecode=${code}&bean=${bean}&farm=${farm}&pin=${pin}`, {timeout: 10000})
+        resetHosts()
+        await axios.get(`https://api.jdsharecode.xyz/api/autoInsert/jxmchb?sharecode=${code}&bean=${bean}&farm=${farm}&pin=${pin}`, {timeout: 10000})
             .then((res: any) => {
                 if (res.data.code === 200)
                     console.log('已自动提交红包码')
@@ -198,6 +207,7 @@ function makeShareCodesHb(code: string) {
 
 async function getCodes() {
     try {
+        resetHosts()
         let {data}: any = await axios.get('https://api.jdsharecode.xyz/api/HW_CODES', {timeout: 10000})
         shareCodesHW = data.jxmc || []
         shareCodesHbHw = data.jxmchb || []
