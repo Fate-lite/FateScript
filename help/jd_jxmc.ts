@@ -47,7 +47,7 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
             isquerypicksite: 1,
             isqueryinviteicon: 1
         })
-        console.log(JSON.stringify(homePageInfo))
+        // console.log(JSON.stringify(homePageInfo))
         let lastgettime: number
         if (homePageInfo.data?.cow?.lastgettime) {
             lastgettime = homePageInfo.data.cow.lastgettime

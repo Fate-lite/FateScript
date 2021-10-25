@@ -35,21 +35,12 @@ let shareCodesSelf: string[] = [], shareCodes: string[] = [], shareCodesHW: stri
         await wait(1000)
     }
     console.log('内部助力码：', shareCodesSelf)
-
     for (let i = cookiesArr.length - 1; i >= 0; i--) {
         cookie = cookiesArr[i];
         jxToken = await token(cookie)
         UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)![1])
-
-        await getCodesHW()
-        shareCodes = Array.from(new Set([...shareCodesSelf, ...shareCodesHW]))
-        if (shareCodesHW.length !== 0) {
-            console.log('获取随机助力码')
-            res = await getCodesPool();
-            shareCodes = Array.from(new Set([...shareCodes, ...res]))
-        }
+        shareCodes = Array.from(new Set([...shareCodes]))
         console.log('助力排队:', shareCodes)
-
         for (let j = 0; j < shareCodes.length; j++) {
             console.log(`账号${i + 1} ${UserName} 去助力 ${shareCodes[j]}`)
             res = await api('EnrollFriend', 'activeId,channel,joinDate,phoneid,publishFlag,strPin,timestamp', {joinDate: format(Date.now(), 'yyyyMMdd'), strPin: shareCodes[j]})
@@ -67,7 +58,6 @@ let shareCodesSelf: string[] = [], shareCodes: string[] = [], shareCodesHW: stri
             }
         }
     }
-
     // 拆红包
     for (let i = 0; i < cookiesArr.length; i++) {
         cookie = cookiesArr[i];

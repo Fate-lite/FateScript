@@ -7,13 +7,24 @@ import axios from 'axios';
 import {Md5} from "ts-md5";
 import * as path from 'path';
 import {sendNotify} from './sendNotify';
-import {requireConfig, getBeanShareCode, getFarmShareCode, wait, requestAlgo, h5st, exceptCookie, resetHosts} from './TS_USER_AGENTS';
+import {
+    requireConfig,
+    getBeanShareCode,
+    getFarmShareCode,
+    wait,
+    requestAlgo,
+    h5st,
+    exceptCookie,
+    resetHosts
+} from './TS_USER_AGENTS';
 
 const cow = require('./utils/jd_jxmc.js').cow;
 const token = require('./utils/jd_jxmc.js').token;
 
-let cookie: string = '', res: any = '', shareCodes: string[] = [], homePageInfo: any, jxToken: any, UserName: string, index: number;
-let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSelf: string[] = [], shareCodesHW: string[] = [];
+let cookie: string = '', res: any = '', shareCodes: string[] = [], homePageInfo: any, jxToken: any, UserName: string,
+    index: number;
+let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSelf: string[] = [],
+    shareCodesHW: string[] = [];
 
 !(async () => {
     try {
@@ -45,7 +56,7 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
             isquerypicksite: 1,
             isqueryinviteicon: 1
         })
-        console.log(JSON.stringify(homePageInfo))
+        // console.log(JSON.stringify(homePageInfo))
         let lastgettime: number
         if (homePageInfo.data?.cow?.lastgettime) {
             lastgettime = homePageInfo.data.cow.lastgettime
@@ -63,11 +74,13 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
         let petid: string = homePageInfo.data.petinfo[0].petid;
         let coins = homePageInfo.data.coins;
         console.log('助力码:', homePageInfo.data.sharekey);
-        shareCodesSelf.push(homePageInfo.data.sharekey);
-        try {
-            await makeShareCodes(homePageInfo.data.sharekey);
-        } catch (e: any) {
-            console.log(e)
+        if (homePageInfo.data.sharekey != undefined) {
+            shareCodesSelf.push(homePageInfo.data.sharekey);
+            try {
+                await makeShareCodes(homePageInfo.data.sharekey);
+            } catch (e: any) {
+                console.log(e)
+            }
         }
     }
 
@@ -108,7 +121,11 @@ interface Params {
 
 async function getTask() {
     console.log('刷新任务列表')
-    res = await api('GetUserTaskStatusList', 'bizCode,dateType,jxpp_wxapp_type,showAreaTaskFlag,source', {dateType: '', showAreaTaskFlag: 0, jxpp_wxapp_type: 7})
+    res = await api('GetUserTaskStatusList', 'bizCode,dateType,jxpp_wxapp_type,showAreaTaskFlag,source', {
+        dateType: '',
+        showAreaTaskFlag: 0,
+        jxpp_wxapp_type: 7
+    })
     for (let t of res.data.userTaskStatusList) {
         if (t.completedTimes == t.targetTimes && t.awardStatus === 2) {
             res = await api('Award', 'bizCode,source,taskId', {taskId: t.taskId})
