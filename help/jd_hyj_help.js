@@ -1,5 +1,7 @@
-// 0 * * * * 环游记 自动入会、签到、任务、升级、开宝箱、捡金币
-//半残品随便跑跑
+/*
+  0 * * * * 环游记 自动入会、签到、任务、升级、开宝箱、捡金币
+ */
+
 const $ = new Env('环游记');
 
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -40,7 +42,8 @@ $.shareCodesArr = ['ZXASTT020vPl6RxgY9lPKIxrynfcPFjRWn6u7zB55awQ'];
         }
     }
     let taskLists;
-    for (let i = 0; i < cookiesArr.length; i++) {
+    let conti;
+    for (let i = 0; i < 15; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             let canHelp = true;
@@ -65,13 +68,10 @@ $.shareCodesArr = ['ZXASTT020vPl6RxgY9lPKIxrynfcPFjRWn6u7zB55awQ'];
                 try {
                     await get_secretp()
                     do {
-                        let conti = false
+                        conti = false
                         await travel_collectAtuoScore()
-                        taskLists = await travel_getTaskDetail()
-                        if (taskLists.data.result.inviteId == null) {
-                            console.log("黑号")
-                            continue
-                        }
+                        let taskLists = await travel_getTaskDetail()
+                        console.log(taskLists)
                         for (let p = 0; p < taskLists.lotteryTaskVos[0].badgeAwardVos.length; p++) {
                             if (taskLists.lotteryTaskVos[0].badgeAwardVos[p].status == 3) {
                                 await travel_getBadgeAward(taskLists.lotteryTaskVos[0].badgeAwardVos[p].awardToken)
@@ -335,11 +335,11 @@ function travel_getTaskDetail() {
                 } else {
                     if (safeGet(data)) {
                         data = JSON.parse(data);
+                        console.log(data)
                         if (data.code === 0) {
                             if (data.data && data['data']['bizCode'] === 0) {
                                 if (data.data.result.inviteId == null) {
-                                    console.log("黑号")
-                                    resolve("")
+                                    console.log("无法获取助力码")
                                 } else {
                                     console.log(`\n您的助力码：${data.data.result.inviteId}\n`)
                                     if ($.index < 8) {
