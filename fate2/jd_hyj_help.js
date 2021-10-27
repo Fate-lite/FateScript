@@ -43,7 +43,7 @@ $.shareCodesArr = ['ZXASTT020vPl6RxgY9lPKIxrynfcPFjRWn6u7zB55awQ'];
     }
     let taskLists;
     let conti;
-    for (let i = 0; i < 15; i++) {
+    for (let i = 1; i < 2; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             let canHelp = true;
@@ -69,85 +69,87 @@ $.shareCodesArr = ['ZXASTT020vPl6RxgY9lPKIxrynfcPFjRWn6u7zB55awQ'];
                     await get_secretp()
                     do {
                         conti = false
+                        console.log('领取金币\n')
                         await travel_collectAtuoScore()
-                        let taskLists = await travel_getTaskDetail()
-                        // console.log(taskLists)
-                        for (let p = 0; p < taskLists.lotteryTaskVos[0].badgeAwardVos.length; p++) {
-                            if (taskLists.lotteryTaskVos[0].badgeAwardVos[p].status == 3) {
-                                await travel_getBadgeAward(taskLists.lotteryTaskVos[0].badgeAwardVos[p].awardToken)
-                            }
-                        }
-                        let task = []
-                        let r = []
-                        for (let p = 0; p < taskLists.taskVos.length; p++) {
-                            task = taskLists.taskVos[p]
-                            if (task.status != 1) continue
-                            switch (task.taskType) {
-                                case 7:
-                                case 9:
-                                case 3:
-                                case 6:
-                                case 26:
-                                    var tmp = []
-                                    if (task.taskType == 7) {
-                                        tmp = task.browseShopVo
-                                    } else {
-                                        tmp = task.shoppingActivityVos
-                                    }
-                                    for (var o = 0; o < tmp.length; o++) {
-                                        console.log(`\n\n ${tmp[o].title ? tmp[o].title : tmp[o].shopName}`)
-                                        if (tmp[o].status == 1) {
-                                            conti = true
-                                            await travel_collectScore(tmp[o].taskToken, task.taskId)
-                                        }
-                                    }
-                                    await $.wait(8000)
-                                    for (var o = 0; o < tmp.length; o++) {
-                                        if (tmp[o].status == 1) {
-                                            conti = true
-                                            await qryViewkitCallbackResult(tmp[o].taskToken)
-                                        }
-                                    }
-                                    break
-                                case 2:
-                                    r = await travel_getFeedDetail(task.taskId)
-                                    var t = 0;
-                                    for (var o = 0; o < r.productInfoVos.length; o++) {
-                                        if (r.productInfoVos[o].status == 1) {
-                                            conti = true
-                                            await travel_collectScore(r.productInfoVos[o].taskToken, task.taskId)
-                                            t++
-                                            if (t >= 5) break
-                                        }
-                                    }
-                                    break
-                                case 5:
-                                    r = await travel_getFeedDetail2(task.taskId)
-                                    var t = 0;
-                                    for (var o = 0; o < r.browseShopVo.length; o++) {
-                                        if (r.browseShopVo[o].status == 1) {
-                                            conti = true
-                                            await travel_collectScore(r.browseShopVo[o].taskToken, task.taskId)
-                                            t++
-                                            if (t >= 5) break
-                                        }
-                                    }
-                                    break
-                                case 21:
-                                    for (var o = 0; o < task.brandMemberVos.length; o++) {
-                                        if (task.brandMemberVos[o].status == 1) {
-                                            console.log(`\n\n ${task.brandMemberVos[o].title}`)
-                                            memberUrl = task.brandMemberVos[o].memberUrl
-                                            memberUrl = transform(memberUrl)
-                                            await join(task.brandMemberVos[o].vendorIds, memberUrl.channel, memberUrl.shopId ? memberUrl.shopId : "")
-                                            await travel_collectScore(task.brandMemberVos[o].taskToken, task.taskId)
-                                        }
-                                    }
-                            }
-                        }
-                        await $.wait(1000)
+                        console.log('领取END\n')
+                        conti = false;
+                        // let taskLists = await travel_getTaskDetail()
+                        // // console.log(taskLists)
+                        // for (let p = 0; p < taskLists.lotteryTaskVos[0].badgeAwardVos.length; p++) {
+                        //     if (taskLists.lotteryTaskVos[0].badgeAwardVos[p].status == 3) {
+                        //         await travel_getBadgeAward(taskLists.lotteryTaskVos[0].badgeAwardVos[p].awardToken)
+                        //     }
+                        // }
+                        // let task = []
+                        // let r = []
+                        // for (let p = 0; p < taskLists.taskVos.length; p++) {
+                        //     task = taskLists.taskVos[p]
+                        //     if (task.status != 1) continue
+                        //     switch (task.taskType) {
+                        //         case 7:
+                        //         case 9:
+                        //         case 3:
+                        //         case 6:
+                        //         case 26:
+                        //             var tmp = []
+                        //             if (task.taskType == 7) {
+                        //                 tmp = task.browseShopVo
+                        //             } else {
+                        //                 tmp = task.shoppingActivityVos
+                        //             }
+                        //             for (var o = 0; o < tmp.length; o++) {
+                        //                 console.log(`\n\n ${tmp[o].title ? tmp[o].title : tmp[o].shopName}`)
+                        //                 if (tmp[o].status == 1) {
+                        //                     conti = true
+                        //                     await travel_collectScore(tmp[o].taskToken, task.taskId)
+                        //                 }
+                        //             }
+                        //             await $.wait(8000)
+                        //             for (var o = 0; o < tmp.length; o++) {
+                        //                 if (tmp[o].status == 1) {
+                        //                     conti = true
+                        //                     await qryViewkitCallbackResult(tmp[o].taskToken)
+                        //                 }
+                        //             }
+                        //             break
+                        //         case 2:
+                        //             r = await travel_getFeedDetail(task.taskId)
+                        //             var t = 0;
+                        //             for (var o = 0; o < r.productInfoVos.length; o++) {
+                        //                 if (r.productInfoVos[o].status == 1) {
+                        //                     conti = true
+                        //                     await travel_collectScore(r.productInfoVos[o].taskToken, task.taskId)
+                        //                     t++
+                        //                     if (t >= 5) break
+                        //                 }
+                        //             }
+                        //             break
+                        //         case 5:
+                        //             r = await travel_getFeedDetail2(task.taskId)
+                        //             var t = 0;
+                        //             for (var o = 0; o < r.browseShopVo.length; o++) {
+                        //                 if (r.browseShopVo[o].status == 1) {
+                        //                     conti = true
+                        //                     await travel_collectScore(r.browseShopVo[o].taskToken, task.taskId)
+                        //                     t++
+                        //                     if (t >= 5) break
+                        //                 }
+                        //             }
+                        //             break
+                        //         case 21:
+                        //             for (var o = 0; o < task.brandMemberVos.length; o++) {
+                        //                 if (task.brandMemberVos[o].status == 1) {
+                        //                     console.log(`\n\n ${task.brandMemberVos[o].title}`)
+                        //                     memberUrl = task.brandMemberVos[o].memberUrl
+                        //                     memberUrl = transform(memberUrl)
+                        //                     await join(task.brandMemberVos[o].vendorIds, memberUrl.channel, memberUrl.shopId ? memberUrl.shopId : "")
+                        //                     await travel_collectScore(task.brandMemberVos[o].taskToken, task.taskId)
+                        //                 }
+                        //             }
+                        //     }
+                        // }
+                        // await $.wait(1000)
                     } while (conti)
-
                     await travel_sign()
                     do {
                         var ret = await travel_raise()
@@ -192,7 +194,7 @@ function get_secretp() {
                         if (data.code === 0) {
                             if (data.data && data['data']['bizCode'] === 0) {
                                 secretp = data.data.result.homeMainInfo.secretp
-
+                                console.log(secretp)
                             }
                         } else {
                             console.log(`\n\nsecretp失败:${JSON.stringify(data)}\n`)
@@ -289,17 +291,34 @@ function travel_raise() {
 }
 
 function travel_collectAtuoScore() {
-    let body = {
+    body = {
         "ss": {
-            "extraData": {"log": "", "sceneid": "HYJhPageh5"},
+            "extraData": {
+                "log": "1635239428572~139544ddSumMDJyaVlmYTAxMQ==.Q19qU1NBUG1UUEFQaRgsJVoNUFAVJWpVH0NFb0pZXlsnVB9DFy8TWRlbCDcIECQJLSI0ImgqIwQEFVMGT1Qn.f6ee785a~8,2~2D8EECDEEB7CE10424B37EC951742A5C2F8EA5C84FA13D4F99819E24B746675A~0nr05vw~C~TxFCXRcLbmsbRkUMDxcCaRdXAR4HBhlychoAKwhOUxsIAgUfQBEaElEGGAcBSHIlTgJoahkCGgMGABlFF2sbRlYQDBcCAxkRR0AUChcAAwUCVgJbVgQPBQcEBgoOABcdF0FSABNYQEFMRkFHUkZQEhkTQlNWRgtABFNMRkFHQVIUHBdBUVgVXmpbTgINARkBGAAaARkEaBoVDltAWAQUEFZAFgkUAANTU1cHUwZaAFMKAgRVBwYHUwVQAg8PAlUHBlBZAAARGBFYQBcLF3peCkQaQlRZQFZbAgcUHBdFFwwGUgJXUAYBBgcLAQQEHBdbXhQNRhxSUlBbAlRVAFIECQQcVw8GVlVbWgYNBgQBUQoCURcdF1BHBhNYQENNCl4BZWJfUnhhfnVxLwAuIENVfgBUCQ4UHBdfQxQNRnYNDVJUVxV6WlAYEhkTW1dBRgtAWwUNAQcRGBFFU0cTD20BUAFOUQMIbxkRRlwUCm4TeH8XUhNOQFRWVkdcXVcUHBcIFxoVVQFMUxsOEBkRDQMDAwcTGRRzVgFRUgYNBAYFBAAHHQMHAwIEVQdQUQwLAwYRGBEHEmgdF19YBRNYQFNeVFNVUkdCEhkTVFwVXhMXQBkaUVwRDhFBAxsDGwIVSBMBBGpOEA8RBAIUHBdTURQNRkMDDFFXXwgABQsHAwwBDRQbRlwIQA9jAxkDGANrHBdTWVlQRgtAUwMLBwcADQcHAgYEB0gGEFsHUlIOfmBBU35ydlhTWAMHPUsjGnhfDwgdYgJeVGRnc2BhVQgnN2MBam1iW0B9Zl1TZ1FYNXU2Uk9wYHdwcnVeemZdDWdmDAA6J3RTY3B2BF50cQFwd3VlAXQgLGNwYFpWeWBjZ2JLXkRyMgAgI0Jte21KYQZ5YXR/fl5YVHgJJwx1dnR9YUt3DRsEUwAOBlNSUEtPHgRNSk10TmFJUX5xEwk0NGNMa3JfXFBncVpobWBHPWcgJ29+Y1ZlcFtSZ2JdUmxhMkU4NGdMYGJbbmZhZnR0dHdfM2YjEW9pAwRmZWZsZmQAeFRgIkkgOnRyaGRlTGZuWHBrc2diMnUKBmB+Sl5lYmV8QWRZVmZxVXwqJE1TamdhcWNwZmR0dGdUPHYwBlBqcGxjclRjand0cFdxVVkkJ0JTancCV3t0clZrcwdtAXcjVm1uRWxRdgMGeHMBUgtJVEtWFwBKABcfFl5FVxcLFxRK~0r3yqrx",
+                "sceneid": "HYJhPageh5"
+            },
             "secretp": secretp,
-            "random": randomString(6)
+            "random": "31813908"
         }
-    };
+    }
+
+    // let body = {
+    //
+    //
+    //
+    //     "ss": {
+    //         "extraData": {"log": "", "sceneid": "HYJhPageh5"},
+    //         "secretp": secretp,
+    //         "random": randomString(8)
+    //     }
+    // };
     return new Promise((resolve) => {
         $.post(taskPostUrl("travel_collectAtuoScore", body), async (err, resp, data) => {
+
             try {
+                console.log(data);
                 if (err) {
+                    console.log(`????`)
                     console.log(`${JSON.stringify(err)}`)
                     console.log(`${$.name} API请求失败，请检查网路重试`)
                 } else {
@@ -307,18 +326,21 @@ function travel_collectAtuoScore() {
                         data = JSON.parse(data);
                         if (data.code === 0) {
                             if (data.data && data['data']['bizCode'] === 0) {
-
-                                console.log(`\n\n 成功领取${data.data.result.produceScore}个币`)
+                                console.log(`\n\n 自动金币成功领取${data.data.result.produceScore}个币`)
+                            } else {
+                                console.log(`\n\n ${data.data.bizMsg}`)
                             }
                         } else {
-                            console.log(`\n\nsecretp失败:${JSON.stringify(data)}\n`)
+                            console.log(`\n\n自动金币领取失败:${JSON.stringify(data)}\n`)
                         }
                     }
                 }
             } catch (e) {
                 $.logErr(e, resp)
+                console.log(`\n\n自动金币领取失败:${JSON.stringify(e)}\n`)
             } finally {
                 resolve(data);
+
             }
         })
     })
@@ -454,7 +476,6 @@ function qryViewkitCallbackResult(taskToken) {
 
 function travel_getBadgeAward(taskToken) {
     let body = {"awardToken": taskToken};
-
     return new Promise((resolve) => {
         $.post(taskPostUrl("travel_getBadgeAward", body), async (err, resp, data) => {
             try {
@@ -625,7 +646,7 @@ function travel_collectScore_h(inviteId) {
 
 function taskPostUrl(functionId, body) {
     return {
-        url: `${JD_API_HOST}`,
+        url: `${JD_API_HOST}?functionId=${functionId}`,
         body: `functionId=${functionId}&body=${escape(JSON.stringify(body))}&client=wh5&clientVersion=1.0.0`,
         headers: {
             'Cookie': cookie,
@@ -635,6 +656,7 @@ function taskPostUrl(functionId, body) {
             "User-Agent": $.UA,
             'Accept-Language': 'zh-cn',
             'Accept-Encoding': 'gzip, deflate, br',
+            'Referer': 'https://wbbny.m.jd.com/babelDiy/Zeus/2vVU4E7JLH9gKYfLQ5EVW6eN2P7B/index.html?babelChannel=jdappsyfc&from=home&sid=ea9e3797a64a61d251065930200279dw&un_area=22_1930_49322_49424',
         }
     }
 }
@@ -656,12 +678,13 @@ function taskPostUrl2(functionId, body) {
 }
 
 function getUA() {
-    $.UA = `jdapp;android;10.0.6;11;9363537336739353-2636733333439346;network/wifi;model/KB2000;addressid/138121554;aid/9657c795bc73349d;oaid/;osVer/30;appBuild/88852;partner/oppo;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; KB2000 Build/RP1A.201005.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045537 Mobile Safari/537.36`
+    // $.UA = `jdapp;android;10.0.6;11;9363537336739353-2636733333439346;network/wifi;model/KB2000;addressid/138121554;aid/9657c795bc73349d;oaid/;osVer/30;appBuild/88852;partner/oppo;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; KB2000 Build/RP1A.201005.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045537 Mobile Safari/537.36`
+    $.UA = `jdapp;android;10.1.6;9;D203035636031-6664316239313;network/wifi;model/MI 6;addressid/3005006119;aid/b912d9835412e94a;oaid/8076701e352fd2fa;osVer/28;appBuild/90532;partner/xiaomi001;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 9; MI 6 Build/PKQ1.190118.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045715 Mobile Safari/537.36`
 }
 
 function randomString(e) {
     e = e || 32;
-    let t = "abcdef0123456789",
+    let t = "0123456789",
         a = t.length,
         n = "";
     for (i = 0; i < e; i++)
