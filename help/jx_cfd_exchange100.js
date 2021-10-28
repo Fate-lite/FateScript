@@ -96,8 +96,8 @@ async function cfd() {
         console.log(`\n ${nowTimes.toLocaleString()}`);
         console.log('\n 开始兑换')
         // 兑换100
-        await exchangePrize111();
-        // await exchangePrize100();
+        // await exchangePrize111();
+        await exchangePrize100();
         // 兑换1
         // await exchangePrize1();
         // await exchangeState(2);
