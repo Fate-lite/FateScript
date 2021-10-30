@@ -82,7 +82,7 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
             console.log('未开通？黑号？')
             continue
         }
-        if (homePageInfo && homePageInfo.data.sharekey != undefined)){
+        if (homePageInfo && homePageInfo.data.sharekey != undefined){
             console.log('助力码:', homePageInfo.data.sharekey)
             shareCodesSelf.push(homePageInfo.data.sharekey)
             try {
@@ -104,8 +104,7 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
         }
 
     }
-    for (let i = 0; i < cookiesArr.length; i++) {
-        await getCodes()
+    for (let i = cookiesArr.length - 1; i >= 0 ; i--) {
         // 获取随机红包码
         shareCodes = Array.from(new Set([...shareCodesHbSelf]))
         cookie = cookiesArr[i]

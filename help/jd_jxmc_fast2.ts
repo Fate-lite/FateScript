@@ -82,7 +82,7 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
             console.log('未开通？黑号？')
             continue
         }
-        if (homePageInfo && homePageInfo.data.sharekey != undefined)){
+        if (homePageInfo && homePageInfo.data.sharekey != undefined){
             console.log('助力码:', homePageInfo.data.sharekey)
             shareCodesSelf.push(homePageInfo.data.sharekey)
             try {
@@ -91,22 +91,8 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
                 console.log(e)
             }
         }
-
-
-
     }
-    for (let i = 0; i < cookiesArr.length; i++) {
-        await getCodes()
-        // 获取随机助力码
-        try {
-            resetHosts()
-            let {data}: any = await axios.get(`https://api.jdsharecode.xyz/api/jxmc/30`, {timeout: 10000})
-            console.log('获取到30个随机助力码:', data.data)
-            shareCodes = Array.from(new Set([...shareCodesSelf, ...shareCodesHW, ...data.data]))
-        } catch (e: any) {
-            console.log('获取助力池失败')
-
-        }
+    for (let i = cookiesArr.length - 1; i >= 0 ; i--) {
         shareCodes = Array.from(new Set([...shareCodesSelf]))
         cookie = cookiesArr[i]
         jxToken = await token(cookie)

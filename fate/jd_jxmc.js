@@ -108,7 +108,6 @@ if ($.isNode()) {
 
 
     console.log('\n##################开始账号内互助#################\n');
-
     for (let j = cookiesArr.length - 1; j >= 0; j--) {
         $.cookie = cookiesArr[i];
         $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
