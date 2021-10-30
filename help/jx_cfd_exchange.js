@@ -42,7 +42,9 @@ let UA, UAInfo = {};
 let nowTimes;
 
 $.exchangeNum = process.env.cfdExchangeNum ?? 5; // 兑换现金的 0:100  1:100,1  2: 100,1,0.5
-$.runUser = process.env.cfdExchangeRunUser ?? 2; // 跑前面的多少个帐号
+$.runUser = process.env.cfdExchangeRunUser ?? 3; // 跑前面的多少个帐号
+
+let runT = 10;
 
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -61,29 +63,22 @@ $.appId = 10028;
     }
     $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
     await requestAlgo();
-    for (let i = 0; i < $.runUser; i++) {
-        if (cookiesArr[i]) {
-            cookie = cookiesArr[i];
-            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-            $.index = i + 1;
-            $.nickName = '';
-            $.isLogin = true;
-            UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
-            UAInfo[$.UserName] = UA
-            await TotalBean();
-            console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-            if (!$.isLogin) {
-                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-
-                if ($.isNode()) {
-                    await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-                }
-                continue
+    for (let i = 0; i < runT; i++) {
+        for (let i = 0; i < $.runUser; i++) {
+            if (cookiesArr[i]) {
+                cookie = cookiesArr[i];
+                $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+                $.index = i + 1;
+                $.nickName = '';
+                $.isLogin = true;
+                UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
+                UAInfo[$.UserName] = UA
+                await TotalBean();
+                $.info = {}
+                token = await getJxToken()
+                await cfd();
+                await (100);
             }
-            $.allTask = []
-            $.info = {}
-            token = await getJxToken()
-            await cfd();
         }
     }
     await showMsg();
@@ -96,18 +91,15 @@ async function cfd() {
         console.log(`\n ${nowTimes.toLocaleString()}`);
         console.log('\n 开始兑换')
         // 兑换100
-        await exchangePrize111();
-        // await exchangePrize100();
+        // await exchangePrize111();
+        await exchangePrize100();
         // 兑换1
         // await exchangePrize1();
         // await exchangeState(2);
-
     } catch (e) {
         $.logErr(e)
     }
 }
-
-
 
 // 获取用户信息
 function getUserInfo(showInvite = true) {
@@ -170,8 +162,6 @@ function getUserInfo(showInvite = true) {
         })
     })
 }
-
-
 
 // 兑换任务
 function exchangePrize( body = ''){
