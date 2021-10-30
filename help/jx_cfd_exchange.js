@@ -42,9 +42,10 @@ let UA, UAInfo = {};
 let nowTimes;
 
 $.exchangeNum = process.env.cfdExchangeNum ?? 5; // 兑换现金的 0:100  1:100,1  2: 100,1,0.5
-$.runUser = process.env.cfdExchangeRunUser ?? 3; // 跑前面的多少个帐号
+$.runUser = process.env.cfdExchangeRunUser ?? 2; // 跑前面的多少个帐号
 
 let runT = 10;
+let waitTime = 400;
 
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
