@@ -44,8 +44,8 @@ let nowTimes;
 $.exchangeNum = process.env.cfdExchangeNum ?? 5; // 兑换现金的 0:100  1:100,1  2: 100,1,0.5
 $.runUser = process.env.cfdExchangeRunUser ?? 2; // 跑前面的多少个帐号
 
-let runT = 10;
-let waitTime = 400;
+let runT = 6;
+let waitTime = 1800;
 
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -64,7 +64,7 @@ $.appId = 10028;
     }
     $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
     await requestAlgo();
-    for (let i = 0; i < runT; i++) {
+    for (let k = 0; k < runT; k++) {
         for (let i = 0; i < $.runUser; i++) {
             if (cookiesArr[i]) {
                 cookie = cookiesArr[i];
@@ -72,15 +72,14 @@ $.appId = 10028;
                 $.index = i + 1;
                 $.nickName = '';
                 $.isLogin = true;
+                console.log(`\n ** 第${k + 1}次开始【京东账号${$.index}】${$.UserName} **\n`);
                 UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
                 UAInfo[$.UserName] = UA
-                await TotalBean();
-                $.info = {}
                 token = await getJxToken()
                 await cfd();
-                await (100);
             }
         }
+        await $.wait(waitTime);
     }
     await showMsg();
 })()
@@ -89,11 +88,10 @@ $.appId = 10028;
 async function cfd() {
     try {
         nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
-        console.log(`\n ${nowTimes.toLocaleString()}`);
-        console.log('\n 开始兑换')
+        console.log(`\n 开始兑换(${nowTimes.toLocaleString()})`)
         // 兑换100
-        // await exchangePrize111();
-        await exchangePrize100();
+        await exchangePrize111();
+        // await exchangePrize100();
         // 兑换1
         // await exchangePrize1();
         // await exchangeState(2);
@@ -102,67 +100,6 @@ async function cfd() {
     }
 }
 
-// 获取用户信息
-function getUserInfo(showInvite = true) {
-    return new Promise(async (resolve) => {
-        $.get(taskUrl(`user/QueryUserInfo`, `ddwTaskId=&strShareId=&strMarkList=${escape('guider_step,collect_coin_auth,guider_medal,guider_over_flag,build_food_full,build_sea_full,build_shop_full,build_fun_full,medal_guider_show,guide_guider_show,guide_receive_vistor,daily_task,guider_daily_task')}&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`), async (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`)
-                    console.log(`${$.name} QueryUserInfo API请求失败，请检查网路重试`)
-                } else {
-                    data = JSON.parse(data);
-                    const {
-                        buildInfo = {},
-                        ddwRichBalance,
-                        ddwCoinBalance,
-                        sErrMsg,
-                        strMyShareId,
-                        dwLandLvl,
-                        LeadInfo = {},
-                        StoryInfo = {},
-                        Business = {},
-                        XbStatus = {}
-                    } = data;
-                    if (showInvite) {
-                        console.log(`获取用户信息：${sErrMsg}\n${$.showLog ? data : ""}`);
-                        console.log(`\n当前等级:${dwLandLvl},金币:${ddwCoinBalance},财富值:${ddwRichBalance},连续营业天数:${Business.dwBussDayNum},离线收益:${Business.ddwCoin}\n`)
-                    }
-                    if (showInvite && strMyShareId) {
-                        console.log(`财富岛好友互助码每次运行都变化,旧的当天有效`);
-                        console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}`);
-                        // $.shareCodes.push(strMyShareId)
-                        // await uploadShareCode(strMyShareId)
-                    }
-                    $.info = {
-                        ...$.info,
-                        buildInfo,
-                        ddwRichBalance,
-                        ddwCoinBalance,
-                        strMyShareId,
-                        dwLandLvl,
-                        LeadInfo,
-                        StoryInfo,
-                        XbStatus
-                    };
-                    resolve({
-                        buildInfo,
-                        ddwRichBalance,
-                        ddwCoinBalance,
-                        strMyShareId,
-                        LeadInfo,
-                        StoryInfo,
-                        XbStatus
-                    });
-                }
-            } catch (e) {
-                $.logErr(e, resp);
-            } finally {
-                resolve();
-            }
-        })
-    })
-}
 
 // 兑换任务
 function exchangePrize( body = ''){
