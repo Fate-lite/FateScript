@@ -62,7 +62,7 @@ function cashOut11() {
         $.get(
             taskUrl(
                 `user/ExchangePrize`,
-                `dwType=3&dwLvl=19&ddwPaperMoney=11000&strPoolName=jxcfd2_exchange_hb_202110&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`
+                `dwType=3&dwLvl=4&ddwPaperMoney=11000&strPoolName=jxcfd2_exchange_hb_202111&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`
             ),
             async (err, resp, data) => {
                 try {
@@ -86,7 +86,7 @@ function cashOut111() {
         $.get(
             taskUrl(
                 `user/ExchangePrize`,
-                `dwType=3&dwLvl=17&ddwPaperMoney=111000&strPoolName=jxcfd2_exchange_hb_202110&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`
+                `dwType=3&dwLvl=2&ddwPaperMoney=111000&strPoolName=jxcfd2_exchange_hb_202111&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`
             ),
             async (err, resp, data) => {
                 try {
@@ -110,7 +110,31 @@ function cashOut100() {
         $.get(
             taskUrl(
                 `user/ExchangePrize`,
-                `dwType=3&dwLvl=3&ddwPaperMoney=100000&strPoolName=jxcfd2_exchange_hb_202110&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`
+                `dwType=3&dwLvl=3&ddwPaperMoney=100000&strPoolName=jxcfd2_exchange_hb_202111&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`
+            ),
+            async (err, resp, data) => {
+                try {
+                    if (err) {
+                        $.logErr(`❌ 账号${$.index} API请求失败，请检查网络后重试\n data: ${JSON.stringify(err, null, 2)}`);
+                    } else {
+                        data = $.toObj(data);
+                    }
+                } catch (e) {
+                    $.logErr(`======== 账号 ${$.index} ========\nerror:${e}\ndata: ${resp && resp.body}`)
+                } finally {
+                    resolve(data);
+                }
+            }
+        );
+    });
+}
+
+function cashOut1() {
+    return new Promise(async (resolve) => {
+        $.get(
+            taskUrl(
+                `user/ExchangePrize`,
+                `dwType=3&dwLvl=5&ddwPaperMoney=1000&strPoolName=jxcfd2_exchange_hb_202111&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`
             ),
             async (err, resp, data) => {
                 try {
