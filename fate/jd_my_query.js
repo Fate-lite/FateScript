@@ -15,13 +15,14 @@ const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
 let cookiesArr = [], cookie = '', message = '', allMessage = '';
 
 var cfdShareCode = ['F3087DD7E7B5500D273BBC627DE10AFEAEC136674B5D3E94844839F7F5446947', '5C7BB6680D99510763CC2211CB43EAD53A958BE6FA7E443F2DE0AC53ED200567','2B3820A7CF0EB78803E49CD6EE6030C90B7F36DE08A4694CCE4C9F8E414ADB04'];
-var factorySharCodesFate = ['Gskrh9hZJN5MJBkCIrN2eQ==', '5SY_XijoPDoVPKAzab3tRA==', 'phKfNTFXwHG_iQRYuBXXCw==', '87tEu9tp4_e9EUmE3f63Eg==', 'adSzD5Vcdx2u38wSle_YLQ==', 'tD2vV4oOZ-278u9c3YhN6A==', 'GP7OkbO_tfcozbkMpRw_DQ==', '-9GPm3huWJcq-lalq34pzQ==', 'j0jHl2b2ejP5EsWTTxVFRA=='];
 // var cashSharCodesFate = ['IR8-a-qzZfs78m7TwnMW,IRs1bey2Zv8', 'ZE9hMJTHBblZjTuduBM,IRs1bey2Zv8', 'eU9Ya-2xYvwl82eHwyBBhw,IRs1bey2Zv8', '9pCRtFUxsnSrrQ,IRs1bey2Zv8', 'ZE93G7rJPKl6pDSCrTU,IRs1bey2Zv8', 'eU9YarrhYKp1oGfdyXQT0A,IRs1bey2Zv8', 'eU9YarjjY_1z-TzQn3FF3g,IRs1bey2Zv8', 'eU9YDL7EBr1vrheRowJ0,IRs1bey2Zv8', 'eU9Yaeu7Yf8jpz-Ez3pAhw,IRs1bey2Zv8', 'eU9YaL7hZKp1-WqByCdF1Q,IRs1bey2Zv8', 'eU9Yae7gM_QhoGmGmnoS1A,IRs1bey2Zv8', 'chg1au66Zvo,IRs1bey2Zv8', 'eU9YaLnmY_typWnQyXES0g,IRs1bey2Zv8', 'eU9YLp7RMJ9klyeiuSR2,IRs1bey2Zv8', 'eU9YFYjbMYVPty-ztiJP,IRs1bey2Zv8', 'eU9YaejnYvwi8W7cw3QahA,IRs1bey2Zv8'];
-var plantBeanHelpSharCodesFate = ['3anhauzclvtd5xvo5pqwbe7tsnqwzmygsqdivxy', 'zmuoamarz6g57bc2xumnpe2esd2cz45k2t3udgq', '4npkonnsy7xi3f5ex4qzfk22pdqnxfknkrpjdya', 'ngmcv4pacszmzdxukxtgo654km', '45syqbie6cumajez6zyh652objprakie2xaae7a', 'olmijoxgmjutylqcwdocjor5tg2e4fgmflkztgq', 'olmijoxgmjutz77fqmdbw37he4fo66sduuj76zq', 'wrqpt6mmzjh2zh43qm3lhpoxolztzq5hsz7sxui', 'mlrdw3aw26j3w5ains777eex4kqcnqzjpm44bgq', 'e7lhibzb3zek2ka5m3jh2ass6dyvy5vap4w35si', 'mlrdw3aw26j3xljhnl5eclhagjlxbknrecn2yda', '72rx7jhpzm6rxw57zsxuyuzyke', 'e7lhibzb3zek33nilnkjryxyx4ybyhqm7ossppa', '4vvbjlml6tdfcb35xxka5hvfbpt76ddzkn27miy', 'qmnmamd3ukiwrrsjljlvu42kupdmw4randel3aq', 'mlrdw3aw26j3xwu7huqqwhyx5ex5jdmfzrdz6uy'];
 var jxncSharCodesFate = ['69775f9063257f94840d822bd8398d4b', '1a1b32e3df8f2cb6b10d7bcc0ff70154', '3b88811aa2740ad911995caf9082b483', 'bf359f8a02a0a84b83c46261b6543962', '70fa60d7b3cf627c686a1b45e0a7c31d', 'd7a846745f132c9d2eb62d2955697082', '7ec89fc9af1fd81c4bbf32a44d595930'];
 var bookShopSharCodesFate = ['21cf43f0bd0449549d9811956b55c7df', '7a4d04b695d6400f8663998d4a8db0fd'];
 var jdAiXiaoChuSharCodes = ["2867233","2117046","3756861","3087864","3844023","3844050","3284134","3844101","3844126","3869869","3912376"];
-var jdFruitSharCodes = ["40cf6440db1943e2a9d1a6ae28366100","948da82d3b0b44dcbad90353cd177408","31c5eed3c8b4448ca04db3a04ffe6d21","28c8d02f8f1848538103068925a2f9f2","bc51cef8da954eca99cf8684c3cd6d51","ace5af81ef034576bcd5b3b42dee37b9","7d539fb5bc964f6f918f82f82010de23","fa69e1ffbfc144cc96417cc12cd3a5ee","87c1338b66e84879b2c94c1b069f775b","c42cde24eb0b461497a9082cf96eeceb","74bd01f2678944e8aae61c0e87905633","6864df95c9454bf9b4e3c368ec445a9f","c85dff36024346f48c4555657996b4b8","06061a4672c64210b0f54babc19997aa","2c972333021f4914ad33f0f88e7047cf","7ab9cc3847b84a3eb43063c41950022c","077f44caec524b829764f25a1fe36231","60aad383b9d84b849fc8ea87fe72709a"];
+var jdFruitSharCodes = ["40cf6440db1943e2a9d1a6ae28366100","948da82d3b0b44dcbad90353cd177408","31c5eed3c8b4448ca04db3a04ffe6d21","ace5af81ef034576bcd5b3b42dee37b9","28c8d02f8f1848538103068925a2f9f2","bc51cef8da954eca99cf8684c3cd6d51","74bd01f2678944e8aae61c0e87905633","87c1338b66e84879b2c94c1b069f775b","7ab9cc3847b84a3eb43063c41950022c","077f44caec524b829764f25a1fe36231","30a40de0601c4c2386ab5cae5dbcabf4","3e9557b5f3734f42925b8c1312d14fe4","2af2fd5d4b814eed9bbe85ee0c4d846c","237a88f44a9d4e158fa5a1d4fa3139eb","b4b0e13e9c2d4a118d11e1986ab71913","0580e4bae4314fe7ba8c8164f7506f55","c85dff36024346f48c4555657996b4b8","6e07ee2071a446498f872fd61a39d987","6864df95c9454bf9b4e3c368ec445a9f","c42cde24eb0b461497a9082cf96eeceb","c3dbab40f7fe438aade22208734ffc0a","370d43a50c4a45a0bdc112746faf2632","b2992c3b6e5e4b5b9bca438bf8381900","943ee9838acd4210af935fac0aec6101","e5be359a14674498b47dfe2b4bd9c0ea","2be52f1c1ab44eb3be82af0da10d0c32","f3e3e58bcbdc49a5bd7a6ddc72d71806","22a42f660a74403690740d98a7a8a6b8","e6e86649ebe94965aef2f849fd916c75","b2337adeefd14943aca31869b42c79f1","4df59c4af323450fa324c539bae6cef6","8dac1466c371488f90d943ddd8509702","d1fbedc210bd4f88b8e4506f0e7f4be1","c578ef4edad0483ea4f3655288ea31dd","b7fbcca039f94698a9eaae7634202c08","e14774ead3614176ab059778cf8449a3","4d010ace5ae0473eb2db18c4255b30ec","27ca32bd0163495ab338dbbe3d94b68d","4c2790c1818d46b5b448c470b56b4632","89eff712dee44cf6a1235181609822af"];
+var plantBeanHelpSharCodesFate = ['3anhauzclvtd5xvo5pqwbe7tsnqwzmygsqdivxy',"zmuoamarz6g57bc2xumnpe2esd2cz45k2t3udgq","4npkonnsy7xi3f5ex4qzfk22pdqnxfknkrpjdya","olmijoxgmjutylqcwdocjor5tg2e4fgmflkztgq","ngmcv4pacszmzdxukxtgo654km","45syqbie6cumajez6zyh652objprakie2xaae7a","mlrdw3aw26j3xljhnl5eclhagjlxbknrecn2yda","mlrdw3aw26j3w5ains777eex4kqcnqzjpm44bgq","mlrdw3aw26j3xwu7huqqwhyx5ex5jdmfzrdz6uy","olmijoxgmjutzfx26wrbc3vy2tpv2kpq4ryz26y","h3cggkcy6agkgfrtexqdgsoap4utw4iaqhl4gfa","e7lhibzb3zek3pwngz45dsrygn3ao6rs7heeuaq","4npkonnsy7xi3moudtehcwlw6xdkktrj6fbxqfy","zalmhfy34qahzrmdoxjcwsfiktbws2fogitt3pi","f5pavyxxlph5pmbmfpzb6pbuhy6sq5p4pw3nfqq","e7lhibzb3zek33nilnkjryxyx4ybyhqm7ossppa","e7lhibzb3zek2lnmv3pd2keos47wer64qqpegay","72rx7jhpzm6rxw57zsxuyuzyke","e7lhibzb3zek2ka5m3jh2ass6dyvy5vap4w35si","mlrdw3aw26j3w22wzl7xytvf2vmsdqpurlot7pq","olmijoxgmjutz5hbsfrv52sss4pac542dfyglqq","4npkonnsy7xi2niq6wnbtzhti3zff46vicpayzy","e7lhibzb3zek23f7r5adeitrf4h54qoi5uhxnqq","mlrdw3aw26j3xorq7lj5q3llioypbyhevonkivq","ey3mg7tsvij5hhscfndbqhmumi","x3x7xhsua3bmiepp4vhxf73zvuh5kik3d7zkx6y","e7lhibzb3zek2auz7gfpyzr6vmtctge4lmuk5ea","hexohqmn2e3mdn77fca5kakbxfyy4o3gpzbylui","6bddbjrew6djawixj36v5mnlpe","iry3groe25yimxkjjajx53cj4rwiv6r6nc5ugna","mlrdw3aw26j3xsk2zwzdbxczg6mcltoxx2x2vwq","mlrdw3aw26j3wqiqsmvxn7xfqxa7sytjlglnpvi","mlrdw3aw26j3wsuuscbnflv3illcz27qjgb2rja","4npkonnsy7xi2yw7w22p3wsosq2ydnu5oh3bbii","rj7s6mzlk7uogau5uy37n4jsqdjjyefipj5kfaq","e7lhibzb3zek2kg3tkgogpn522tctxeiwgv7cdy","gom5o6ds5ffs4dawngabk4np47k2gysyctiktiy","tbyhuedblr5skl4dc2quih2lu2rpdcy22prcbta","4npkonnsy7xi2i2axoobshkxlfvx7ob6abjhsca"];
+var factorySharCodesFate = ['Gskrh9hZJN5MJBkCIrN2eQ==',"tD2vV4oOZ-278u9c3YhN6A==","87tEu9tp4_e9EUmE3f63Eg==","osCIC2NmARC8Rr-A1XTK4g==","drREJVrUQoGu8Q1SKxz3dQ==","VINfarYl5rbggZh4dcljRw==","yvP4B1M9VLY1xjqEtYpXqA==","PvGh--GfW-4x9ZktrgQ3Tg==","NlxdagQuWTWR-XMf-Mfl-A==","sZvuGhwgU7ZWt9tCcwzYmw==","TFtISpv8bQIAfR6qo1toRQ==","XOEI_sSCVqZUCfQFfZ0HkA==","BWgFZp13i1OwsFjh6az0QQ==","lp3ycbyLY0nUq22tQqlf0Q==","lcSU1Ix8UUx5QvbJ_LiWDQ==","ckRLkHpvOKMr17z52bSLGw==","H3s7oocdc3bB2PvJI0g6JA==","Kup4Z-9F7H0yfD0TV5wD6g==","8I0WvQg5ms8mnZ3wBp1PsA==","WQ8f4OLP027INgmIsADfEA==","UKxUByHI1QXLkBtaRwXTsQ==","2nWfjz1Y4SRVTFEW867Oyg==","zzgXe5DWP_NqB5pQthHkOg==","eBH38brAyCv_eKVisB8kSw==","tNrO22YiSaMORZwN9bG7bg==","-JUGqxI_vhX7FC46093CEA==","XpIusEJ4_od53EUGklqJqQ=="];
+
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.tuanIds = [];
 if ($.isNode()) {
@@ -35,6 +36,11 @@ if ($.isNode()) {
 }
 !(async () => {
 
+    $.log('开始东东农场除邀请码推送请求')
+    for (let codeFate of jdFruitSharCodes) {
+        await fruitHelp(codeFate);
+    };
+
     $.log('开始京喜工厂邀请码推送请求')
     for (let codeFate of factorySharCodesFate) {
         await dreamFactoryHelp(codeFate);
@@ -46,27 +52,23 @@ if ($.isNode()) {
         await plantBeanHelp(codeFate);
     };
 
-    $.log('开始爱消除邀请码推送请求')
-    for (let codeFate of jdAiXiaoChuSharCodes) {
-        await axcHelp(codeFate);
-    };
+    // $.log('开始爱消除邀请码推送请求')
+    // for (let codeFate of jdAiXiaoChuSharCodes) {
+    //     await axcHelp(codeFate);
+    // };
 
 
-    $.log('开始东东农场除邀请码推送请求')
-    for (let codeFate of jdFruitSharCodes) {
-        await axcHelp(codeFate);
-    };
+
+    // $.log('开始京喜农场邀请码推送请求')
+    // for (let codeFate of jxncSharCodesFate) {
+    //     await jxncHelp(codeFate);
+    // };
 
 
-    $.log('开始京喜农场邀请码推送请求')
-    for (let codeFate of jxncSharCodesFate) {
-        await jxncHelp(codeFate);
-    };
-
-    $.log('开始书店邀请码推送请求')
-    for (let codeFate of bookShopSharCodesFate) {
-        await bookShopHelp(codeFate);
-    };
+    // $.log('开始书店邀请码推送请求')
+    // for (let codeFate of bookShopSharCodesFate) {
+    //     await bookShopHelp(codeFate);
+    // };
 
     // $.log('开始财富岛邀请码推送请求')
     // let i = 1;
@@ -187,6 +189,31 @@ function axcHelp(codeFate) {
     });
 }
 
+function fruitHelp(codeFate) {
+    return new Promise(resolve => {
+        $.get({
+            url: "http://api.tyh52.com/act/set/jd_fruit/" + codeFate
+        }, (err, resp, data) => {
+            try {
+                if (data) {
+                    data = JSON.parse(data);
+                    if (data.code == 1) {
+                        console.log("提交自己的邀請碼成功",codeFate);
+                    } else {
+                        console.log("已经提交过自己的邀请码",codeFate);
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(data);
+            }
+        })
+    });
+
+}
+
+
 function plantBeanHelp(codeFate) {
     return new Promise(resolve => {
         $.get({
@@ -211,29 +238,6 @@ function plantBeanHelp(codeFate) {
 
 }
 
-function fruitHelp(codeFate) {
-    return new Promise(resolve => {
-        $.get({
-            url: "http://api.tyh52.com/act/set/jd_fruit/" + codeFate
-        }, (err, resp, data) => {
-            try {
-                if (data) {
-                    data = JSON.parse(data);
-                    if (data.code == 1) {
-                        console.log("提交自己的邀請碼成功",codeFate);
-                    } else {
-                        console.log("已经提交过自己的邀请码",codeFate);
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp);
-            } finally {
-                resolve(data);
-            }
-        })
-    });
-
-}
 
 function jxncHelp(codeFate) {
     return new Promise(resolve => {
