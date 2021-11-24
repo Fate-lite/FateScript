@@ -41,16 +41,18 @@ if ($.isNode()) {
         await fruitHelp(codeFate);
     };
 
+    $.log('开始种豆得豆邀请码推送请求')
+    for (let codeFate of plantBeanHelpSharCodesFate) {
+        await plantBeanHelp(codeFate);
+    };
+
     $.log('开始京喜工厂邀请码推送请求')
     for (let codeFate of factorySharCodesFate) {
         await dreamFactoryHelp(codeFate);
     };
 
 
-    $.log('开始种豆得豆邀请码推送请求')
-    for (let codeFate of plantBeanHelpSharCodesFate) {
-        await plantBeanHelp(codeFate);
-    };
+
 
     // $.log('开始爱消除邀请码推送请求')
     // for (let codeFate of jdAiXiaoChuSharCodes) {
