@@ -57,7 +57,6 @@ if (process.env.CKNOWARNERROR) {
     } else {
         console.log(`禁用失败!\n`);
     }
-    console.log(other);
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())

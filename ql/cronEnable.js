@@ -30,7 +30,6 @@ const {
     } else {
         console.log(`启用失败!\n`);
     }
-    console.log(other);
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
