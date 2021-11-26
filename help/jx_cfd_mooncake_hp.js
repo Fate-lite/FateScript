@@ -400,7 +400,6 @@ function helpByStage(shareCodes) {
     })
 }
 
-
 // 获取用户信息
 function getUserInfo(showInvite = true) {
     return new Promise(async (resolve) => {
