@@ -78,7 +78,7 @@ if ($.isNode()) {
                 await signhb(2)
                 await $.wait(2000)
                 if ($.canHelp) {
-                    console.log(`开始内部互助: \n`)
+                    console.log(`开始互助: \n`)
                     for (let j = 0; j < $.shareCodes.length; j++) {
                         if ($.shareCodes[j].num === $.domax) {
                             $.shareCodes.splice(j, 1)
@@ -100,14 +100,15 @@ if ($.isNode()) {
                         if ($.helpSuccess) {
                             $.shareCodes[j].num++
                         }
-                        if ($.black){
-                            break;
-                        }
+                        break;
                     }
+                }else {
+                    console.log(`今日已签到，无法助力好友啦~`)
+                }
             }
-    } else {
-        console.log(`今日已签到，无法助力好友啦~`)
-    }
+            if ($.shareCodes.length == 0 && $.index >= $.runHelpUser){
+                break;
+            }
         }
     }
 })()

@@ -93,6 +93,9 @@ if ($.isNode()) {
         token = await getJxToken()
         await pasture();
         await $.wait(2000);
+        if ($.selfHelpCodeList.length == 0 && $.selfHbCodeList.length == 0 && $.index >= $.runHelpUser){
+            break;
+        }
     }
 })()
     .catch((e) => {

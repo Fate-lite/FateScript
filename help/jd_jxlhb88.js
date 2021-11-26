@@ -80,6 +80,9 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
         continue
       }
     }
+    if ($.helpShareCode.length == 0 && $.index >= $.runHelpUser){
+      break;
+    }
   }
 
   // 拆红包
