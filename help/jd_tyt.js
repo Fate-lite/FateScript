@@ -8,7 +8,7 @@ export TYT_PACKETID=""
 注意：助力码每天会变，旧的不可用。
 
 */
-const $ = new Env('柠檬推一推');
+const $ = new Env('推一推');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
