@@ -24,7 +24,7 @@ if ($.isNode()) {
 } else {
   cookiesArr = [$.getdata("CookieJD"), $.getdata("CookieJD2"), ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
-$.runHelpUser = process.env.runHelpUser ?? 6;
+$.runHelpUser = process.env.runHelpUser + 1 ?? 6;
 $.helpShareCode = [];
 $.activeId = '525597';
 const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
@@ -46,7 +46,9 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
     $.isLogin = true
     $.nickName = ''
     UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
-    UAInfo[$.UserName] = UA
+    if ($.index < $.runHelpUser){
+      UAInfo[$.UserName] = UA
+    }
     await TotalBean();
     console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
     if (!$.isLogin) {
@@ -61,12 +63,12 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
     await $.wait(2000)
     await getUserInfo()
     await $.wait(2000)
-    console.log(`\n\n开始助力好友\n\n`);
+    console.log(`\n开始助力好友\n`);
     $.canHelp = true;
     for (let j = 0; j < $.helpShareCode.length && $.canHelp; j++) {
-      console.log(`【${$.UserName}】去助力【${$.helpShareCode[j].userName}】邀请码：${$.helpShareCode[j].strUserPin}`);
+      console.log(`【${$.UserName}】去助力【${$.helpShareCode[j].userName}】邀请码：${$.helpShareCode[j].strUserPin}\n\n`);
       if ($.UserName === $.helpShareCode[j].userName) {
-        console.log(`助力失败：不能助力自己`)
+        console.log(`助力失败：不能助力自己\n`)
         continue
       }
       $.max = false;
@@ -102,9 +104,7 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
     .finally(() => {
       $.done();
     })
-async function main() {
 
-}
 //参与活动
 function joinActive() {
   return new Promise(resolve => {
