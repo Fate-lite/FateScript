@@ -16,6 +16,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 let tytpacketId = '';
+let curTytId = '';
 
 $.runHelpUser = process.env.runHelpUser + 1 ?? 6;
 $.helpTYTId = {};
@@ -60,7 +61,7 @@ if ($.isNode()) {
                 await $.wait(1000)
                 await coinDozerBackFlow()
                 await $.wait(1000)
-                await helpCoinDozer(packetId)
+                await helpCoinDozer(curTytId)
                 await $.wait(500)
             }
             $.canHelp = true
@@ -225,7 +226,7 @@ function coinDozerBackFlow() {
     });
 }
 
-function helpCoinDozer(tytpacketId) {
+function helpCoinDozer(curTytId) {
     return new Promise(async (resolve) => {
         let options = {
             url: `https://api.m.jd.com/?t=1623066557140`,
@@ -278,8 +279,9 @@ function getCoinDozerInfo() {
                     data = JSON.parse(data);
                     if (data.code == 0 && data.data.sponsorActivityInfo.packetId) {
                         console.log(`【京东账号${$.index}的推一推邀请码】${data.data.sponsorActivityInfo.packetId}\n`)
+                        curTytId = data.data.sponsorActivityInfo.packetId;
                         if ($.index < $.runHelpUser) {
-                            $.helpTYTId.push(data.data.sponsorActivityInfo.packetId)
+                            $.helpTYTId.push(curTytId);
                         }
                     } else {
                         console.log(`【京东账号${$.index}】获取助力码失败\n`)
