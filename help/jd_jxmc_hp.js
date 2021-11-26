@@ -19,7 +19,7 @@
 const $ = new Env('京喜牧场互助');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-$.runHelpUser = process.env.runHelpUser + 1 ?? 6;
+$.runHelpUser = process.env.runHelpUser ?? 5;
 $.inviteCodeList = [];
 $.selfHelpCodeList = [];
 $.selfHbCodeList = [];
@@ -93,7 +93,7 @@ if ($.isNode()) {
         token = await getJxToken()
         await pasture();
         await $.wait(2000);
-        if ($.selfHelpCodeList.length == 0 && $.selfHbCodeList.length == 0 && $.index >= $.runHelpUser){
+        if ($.selfHelpCodeList.length == 0 && $.selfHbCodeList.length == 0 && $.index > $.runHelpUser){
             break;
         }
     }
@@ -142,7 +142,7 @@ async function pasture() {
             }
             console.log('获取活动信息成功');
             console.log(`互助码：${$.homeInfo.sharekey}`);
-            if ($.index < $.runHelpUser){
+            if ($.index <= $.runHelpUser){
                 await uploadShareCode($.homeInfo.sharekey)
                 $.selfHelpCodeList.push($.homeInfo.sharekey);
             }
@@ -155,7 +155,7 @@ async function pasture() {
             }else{
                 console.log('获取红包助力信息成功\n');
                 console.log('红包助力码:', $.hbInfo.sharekey)
-                if ($.index < $.runHelpUser){
+                if ($.index <= $.runHelpUser){
                     $.selfHbCodeList.push($.hbInfo.sharekey);
                 }
             }

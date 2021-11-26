@@ -36,7 +36,7 @@ let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭�
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 let UA, UAInfo = {}, isLoginInfo = {};
-$.runHelpUser = process.env.runHelpUser + 1 ?? 6;
+$.runHelpUser = process.env.runHelpUser ?? 5;
 $.shareCodes = [];
 $.blackInfo = {}
 $.domax = 20
@@ -73,7 +73,7 @@ if ($.isNode()) {
             if (!isLoginInfo[$.UserName]) continue
             await signhb(1)
             await $.wait(1000)
-            if ($.index >= $.runHelpUser){
+            if ($.index > $.runHelpUser){
                 $.canHelp = true;
                 await signhb(2)
                 await $.wait(2000)
@@ -106,7 +106,7 @@ if ($.isNode()) {
                     console.log(`今日已签到，无法助力好友啦~`)
                 }
             }
-            if ($.shareCodes.length == 0 && $.index >= $.runHelpUser){
+            if ($.shareCodes.length == 0 && $.index > $.runHelpUser){
                 break;
             }
         }
@@ -141,7 +141,7 @@ function signhb(type = 1) {
                             if (status === 1) {
                                 let max = false
                                 if (helpNum == $.domax) max = true
-                                if ($.index < $.runHelpUser){
+                                if ($.index <= $.runHelpUser){
                                     $.shareCodes.push({
                                         'use': $.UserName,
                                         'smp': smp,

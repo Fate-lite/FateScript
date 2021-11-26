@@ -17,9 +17,9 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let cookiesArr = [], cookie = '';
 let tytpacketId = '';
 let curTytId = '';
-
-$.runHelpUser = process.env.runHelpUser + 1 ?? 6;
-$.helpTYTId = {};
+let ua = `jdltapp;iPhone;3.1.0;${Math.ceil(Math.random()*4+10)}.${Math.ceil(Math.random()*4)};${randomString(40)}`
+$.runHelpUser = process.env.runHelpUser ?? 5;
+$.helpTYTId = [];
 
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -44,6 +44,7 @@ if ($.isNode()) {
             $.isLogin = true;
             $.nickName = '';
             $.canRun = true
+            ua = `jdltapp;iPhone;3.1.0;${Math.ceil(Math.random()*4+10)}.${Math.ceil(Math.random()*4)};${randomString(40)}`
             message = '';
             await TotalBean();
             console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
@@ -65,7 +66,7 @@ if ($.isNode()) {
                 await $.wait(500)
             }
             $.canHelp = true
-            console.log(`开始互助: \n`);
+            console.log($.helpTYTId.length)
             for (let j = 0; j < $.helpTYTId.length && $.canHelp; j++) {
                 tytpacketId = $.helpTYTId[j];
                 console.log(`账号${$.UserName} 去助力 ${tytpacketId}`)
@@ -78,7 +79,7 @@ if ($.isNode()) {
                     continue
                 }
             }
-            if ($.helpTYTId.length == 0 && $.index >= $.runHelpUser){
+            if ($.helpTYTId.length == 0 && $.index > $.runHelpUser){
                 break;
             }
         }
@@ -148,9 +149,9 @@ function tythelp() {
                     console.log("帮推：" + data.data.amount)
                 } else if (data.msg.indexOf("完成") != -1) {
                     console.log("推一推已完成\n")
-                    $.Helpdone = true;
+                    $.helpDone = true;
                 } else {
-                    console.log(`错误: ${data.msg}\n`)
+                    console.log(`${data.msg}\n`)
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -278,9 +279,9 @@ function getCoinDozerInfo() {
                 } else {
                     data = JSON.parse(data);
                     if (data.code == 0 && data.data.sponsorActivityInfo.packetId) {
-                        console.log(`【京东账号${$.index}的推一推邀请码】${data.data.sponsorActivityInfo.packetId}\n`)
+                        console.log(`【京东账号${$.index}的推一推邀请码】${data.data.sponsorActivityInfo.packetId} \n`)
                         curTytId = data.data.sponsorActivityInfo.packetId;
-                        if ($.index < $.runHelpUser) {
+                        if ($.index <= $.runHelpUser) {
                             $.helpTYTId.push(curTytId);
                         }
                     } else {
@@ -297,8 +298,15 @@ function getCoinDozerInfo() {
     });
 }
 
-var _0xodD = 'jsjiami.com.v6', _0x4246 = [_0xodD, '\x67\x65\x74', '\x68\x74\x74\x70\x73\x3a\x2f\x2f\x72\x61\x77\x2e\x66\x61\x73\x74\x67\x69\x74\x2e\x6f\x72\x67\x2f\x7a\x65\x72\x6f\x32\x30\x35\x2f\x75\x70\x64\x61\x74\x65\x54\x65\x61\x6d\x2f\x6d\x61\x69\x6e\x2f\x73\x68\x61\x72\x65\x43\x6f\x64\x65\x73\x2f\x74\x79\x74\x2e\x6a\x73\x6f\x6e', '\x4d\x6f\x7a\x69\x6c\x6c\x61\x2f\x35\x2e\x30\x20\x28\x69\x50\x68\x6f\x6e\x65\x3b\x20\x43\x50\x55\x20\x69\x50\x68\x6f\x6e\x65\x20\x4f\x53\x20\x31\x33\x5f\x32\x5f\x33\x20\x6c\x69\x6b\x65\x20\x4d\x61\x63\x20\x4f\x53\x20\x58\x29\x20\x41\x70\x70\x6c\x65\x57\x65\x62\x4b\x69\x74\x2f\x36\x30\x35\x2e\x31\x2e\x31\x35\x20\x28\x4b\x48\x54\x4d\x4c\x2c\x20\x6c\x69\x6b\x65\x20\x47\x65\x63\x6b\x6f\x29\x20\x56\x65\x72\x73\x69\x6f\x6e\x2f\x31\x33\x2e\x30\x2e\x33\x20\x4d\x6f\x62\x69\x6c\x65\x2f\x31\x35\x45\x31\x34\x38\x20\x53\x61\x66\x61\x72\x69\x2f\x36\x30\x34\x2e\x31\x20\x45\x64\x67\x2f\x38\x37\x2e\x30\x2e\x34\x32\x38\x30\x2e\x38\x38', '\x61\x75\x74\x68\x6f\x72\x43\x6f\x64\x65', '\x70\x61\x72\x73\x65', '\x6c\x6f\x67\x45\x72\x72', '\x6a\x73\x41\x52\x6a\x52\x6b\x71\x69\x57\x4f\x61\x6d\x69\x6b\x2e\x63\x6f\x6d\x56\x4a\x42\x2e\x76\x36\x3d\x3d']; var _0x3dd3 = function (_0x4fdd8e, _0x2bbd52) { _0x4fdd8e = ~~'0x'['concat'](_0x4fdd8e); var _0x4aa04a = _0x4246[_0x4fdd8e]; return _0x4aa04a; }; (function (_0x4f10de, _0x3c5b1f) { var _0x29abd4 = 0x0; for (_0x3c5b1f = _0x4f10de['shift'](_0x29abd4 >> 0x2); _0x3c5b1f && _0x3c5b1f !== (_0x4f10de['pop'](_0x29abd4 >> 0x3) + '')['replace'](/[ARRkqWOkVJB=]/g, ''); _0x29abd4++) { _0x29abd4 = _0x29abd4 ^ 0x98130; } }(_0x4246, _0x3dd3)); function getAuthorShareCode() { return new Promise(_0x456c8e => { $[_0x3dd3('0')]({ '\x75\x72\x6c': _0x3dd3('1'), '\x68\x65\x61\x64\x65\x72\x73': { 'User-Agent': _0x3dd3('2') } }, async (_0x590035, _0x5bae1e, _0x1b2379) => { try { if (_0x590035) { } else { $[_0x3dd3('3')] = JSON[_0x3dd3('4')](_0x1b2379); } } catch (_0x265e68) { $[_0x3dd3('5')](_0x265e68, _0x5bae1e); } finally { _0x456c8e(); } }); }); }; _0xodD = 'jsjiami.com.v6';
-
+function randomString(e) {
+    e = e || 32;
+    let t = "abcdefhijkmnprstwxyz2345678",
+        a = t.length,
+        n = "";
+    for (i = 0; i < e; i++)
+        n += t.charAt(Math.floor(Math.random() * a));
+    return n
+}
 
 async function TotalBean() {
     return new Promise(async resolve => {

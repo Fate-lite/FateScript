@@ -40,7 +40,7 @@ $.fateShareCodes="";
 let cookiesArr = [], cookie = '', token = '';
 let UA, UAInfo = {};
 let nowTimes;
-$.runHelpUser = process.env.runHelpUser + 1 ?? 6;
+$.runHelpUser = process.env.runHelpUser ?? 5;
 $.helpShareCode = [];
 $.appId = 10032;
 if ($.isNode()) {
@@ -84,6 +84,9 @@ if ($.isNode()) {
             token = await getJxToken()
             await cfd();
             await $.wait(2000);
+            if ($.helpShareCode.length == 0 && $.index > $.runHelpUser){
+                break;
+            }
         }
     }
     await showMsg();
@@ -113,7 +116,6 @@ async function cfd() {
         //助力奖励
         await $.wait(2000)
         await composePearlState(2)
-
         $.canHelp = true;
         for (let j = 0; j < $.helpShareCode.length && $.canHelp; j++) {
             console.log(`\n账号${$.UserName} 去助力 ${$.helpShareCode[j]}`)
@@ -426,7 +428,7 @@ function getUserInfo(showInvite = true) {
                     if (showInvite && strMyShareId) {
                         console.log(`财富岛好友互助码每次运行都变化,旧的当天有效`);
                         console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}\n`);
-                        if ($.index < $.runHelpUser){
+                        if ($.index <= $.runHelpUser){
                             $.helpShareCode.push(strMyShareId);
                         }
                     }

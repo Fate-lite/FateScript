@@ -39,7 +39,7 @@ $.shareCodes = [];
 let cookiesArr = [], cookie = '', token = '';
 let UA;
 let nowTimes;
-$.runHelpUser = process.env.runHelpUser + 1 ?? 6;
+$.runHelpUser = process.env.runHelpUser ?? 5;
 $.selfHelpCode = [];
 $.appId = 10032;
 if ($.isNode()) {
@@ -94,7 +94,7 @@ if ($.isNode()) {
                     continue
                 }
             }
-            if ($.selfHelpCode.length == 0 && $.index >= $.runHelpUser){
+            if ($.selfHelpCode.length == 0 && $.index > $.runHelpUser){
                 break;
             }
         }
@@ -197,7 +197,7 @@ function getUserInfo(showInvite = true) {
                     if (showInvite && strMyShareId) {
                         console.log(`财富岛好友互助码每次运行都变化,旧的当天有效`);
                         console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}`);
-                        if ($.index < $.runHelpUser){
+                        if ($.index <= $.runHelpUser){
                             $.selfHelpCode.push(strMyShareId);
                         }
                         await submitCode(strMyShareId, $.UserName)

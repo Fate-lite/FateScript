@@ -24,7 +24,7 @@ if ($.isNode()) {
 } else {
   cookiesArr = [$.getdata("CookieJD"), $.getdata("CookieJD2"), ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
-$.runHelpUser = process.env.runHelpUser + 1 ?? 6;
+$.runHelpUser = process.env.runHelpUser ?? 5;
 $.helpShareCode = [];
 $.activeId = '525597';
 const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
@@ -46,7 +46,7 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
     $.isLogin = true
     $.nickName = ''
     UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
-    if ($.index < $.runHelpUser){
+    if ($.index <= $.runHelpUser){
       UAInfo[$.UserName] = UA
     }
     await TotalBean();
@@ -80,7 +80,7 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
         continue
       }
     }
-    if ($.helpShareCode.length == 0 && $.index >= $.runHelpUser){
+    if ($.helpShareCode.length == 0 && $.index > $.runHelpUser){
       break;
     }
   }
@@ -163,7 +163,7 @@ function getUserInfo() {
             } else {
               console.log(`获取助力码成功：${data.Data.strUserPin}\n`);
               if (data.Data.strUserPin) {
-                if ($.index < $.runHelpUser){
+                if ($.index <= $.runHelpUser){
                   $.helpShareCode.push({
                     strUserPin: data.Data.strUserPin,
                     userName: $.UserName
