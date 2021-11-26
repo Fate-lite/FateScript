@@ -63,10 +63,10 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
     await $.wait(2000)
     await getUserInfo()
     await $.wait(2000)
-    console.log(`\n开始助力好友\n`);
+    console.log(`开始助力好友: \n`);
     $.canHelp = true;
     for (let j = 0; j < $.helpShareCode.length && $.canHelp; j++) {
-      console.log(`【${$.UserName}】去助力【${$.helpShareCode[j].userName}】邀请码：${$.helpShareCode[j].strUserPin}\n\n`);
+      console.log(`【${$.UserName}】去助力【${$.helpShareCode[j].userName}】邀请码：${$.helpShareCode[j].strUserPin}\n`);
       if ($.UserName === $.helpShareCode[j].userName) {
         console.log(`助力失败：不能助力自己\n`)
         continue
