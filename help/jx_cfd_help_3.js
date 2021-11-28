@@ -187,9 +187,9 @@ function getUserInfo(showInvite = true) {
                         console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}`);
                         if ($.index <= $.runHelpUser){
                             $.selfHelpCode.push(strMyShareId);
+                            await submitCode(strMyShareId, $.UserName)
+                            await uploadShareCode(strMyShareId)
                         }
-                        await submitCode(strMyShareId, $.UserName)
-                        await uploadShareCode(strMyShareId)
                     }
                     $.info = {
                         ...$.info,
@@ -410,8 +410,6 @@ function submitCode(myInviteCode, user) {
         resolve({"code":500})
     })
 }
-
-//格式化助力码
 
 function TotalBean() {
     return new Promise(resolve => {
