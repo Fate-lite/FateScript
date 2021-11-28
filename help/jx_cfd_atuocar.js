@@ -81,36 +81,7 @@ $.appId = 10028;
             $.info = {}
             token = await getJxToken()
             await cfd();
-            await $.wait(2000);
-        }
-    }
-    let res = await getAuthorShareCode('https://raw.githubusercontent.com/Aaron-lv/updateTeam/master/shareCodes/cfd.json')
-    if (!res) {
-        $.http.get({url: 'https://purge.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/cfd.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
-        await $.wait(1000)
-        res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/cfd.json')
-    }
-    $.strMyShareIds = [...(res && res.shareId || [])]
-    await shareCodesFormat()
-    for (let i = 0; i < cookiesArr.length; i++) {
-        cookie = cookiesArr[i];
-        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-        $.canHelp = true
-        UA = UAInfo[$.UserName]
-        num = 0
-        if ($.newShareCodes && $.newShareCodes.length) {
-            console.log(`\n开始互助\n`);
-            for (let j = 0; j < $.newShareCodes.length && $.canHelp; j++) {
-                console.log(`账号${$.UserName} 去助力 ${$.newShareCodes[j]}`)
-                $.delcode = false
-                await helpByStage($.newShareCodes[j])
-                await $.wait(2000)
-                if ($.delcode) {
-                    $.newShareCodes.splice(j, 1)
-                    j--
-                    continue
-                }
-            }
+            await $.wait(1000);
         }
     }
     await showMsg();
@@ -1511,10 +1482,9 @@ function readShareCode() {
         resolve()
     })
 }
-
-function uploadShareCode(code, pin) {
+function uploadShareCode(code) {
     return new Promise(async resolve => {
-        $.post({url: `http://transfer.nz.lu/upload/cfd?code=${code}&ptpin=${encodeURIComponent(pin)}`, timeout: 10000}, (err, resp, data) => {
+        $.post({url: `https://transfer.nz.lu/upload/cfd?code=${code}&ptpin=${encodeURIComponent(encodeURIComponent($.UserName))}`, timeout: 30 * 1000}, (err, resp, data) => {
             try {
                 if (err) {
                     console.log(JSON.stringify(err))
@@ -1542,10 +1512,12 @@ function uploadShareCode(code, pin) {
                 resolve(data);
             }
         })
-        await $.wait(10000);
+        await $.wait(30 * 1000);
         resolve()
     })
 }
+
+
 //格式化助力码
 function shareCodesFormat() {
     return new Promise(async resolve => {
