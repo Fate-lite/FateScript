@@ -10,7 +10,7 @@
 0 0 * * * jd_jxlhb88.js
 
  */
-const $ = new Env('京喜领88元红包');
+const $ = new Env('京喜领88元红包3');
 const notify = $.isNode() ? require('./sendNotify') : {};
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : {};
 let cookiesArr = [], cookie = '';
@@ -29,40 +29,44 @@ $.helpShareCode = [];
 $.activeId = '525597';
 const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
 !(async () => {
-  if (!cookiesArr[0]) {
-    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-    return;
-  }
+
   console.log('京喜领88元红包\n' +
       '活动入口：京喜app-》我的-》京喜领88元红包\n' +
       `设置的帮助人数为${$.runHelpUser}人\n` +
       '温馨提示：如提示助力火爆，可尝试寻找京东客服')
   // 开启红包,获取互助码
-  // for (let i = 0; i < cookiesArr.length; i++) {
   for (let i = 0; i < 100; i++) {
-    if (cookiesArr[i]) {
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-      $.index = i + 1;
-      $.isLogin = true
-      $.nickName = ''
-      UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
-      if ($.index <= $.runHelpUser){
-        UAInfo[$.UserName] = UA
+    if (i >= $.runHelpUser){
+      if (i + 200 >= cookiesArr.length){
+        break;
       }
-      await TotalBean();
-      console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
-      if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-        if ($.isNode()) {
-          await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        }
-        continue
+      cookie = cookiesArr[i + 200];
+    }else{
+      cookie = cookiesArr[i];
+    }
+    $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+    $.index = i + 1;
+    $.isLogin = true
+    $.nickName = ''
+    UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
+    if ($.index <= $.runHelpUser){
+      UAInfo[$.UserName] = UA
+    }
+    await TotalBean();
+    console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
+    if (!$.isLogin) {
+      $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+      if ($.isNode()) {
+        await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
       }
-      token = await getJxToken()
-      await joinActive();
-      await $.wait(1000)
-      await getUserInfo()
-      await $.wait(1000)
+      continue
+    }
+    token = await getJxToken()
+    await joinActive();
+    await $.wait(1000)
+    await getUserInfo()
+    await $.wait(1000)
+    if ($.index > $.runHelpUser){
       console.log(`开始助力好友: \n`);
       $.canHelp = true;
       for (let j = 0; j < $.helpShareCode.length && $.canHelp; j++) {
@@ -80,10 +84,9 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
           continue
         }
       }
-      if ($.helpShareCode.length == 0 && $.index > $.runHelpUser){
-        break;
-      }
-
+    }
+    if ($.helpShareCode.length == 0 && $.index > $.runHelpUser){
+      break;
     }
   }
 

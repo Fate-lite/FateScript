@@ -1,6 +1,6 @@
 /*
 # 京喜签到
-0 0,5 * * * jx_sign.js
+0 0,5 * * * jd_jx_sign.js
 
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
@@ -35,7 +35,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
-let UA, UAInfo = {}, isLoginInfo = {};
+let UA, isLoginInfo = {};
 $.runHelpUser = process.env.runHelpUser ?? 5;
 $.shareCodes = [];
 $.blackInfo = {}
@@ -51,6 +51,7 @@ if ($.isNode()) {
 }
 !(async () => {
     $.CryptoJS = $.isNode() ? require("crypto-js") : CryptoJS;
+    console.log(`设置的帮助人数为${$.runHelpUser}人\n`)
     await requestAlgo();
     await $.wait(1000);
     if (!cookiesArr[0]) {
@@ -62,6 +63,9 @@ if ($.isNode()) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
             $.isLogin = true;
+            $.index = i + 1;
+            message = '';
+            $.nickName = '';
             UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
             if (isLoginInfo[$.UserName] === false) {
             } else {
@@ -73,12 +77,12 @@ if ($.isNode()) {
             if (!isLoginInfo[$.UserName]) continue
             await signhb(1)
             await $.wait(1000)
-            if ($.index > $.runHelpUser){
-                $.canHelp = true;
+            if (true){
+                $.canHelp = true
                 await signhb(2)
                 await $.wait(2000)
                 if ($.canHelp) {
-                    console.log(`开始互助: \n`)
+                    console.log(`开始互助: ${$.shareCodes.length}\n`)
                     for (let j = 0; j < $.shareCodes.length; j++) {
                         if ($.shareCodes[j].num === $.domax) {
                             $.shareCodes.splice(j, 1)
@@ -142,6 +146,7 @@ function signhb(type = 1) {
                                 let max = false
                                 if (helpNum == $.domax) max = true
                                 if ($.index <= $.runHelpUser){
+                                    console.log(`【签到互助码】${smp}`)
                                     $.shareCodes.push({
                                         'use': $.UserName,
                                         'smp': smp,
@@ -163,7 +168,6 @@ function signhb(type = 1) {
                                     }
                                 }
                             }
-                            console.log(`【签到互助码】${smp}`)
                             if (helpNum) console.log(`已有${helpNum}人助力`)
                             break
                         default:
@@ -180,9 +184,9 @@ function signhb(type = 1) {
 }
 
 // 签到助力
-function helpSignhb(smp = '') {
+function helpSignhb(smpCode = '') {
     return new Promise((resolve) => {
-        $.get(taskUrl("signhb/query", `type=1&signhb_source=1000&smp=${smp}&ispp=0&tk=`), async (err, resp, data) => {
+        $.get(taskUrl("signhb/query", `type=1&signhb_source=5&smp=${smpCode}&ispp=0&tk=`), async (err, resp, data) => {
             try {
                 if (err) {
                     console.log(JSON.stringify(err))
@@ -213,7 +217,6 @@ function helpSignhb(smp = '') {
         })
     })
 }
-
 
 function taskUrl(functionId, body = '') {
     let url = ``
@@ -302,6 +305,7 @@ function jsonParse(str) {
         }
     }
 }
+
 /*
 修改时间戳转换函数，京喜工厂原版修改
  */

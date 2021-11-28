@@ -70,7 +70,7 @@ if ($.isNode()) {
         return;
     }
     console.log('京喜牧场互助\n' +
-        '更新时间：2021-11-26\n' +
+        `设置的帮助人数为${$.runHelpUser}人\n` +
         '活动入口：京喜APP-我的-京喜牧场互助\n' +
         '温馨提示：请先手动完成【新手指导任务】再运行脚本')
     for (let i = 0; i < cookiesArr.length; i++) {
@@ -92,8 +92,8 @@ if ($.isNode()) {
         }
         token = await getJxToken()
         await pasture();
-        await $.wait(2000);
-        if ($.selfHelpCodeList.length == 0 && $.selfHbCodeList.length == 0 && $.index > $.runHelpUser){
+        await $.wait(1000);
+        if ($.selfHelpCodeList.length === 0 && $.selfHbCodeList.length === 0 && $.index > $.runHelpUser){
             break;
         }
     }
@@ -140,37 +140,36 @@ async function pasture() {
                     }
                 }
             }
-            console.log('获取活动信息成功');
-            console.log(`互助码：${$.homeInfo.sharekey}`);
+
             if ($.index <= $.runHelpUser){
+                console.log('获取活动信息成功');
+                console.log(`[活动互助码]：${$.homeInfo.sharekey}\n`);
                 await uploadShareCode($.homeInfo.sharekey)
                 $.selfHelpCodeList.push($.homeInfo.sharekey);
             }
-            await $.wait(2000)
+            await $.wait(1000)
             // 红包
             $.hbInfo = {};
             await takeGetRequest('GetInviteStatus');
             if (JSON.stringify($.hbInfo) === '{}'){
                 console.log('红包互助码获取失败或助力已满\n');
             }else{
-                console.log('获取红包助力信息成功\n');
-                console.log('红包助力码:', $.hbInfo.sharekey)
                 if ($.index <= $.runHelpUser){
+                    console.log(`[红包助力码]：${$.hbInfo.sharekey}\n`)
                     $.selfHbCodeList.push($.hbInfo.sharekey);
                 }
             }
-            await $.wait(2000)
+            await $.wait(1000)
             $.canHelp = true;
             for (let j = 0; j < $.selfHelpCodeList.length && $.canHelp; j++) {
                 console.log(`\n账号${$.UserName} 去助力 ${$.selfHelpCodeList[j]}`)
                 $.delcode = false
                 $.code = $.selfHelpCodeList[j];
                 await takeGetRequest('help');
-                await $.wait(2000);
+                await $.wait(1000);
                 if ($.delcode) {
                     $.selfHelpCodeList.splice(j, 1)
                     j--
-                    continue
                 }
             }
             $.canHelp = true;
@@ -179,11 +178,10 @@ async function pasture() {
                 $.delcode = false
                 $.codeHb = $.selfHbCodeList[j];
                 await takeGetRequest('helpHb');
-                await $.wait(2000);
+                await $.wait(1000);
                 if ($.delcode) {
                     $.selfHbCodeList.splice(j, 1)
                     j--
-                    continue
                 }
             }
         }
@@ -692,7 +690,7 @@ function uploadShareCode(code) {
                 resolve(data);
             }
         })
-        await $.wait(30 * 1000);
+        await $.wait(5 * 1000);
         resolve()
     })
 }
@@ -732,7 +730,6 @@ async function requestAlgo() {
             'Cache-Control': 'no-cache',
             'Accept': 'application/json',
             'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
-            //'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
             'Content-Type': 'application/json',
             'Origin': 'https://st.jingxi.com',
             'Sec-Fetch-Site': 'cross-site',

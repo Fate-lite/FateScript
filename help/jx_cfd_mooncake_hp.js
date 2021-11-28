@@ -53,14 +53,12 @@ if ($.isNode()) {
     cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 !(async () => {
-    if (!cookiesArr[0]) {
-        $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-        return;
-    }
     $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
     await requestAlgo();
     await $.wait(1000)
-    for (let i = 0; i < cookiesArr.length; i++) {
+    console.log(`设置的帮助人数为${$.runHelpUser}人\n`)
+    // for (let i = 0; i < cookiesArr.length; i++) {
+    for (let i = 0; i < 100; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -83,8 +81,7 @@ if ($.isNode()) {
             $.info = {}
             token = await getJxToken()
             await cfd();
-            await $.wait(2000);
-            if ($.helpShareCode.length == 0 && $.index > $.runHelpUser){
+            if ($.helpShareCode.length === 0 && $.index > $.runHelpUser){
                 break;
             }
         }
@@ -110,22 +107,21 @@ async function cfd() {
                 return
             }
         }
-        //抽奖
-        await $.wait(2000)
+        // 抽奖
+        await $.wait(1000)
         await composePearlState(4)
         //助力奖励
-        await $.wait(2000)
+        await $.wait(1000)
         await composePearlState(2)
         $.canHelp = true;
         for (let j = 0; j < $.helpShareCode.length && $.canHelp; j++) {
             console.log(`\n账号${$.UserName} 去助力 ${$.helpShareCode[j]}`)
             $.delcode = false
             await helpByStage($.helpShareCode[j])
-            await $.wait(2000)
+            await $.wait(1000)
             if ($.delcode) {
                 $.helpShareCode.splice(j, 1)
                 j--
-                continue
             }
         }
     } catch (e) {
@@ -632,6 +628,7 @@ function jsonParse(str) {
         }
     }
 }
+
 /*
 修改时间戳转换函数，京喜工厂原版修改
  */

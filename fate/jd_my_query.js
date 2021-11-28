@@ -36,7 +36,7 @@ if ($.isNode()) {
 }
 !(async () => {
 
-    $.log('开始东东农场除邀请码推送请求')
+    $.log('开始东东农场邀请码推送请求')
     for (let codeFate of jdFruitSharCodes) {
         await fruitHelp(codeFate);
     };
