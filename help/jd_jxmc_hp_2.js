@@ -2,11 +2,8 @@
 京喜牧场互助
 活动入口：京喜APP-我的-京喜牧场
 温馨提示：请先手动完成【新手指导任务】再运行脚本
-脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
-============Quantumultx===============
-[task_local]
 #京喜牧场互助
-0 0 * * * jd_jxmc_hp.js
+0 0 * * * jd_jxmc_hp_2.js
 
  */
 !function (t, r) { "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r() }(this, function () {

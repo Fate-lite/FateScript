@@ -6,7 +6,7 @@
 ============Quantumultx===============
 [task_local]
 #京喜牧场互助
-0 0 * * * jd_jxmc_hp.js
+0 0 * * * jd_jxmc_hp_3.js
 
  */
 !function (t, r) { "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r() }(this, function () {

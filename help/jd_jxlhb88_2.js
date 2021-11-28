@@ -7,7 +7,7 @@
 ==============Quantumult X==============
 [task_local]
 #京喜领88元红包
-0 0 * * * jd_jxlhb88.js
+0 0 * * * jd_jxlhb88_2.js
 
  */
 const $ = new Env('京喜领88元红包2');
