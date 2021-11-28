@@ -75,9 +75,9 @@ if ($.isNode()) {
             if (i + 200 >= cookiesArr.length){
                 break;
             }
-            cookie = cookiesArr[i + 200];
+            $.cookie = cookiesArr[i + 200];
         }else{
-            cookie = cookiesArr[i];
+            $.cookie = cookiesArr[i];
         }
         $.index = i + 1;
         $.isLogin = true;

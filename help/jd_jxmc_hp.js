@@ -24,7 +24,7 @@ $.inviteCodeList = [];
 $.selfHelpCodeList = [];
 $.selfHbCodeList = [];
 let cookiesArr = [];
-let UA, token, UAInfo = {}
+let UA, token = {};
 $.appId = 10028;
 let cardinfo = {
     "16": "小黄鸡",
@@ -65,10 +65,6 @@ if ($.isNode()) {
 !(async () => {
     $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
     await requestAlgo();
-    if (!cookiesArr[0]) {
-        $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
-        return;
-    }
     console.log('京喜牧场互助\n' +
         `设置的帮助人数为${$.runHelpUser}人\n` +
         '活动入口：京喜APP-我的-京喜牧场互助\n' +
@@ -760,10 +756,7 @@ async function requestAlgo() {
                             $.token = data.data.result.tk;
                             let enCryptMethodJDString = data.data.result.algo;
                             if (enCryptMethodJDString) $.enCryptMethodJD = new Function(`return ${enCryptMethodJDString}`)();
-                            // console.log(`获取签名参数成功！`)
-                            // console.log(`fp: ${$.fingerprint}`)
-                            // console.log(`token: ${$.token}`)
-                            // console.log(`enCryptMethodJD: ${enCryptMethodJDString}`)
+                            console.log(`获取签名参数成功！`)
                         } else {
                             // console.log(`fp: ${$.fingerprint}`)
                             console.log('request_algo 签名参数API请求失败:')

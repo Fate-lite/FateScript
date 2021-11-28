@@ -434,7 +434,7 @@ function TotalBean() {
                             $.nickName = data.data.userInfo.baseInfo.nickname;
                         }
                     } else {
-                        console.log('京东服务器返回空数据');
+                        // console.log('京东服务器返回空数据');
                     }
                 }
             } catch (e) {
@@ -519,16 +519,12 @@ async function requestAlgo() {
                     console.log(`request_algo 签名参数API请求失败，请检查网路重试`)
                 } else {
                     if (data) {
-                        // console.log(data);
                         data = JSON.parse(data);
                         if (data['status'] === 200) {
                             $.token = data.data.result.tk;
                             let enCryptMethodJDString = data.data.result.algo;
                             if (enCryptMethodJDString) $.enCryptMethodJD = new Function(`return ${enCryptMethodJDString}`)();
                             console.log(`获取签名参数成功！`)
-                            console.log(`fp: ${$.fingerprint}`)
-                            console.log(`token: ${$.token}`)
-                            console.log(`enCryptMethodJD: ${enCryptMethodJDString}`)
                         } else {
                             console.log(`fp: ${$.fingerprint}`)
                             console.log('request_algo 签名参数API请求失败:')
