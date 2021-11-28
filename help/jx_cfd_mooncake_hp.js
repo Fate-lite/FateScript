@@ -1,6 +1,6 @@
 /*
 京喜财富岛合成月饼助力助
-cron 1 0 * * * jx_cfd_mooncake_hp.js
+cron jd_jxmc_hp_2.js jx_cfd_mooncake_hp.js
 更新时间：2021-9-11
 活动入口：京喜APP-我的-京喜财富岛
  */

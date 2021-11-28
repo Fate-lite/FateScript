@@ -80,7 +80,6 @@ if ($.isNode()) {
         console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
         if (!$.isLogin) {
             $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
-
             if ($.isNode()) {
                 await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
             }
@@ -640,7 +639,7 @@ function getGetRequest(type, url) {
         "Host": "m.jingxi.com",
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
-        "User-Agent": UA,
+        "User-Agent": "jdpingou;android;5.10.0;9;c4f73e23c80b5751;network/wifi;model/MI 6;appBuild/19217;partner/xiaomi;;session/475;aid/c4f73e23c80b5751;oaid/8076701e352fd2fa;pap/JA2019_3111789;brand/;eu/3643667333562333;fv/3683032653735313;Mozilla/5.0 (Linux; Android 9; MI 6 Build/PKQ1.190118.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/80.0.3987.99 Mobile Safari/537.36",
         "Accept-Language": "zh-CN,zh-Hans;q=0.9",
         "Referer": "https://st.jingxi.com/",
         "Cookie": $.cookie
@@ -825,41 +824,47 @@ function generateFp() {
     return (i + Date.now()).slice(0, 16)
 }
 
+
+
 function TotalBean() {
     return new Promise(async resolve => {
         const options = {
-            url: "https://me-api.jd.com/user_new/info/GetJDUserInfoUnion",
-            headers: {
-                Host: "me-api.jd.com",
-                Accept: "*/*",
-                Connection: "keep-alive",
-                Cookie: $.cookie,
-                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+            "url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
+            "headers": {
+                "Accept": "application/json,text/plain, */*",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Accept-Encoding": "gzip, deflate, br",
                 "Accept-Language": "zh-cn",
-                "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
-                "Accept-Encoding": "gzip, deflate, br"
+                "Connection": "keep-alive",
+                "Cookie": $.cookie,
+                "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
+                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
             }
         }
-        $.get(options, (err, resp, data) => {
+        $.post(options, (err, resp, data) => {
             try {
                 if (err) {
-                    $.logErr(err)
+                    console.log(`${JSON.stringify(err)}`)
+                    console.log(`${$.name} API请求失败，请检查网路重试`)
                 } else {
                     if (data) {
                         data = JSON.parse(data);
-                        if (data['retcode'] === "1001") {
+                        if (data['retcode'] === 13) {
                             $.isLogin = false; //cookie过期
-                            return;
+                            return
                         }
-                        if (data['retcode'] === "0" && data.data && data.data.hasOwnProperty("userInfo")) {
-                            $.nickName = data.data.userInfo.baseInfo.nickname;
+                        if (data['retcode'] === 0) {
+                            $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
+                            console.log(`您好：${$.nickName}`)
+                        } else {
+                            $.nickName = $.UserName
                         }
                     } else {
-                        console.log('京东服务器返回空数据');
+                        console.log(`京东服务器返回空数据`)
                     }
                 }
             } catch (e) {
-                $.logErr(e)
+                $.logErr(e, resp)
             } finally {
                 resolve();
             }

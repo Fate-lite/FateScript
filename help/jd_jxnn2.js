@@ -56,6 +56,7 @@ if ($.isNode()) {
             continue
         }
         await UserSignNew();
+        await $.wait(1000);
         if ($.index > $.runHelpUser){
             console.log(`账号${$.UserName}开始互助:\n`);
             $.canHelp = true;
@@ -195,7 +196,7 @@ async function UserSignNew() {
         }
         console.log('签到', userInfo.retCode == 0 ? "success" : "fail")
         if ($.index <= $.runHelpUser){
-            console.log('助力码: ', userInfo.data.token)
+            console.log('助力码:', userInfo.data.token)
             $.shareCodes.push(userInfo.data.token);
         }
         coin = userInfo.data.pgAmountTotal
