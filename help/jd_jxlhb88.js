@@ -79,7 +79,6 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
       if ($.helpShareCode.length == 0 && $.index > $.runHelpUser){
         break;
       }
-
     }
   }
 

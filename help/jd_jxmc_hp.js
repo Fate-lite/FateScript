@@ -135,7 +135,6 @@ async function pasture() {
                     }
                 }
             }
-
             if ($.index <= $.runHelpUser){
                 console.log('获取活动信息成功');
                 console.log(`[活动互助码]：${$.homeInfo.sharekey}\n`);
@@ -169,7 +168,7 @@ async function pasture() {
             }
             $.canHelp = true;
             for (let j = 0; j < $.selfHbCodeList.length && $.canHelp; j++) {
-                console.log(`账号${$.UserName} 去红包助力 ${$.selfHbCodeList[j]}`)
+                console.log(`账号${$.UserName}去红包助力 ${$.selfHbCodeList[j]}`)
                 $.delcode = false
                 $.codeHb = $.selfHbCodeList[j];
                 await takeGetRequest('helpHb');
