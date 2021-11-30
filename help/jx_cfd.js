@@ -71,36 +71,6 @@ if ($.isNode()) {
             await $.wait(2000);
         }
     }
-    let res = await getAuthorShareCode('')
-    if (!res) {
-        $.http.get({url: ''}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
-        await $.wait(1000)
-        res = await getAuthorShareCode('')
-    }
-    $.strMyShareIds = [...(res && res.shareId || [])]
-    await shareCodesFormat()
-    for (let i = 0; i < cookiesArr.length; i++) {
-        cookie = cookiesArr[i];
-        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-        $.canHelp = true
-        UA = UAInfo[$.UserName]
-        if ($.newShareCodes && $.newShareCodes.length) {
-            console.log(`\n开始互助\n`);
-            for (let j = 0; j < $.newShareCodes.length && $.canHelp; j++) {
-                console.log(`账号${$.UserName} 去助力 ${$.newShareCodes[j]}`)
-                $.delcode = false
-                await helpByStage($.newShareCodes[j])
-                await $.wait(2000)
-                if ($.delcode) {
-                    $.newShareCodes.splice(j, 1)
-                    j--
-                    continue
-                }
-            }
-        } else {
-            break
-        }
-    }
     await showMsg();
 })()
     .catch((e) => $.logErr(e))
