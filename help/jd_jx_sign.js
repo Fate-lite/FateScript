@@ -80,32 +80,33 @@ if ($.isNode()) {
             await signhb(2)
             await $.wait(2000)
             if ($.canHelp) {
-                if ($.shareCodes && $.shareCodes.length) {
-                    console.log(`\n开始内部互助\n`)
-                    for (let j = 0; j < $.shareCodes.length; j++) {
-                        if ($.shareCodes[j].num == $.domax) {
-                            $.shareCodes.splice(j, 1)
-                            j--
-                            continue
-                        }
-                        if ($.shareCodes[j].use === $.UserName) {
-                            console.log(`不能助力自己`)
-                            continue
-                        }
-                        console.log(`账号 ${$.UserName} 去助力 ${$.shareCodes[j].use} 的互助码 ${$.shareCodes[j].smp}`)
-                        if ($.shareCodes[j].max) {
-                            console.log(`您的好友助力已满`)
-                            continue
-                        }
-                        await helpSignhb($.shareCodes[j].smp)
-                        await $.wait(2000)
-                        if (!$.black) $.shareCodes[j].num++
-                        break
+                for (let j = 0; j < $.shareCodes.length; j++) {
+                    if ($.shareCodes[j].num == $.domax) {
+                        $.shareCodes.splice(j, 1)
+                        j--
+                        continue
                     }
+                    if ($.shareCodes[j].use === $.UserName) {
+                        console.log(`不能助力自己`)
+                        continue
+                    }
+                    console.log(`账号 ${$.UserName} 去助力 ${$.shareCodes[j].use} 的互助码 ${$.shareCodes[j].smp}`)
+                    if ($.shareCodes[j].max) {
+                        console.log(`您的好友助力已满`)
+                        continue
+                    }
+                    await helpSignhb($.shareCodes[j].smp)
+                    await $.wait(2000)
+                    if (!$.black) $.shareCodes[j].num++
+                    break
+                }
+                if ($.shareCodes.length === 0 && $.index > $.runHelpUser){
+                    break;
                 }
             } else {
                 console.log(`今日已签到，无法助力好友啦~`)
             }
+
         }
     }
 })()
@@ -183,7 +184,7 @@ function signhb(type = 1) {
 // 签到 助力
 function helpSignhb(smp = '') {
     return new Promise((resolve) => {
-        $.get(taskUrl("signhb/query", `type=1&signhb_source=1000&smp=${smp}&ispp=0&tk=`), async (err, resp, data) => {
+        $.get(taskUrl("signhb/query", `type=1&signhb_source=5&smp=${smp}&ispp=0&tk=`), async (err, resp, data) => {
             try {
                 if (err) {
                     console.log(JSON.stringify(err))
