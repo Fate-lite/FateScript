@@ -9,7 +9,7 @@ const qlDir = '/ql';
 const authFile = path.join(qlDir, 'config/auth.json');
 
 const api = got.extend({
-  prefixUrl: 'http://localhost:5600',
+  prefixUrl: 'http://127.0.0.1:5600',
   retry: { limit: 0 },
 });
 
@@ -85,7 +85,7 @@ module.exports.DisableCk = async (eid) => {
   const body = await api({
     method: 'put',
     url: 'api/envs/disable',
-    params: { t: Date.now() },
+    params: { t: Date.now() },	
     body: JSON.stringify([eid]),
     headers: {
       Accept: 'application/json',
@@ -101,7 +101,7 @@ module.exports.EnableCk = async (eid) => {
   const body = await api({
     method: 'put',
     url: 'api/envs/enable',
-    params: { t: Date.now() },
+    params: { t: Date.now() },	
     body: JSON.stringify([eid]),
     headers: {
       Accept: 'application/json',
@@ -114,21 +114,21 @@ module.exports.EnableCk = async (eid) => {
 
 module.exports.getstatus = async (eid) => {
   const envs = await this.getEnvs();
-  for (let i = 0; i < envs.length; i++) {
+  for (let i = 0; i < envs.length; i++) {	 
 	if(envs[i]._id==eid){
-		 return envs[i].status;
+		 return envs[i].status; 
 	  }
-  }
+  }  
   return 99;
 };
 
 module.exports.getEnvById = async (eid) => {
   const envs = await this.getEnvs();
-  for (let i = 0; i < envs.length; i++) {
-	if(envs[i]._id==eid){
-		 return envs[i].value;
+  for (let i = 0; i < envs.length; i++) {	 
+	if(envs[i]._id==eid){		 
+		 return envs[i].value; 
 	  }
-  }
+  }  
   return "";
 };
 
