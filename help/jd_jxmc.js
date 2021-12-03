@@ -34,6 +34,7 @@ $.inviteCodeList = [];
 let cookiesArr = [];
 let UA, token, UAInfo = {}
 $.appId = 10028;
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 let cardinfo = {
     "16": "小黄鸡",
     "17": "辣子鸡",

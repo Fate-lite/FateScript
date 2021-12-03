@@ -25,6 +25,7 @@ $.selfHelpCodeList = [];
 $.selfHbCodeList = [];
 let cookiesArr = [];
 let UA, token = {};
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 $.appId = 10028;
 let cardinfo = {
     "16": "小黄鸡",

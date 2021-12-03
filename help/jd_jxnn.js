@@ -15,6 +15,7 @@ let cookiesArr = [];
 $.shareCodes = [];
 let rcsArr = [];
 let coin = 0;
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 $.runHelpUser = process.env.runHelpUser ?? 5;
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {

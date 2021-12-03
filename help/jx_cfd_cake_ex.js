@@ -20,6 +20,7 @@ if ($.isNode()) {
 } else {
     cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 $.appId = 10032;
 !(async () => {
     if (!cookiesArr[0]) {

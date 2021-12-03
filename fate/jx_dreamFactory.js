@@ -1,6 +1,6 @@
 /*
 # 京喜工厂
-10 1-23/2 * * * jd_dreamFactory.js
+10 1-23/2 * * * jd_dreamFactory_h.js
 */
 // prettier-ignore
 !function (t, r) { "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r() }(this, function () {

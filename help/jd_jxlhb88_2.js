@@ -11,6 +11,7 @@
 
  */
 const $ = new Env('京喜领88元红包2');
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 const notify = $.isNode() ? require('./sendNotify') : {};
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : {};
 let cookiesArr = [], cookie = '';

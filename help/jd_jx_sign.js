@@ -24,7 +24,8 @@ $.shareCodes = [];
 $.blackInfo = {}
 $.appId = 10028;
 $.domax = 20;
-$.runHelpUser = process.env.runHelpUser ?? 5;
+// $.runHelpUser = process.env.runHelpUser ?? 5;
+$.runHelpUser = 2;
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])

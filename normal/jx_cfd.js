@@ -22,9 +22,9 @@ $.shareCodes = [];
 $.showShareCode = true;
 let cookiesArr = [], cookie = '', token = '';
 let UA, UAInfo = {};
-let nowTimes;
-const randomCount = $.isNode() ? 20 : 3;
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 $.appId = 10032;
+
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
@@ -42,7 +42,7 @@ if ($.isNode()) {
     $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
     await requestAlgo();
     await $.wait(1000)
-    for (let i = 0; i < cookiesArr.length && i < 25; i++) {
+    for (let i = 0; i < cookiesArr.length && i < myFateUserNum; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);

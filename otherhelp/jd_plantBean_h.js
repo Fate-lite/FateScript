@@ -1,9 +1,25 @@
 /*
-种豆得豆 脚本更新地址：https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_plantBean.js
+种豆得豆
+更新时间：2021-08-19
+活动入口：京东APP我的-更多工具-种豆得豆
+已支持IOS京东多账号,云端多京东账号
+脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
+注：会自动关注任务中的店铺跟商品，介意者勿使用。
+互助码shareCode请先手动运行脚本查看打印可看到
+每个京东账号每天只能帮助3个人。多出的助力码将会助力失败。
+=====================================Quantumult X=================================
+[task_local]
+23 1 * * * jd_mohe_h.js, tag=种豆得豆, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdzd.png, enabled=true
 
-0 0 * * * jd_plantBean_h.js
+=====================================Loon================================
+[Script]
+cron "23 1 * * *" script-path=jd_mohe_h.js,tag=京东种豆得豆
 
+======================================Surge==========================
+京东种豆得豆 = type=cron,cronexp="23 1 * * *",wake-system=1,timeout=3600,script-path=jd_mohe_h.js
 
+====================================小火箭=============================
+京东种豆得豆 = type=cron,script-path=jd_mohe_h.js, cronexpr="23 1 * * *", timeout=3600, enable=true
 
 */
 const $ = new Env('京东种豆得豆');
@@ -12,16 +28,12 @@ const $ = new Env('京东种豆得豆');
 let jdNotify = true;//是否开启静默运行。默认true开启
 let cookiesArr = [], cookie = '', jdPlantBeanShareArr = [], isBox = false, notify, newShareCodes, option, message,subTitle;
 //京东接口地址
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 //助力好友分享码(最多3个,否则后面的助力失败)
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
-let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
-  //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '',
-  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '',
-]
+let shareCodes = ['']
 let allMessage = ``;
 let currentRoundId = null;//本期活动id
 let lastRoundId = null;//上期id
@@ -29,7 +41,6 @@ let roundList = [];
 let awardState = '';//上期活动的京豆是否收取
 let randomCount = $.isNode() ? 20 : 5;
 let num;
-let myFateUserNum = process.env.myFateUserNum ?? 25;
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -72,10 +83,6 @@ async function jdPlantBean() {
   try {
     console.log(`获取任务及基本信息`)
     await plantBeanIndex();
-    if ($.plantBeanIndexResult.errorCode === 'PB101') {
-      console.log(`\n活动太火爆了，还是去买买买吧！\n`)
-      return
-    }
     for (let i = 0; i < $.plantBeanIndexResult.data.roundList.length; i++) {
       if ($.plantBeanIndexResult.data.roundList[i].roundState === "2") {
         num = i
@@ -92,14 +99,6 @@ async function jdPlantBean() {
       }else if (submitCodeRes.code === 300) {
          console.log(`🥑种豆得豆-互助码已提交！🥑`);
       }
-      roundList = $.plantBeanIndexResult.data.roundList;
-      currentRoundId = roundList[num].roundId;//本期的roundId
-      lastRoundId = roundList[num - 1].roundId;//上期的roundId
-      awardState = roundList[num - 1].awardState;
-      $.taskList = $.plantBeanIndexResult.data.taskList;
-      subTitle = `【京东昵称】${$.plantBeanIndexResult.data.plantUserInfo.plantNickName}`;
-      message += `【上期时间】${roundList[num - 1].dateDesc.replace('上期 ', '')}\n`;
-      message += `【上期成长值】${roundList[num - 1].growth}\n`;
     } else {
       console.log(`种豆得豆-初始失败:  ${JSON.stringify($.plantBeanIndexResult)}`);
     }
@@ -262,11 +261,10 @@ async function doTask() {
   }
 }
 
-//助力好友
 async function doHelp() {
   for (let plantUuid of newShareCodes) {
+    if (!plantUuid || plantUuid.length == 0) continue;
     console.log(`开始助力京东账号${$.index} - ${$.nickName}的好友: ${plantUuid}`);
-    if (!plantUuid) continue;
     if (plantUuid === $.myPlantUuid) {
       console.log(`\n跳过自己的plantUuid\n`)
       continue
@@ -328,6 +326,7 @@ async function receiveNutrientsTask(awardType) {
   }
   $.receiveNutrientsTaskRes = await requestGet(functionId, body);
 }
+
 //助力好友的api
 async function helpShare(plantUuid) {
   console.log(`\n开始助力好友: ${plantUuid}`);
@@ -343,9 +342,10 @@ async function helpShare(plantUuid) {
 async function plantBeanIndex() {
   $.plantBeanIndexResult = await request('plantBeanIndex');//plantBeanIndexBody
 }
+
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `http://share./api/v3/bean/query/${randomCount}/`, timeout: 10000}, (err, resp, data) => {
+    $.get({url: `http://www.helpu.cf/jdcodes/getcode.php?type=bean&num=${randomCount}`, timeout: 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -359,14 +359,13 @@ function readShareCode() {
       } catch (e) {
         $.logErr(e, resp)
       } finally {
-        resolve(data);
+        resolve(data || {"code":500});
       }
     })
-    await $.wait(15000);
-    resolve()
+    await $.wait(10000);
+    resolve({"code":500})
   })
 }
-
 //提交互助码
 function submitCode() {
     return new Promise(async resolve => {
@@ -403,10 +402,10 @@ function shareCodesFormat() {
       const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
       newShareCodes = shareCodes[tempIndex].split('@');
     }
-    // const readShareCodeRes = await readShareCode();
-    // if (readShareCodeRes && readShareCodeRes.code === 200) {
-    //   newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
-    // }
+    const readShareCodeRes = await readShareCode();
+    if (readShareCodeRes && readShareCodeRes.code === 200) {
+      newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
+    }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify(newShareCodes)}`)
     resolve();
   })

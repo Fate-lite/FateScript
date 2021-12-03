@@ -20,7 +20,7 @@ let curTytId = '';
 let ua = `jdltapp;iPhone;3.1.0;${Math.ceil(Math.random()*4+10)}.${Math.ceil(Math.random()*4)};${randomString(40)}`
 $.runHelpUser = process.env.runHelpUser ?? 5;
 $.helpTYTId = [];
-
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])

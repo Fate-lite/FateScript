@@ -19,6 +19,7 @@ $.showLog = $.getdata("cfd_showLog") ? $.getdata("cfd_showLog") === "true" : fal
 $.notifyTime = $.getdata("cfd_notifyTime");
 $.result = [];
 $.shareCodes = [];
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 let cookiesArr = [], cookie = '', token = '';
 let UA;
 let nowTimes;

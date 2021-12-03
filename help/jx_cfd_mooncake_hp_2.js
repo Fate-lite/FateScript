@@ -15,6 +15,7 @@ cron 1 0 * * * jx_cfd_mooncake_hp_2.js
 const $ = new Env("京喜财富岛合成月饼助力2");
 const JD_API_HOST = "https://m.jingxi.com/";
 const notify = $.isNode() ? require('./sendNotify') : '';
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 $.showLog = $.getdata("cfd_showLog") ? $.getdata("cfd_showLog") === "true" : false;
 $.notifyTime = $.getdata("cfd_notifyTime");
