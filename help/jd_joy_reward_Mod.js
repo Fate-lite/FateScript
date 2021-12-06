@@ -185,6 +185,7 @@ async function joyReward() {
         let llChange500 = true;
         let llSuccess = false;
         llError = false;
+        $.canEx500 = true;
         for (let j = 0; j <= 14; j++) {
             if (llSuccess) {
                 console.log(`兑换成功，跳出循环...\n`);
@@ -196,7 +197,7 @@ async function joyReward() {
             }
             console.log(`\n正在尝试第` + (j + 1) + `次执行:${(new Date()).Format("hh:mm:ss | S")} \n`);
             const data = $.getExchangeRewardsRes.data;
-            if (llChange500) {
+            if (llChange500 && $.canEx500) {
                 for (let item of data[giftSaleInfos]) {
                     if (item.giftType === 'jd_bean') {
                         saleInfoId = item.id;
@@ -233,6 +234,7 @@ async function joyReward() {
                                     break;
                                 } else if ($.exchangeRes && $.exchangeRes.errorCode === 'stock_empty') {
                                     console.log(`兑换${rewardNum}京豆失败，原因：当前京豆库存为空`)
+                                    $.canEx500 = false;
                                 } else if ($.exchangeRes && $.exchangeRes.errorCode === 'insufficient') {
                                     console.log(`兑换${rewardNum}京豆失败，原因：当前账号积分不足兑换${giftValue}京豆所需的${salePrice}积分`)
                                     if (strDisable20 != "false") {
@@ -290,6 +292,7 @@ async function joyReward() {
                                     break;
                                 } else if ($.exchangeRes && $.exchangeRes.errorCode === 'stock_empty') {
                                     console.log(`兑换${rewardNum}京豆失败，原因：当前京豆库存为空`)
+                                    break;
                                 } else if ($.exchangeRes && $.exchangeRes.errorCode === 'insufficient') {
                                     console.log(`兑换${rewardNum}京豆失败，原因：当前账号积分不足兑换${giftValue}京豆所需的${salePrice}积分`)
                                     llError = true;
