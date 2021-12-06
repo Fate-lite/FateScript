@@ -1,27 +1,11 @@
 /*
 京东金融签到
 活动入口：京东金融APP签到进入
-更新时间：2021-09-18
-已支持IOS双京东账号,Node.js支持N个京东账号
-脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
-============Quantumultx===============
-[task_local]
 #京东金融签到
-1 0 * * * jd_jrSign.js, tag=京东金融签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
-
-================Loon==============
-[Script]
-cron "1 0 * * *" script-path=jd_jrSign.js,tag=京东金融签到
-
-===============Surge=================
-京东金融签到 = type=cron,cronexp="1 0 * * *",wake-system=1,timeout=3600,script-path=jd_jrSign.js
-
-============小火箭=========
-京东金融签到 = type=cron,script-path=jd_jrSign.js, cronexpr="1 0 * * *", timeout=3600, enable=true
+21 8,15 * * * jd_jrSign.js,
+环境变量:
+    JD_FINANCE_BODY:  export JD_FINANCE_BODY="reqData=......&reqData=......" https://ms.jr.jd.com/gw/generic/hy/h5/m/appSign 接口抓取 reqData参数，&间隔多账号,位置与CK的对应，如没有抓包到的账号可以""空字符占位
  */
-//financial sign by xumf
-//Update : 20210918
-//增加变量JD_FINANCE_BODY:  export JD_FINANCE_BODY="reqData=......&reqData=......" https://ms.jr.jd.com/gw/generic/hy/h5/m/appSign 接口抓取 reqData参数，&间隔多账号,位置与CK的对应，如没有抓包到的账号可以""空字符占位
 const $ = new Env('京东金融签到');
 const request = require('request');
 const notify = $.isNode() ? require('./sendNotify') : '';
