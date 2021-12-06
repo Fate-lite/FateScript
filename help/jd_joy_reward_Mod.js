@@ -10,6 +10,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let jdNotify = false; //是否开启静默运行，默认false关闭(即:奖品兑换成功后会发出通知提示)
 let Today = new Date();
+let myFateUserNum = process.env.myFateUserNum ?? 25;
 let strDisable20 = "false";
 
 //IOS等用户直接用NobyDa的jd cookie
@@ -46,7 +47,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
             "open-url": "https://bean.m.jd.com/bean/signIndex.action"
         });
     }
-    for (let i = 0; i < cookiesArr.length; i++) {
+    for (let i = 0; i < cookiesArr.length && i < myFateUserNum ; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
