@@ -6,8 +6,8 @@ cron "59 7,15,23 * * *" jd_joy_reward_Mod.js
 const $ = new Env('宠汪汪积分兑换有就换版');
 const zooFaker = require('./utils/JDJRValidator_Pure');
 let allMessage = '';
-const jdCookieNode = $.isNode() ? require('../fate/jdCookie.js') : '';
-const notify = $.isNode() ? require('../fate/sendNotify') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+const notify = $.isNode() ? require('./sendNotify') : '';
 let jdNotify = false; //是否开启静默运行，默认false关闭(即:奖品兑换成功后会发出通知提示)
 let Today = new Date();
 let strDisable20 = "false";
