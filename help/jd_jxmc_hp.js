@@ -89,7 +89,7 @@ if ($.isNode()) {
         token = await getJxToken()
         await pasture();
         await $.wait(1000);
-        if ($.selfHelpCodeList.length === 0 && $.selfHbCodeList.length === 0 && $.index > $.runHelpUser){
+        if ($.selfHelpCodeList.length === 0 && $.index > $.runHelpUser){
             break;
         }
     }
@@ -167,18 +167,18 @@ async function pasture() {
                     j--
                 }
             }
-            $.canHelp = true;
-            for (let j = 0; j < $.selfHbCodeList.length && $.canHelp; j++) {
-                console.log(`账号${$.UserName}去红包助力 ${$.selfHbCodeList[j]}`)
-                $.delcode = false
-                $.codeHb = $.selfHbCodeList[j];
-                await takeGetRequest('helpHb');
-                await $.wait(1000);
-                if ($.delcode) {
-                    $.selfHbCodeList.splice(j, 1)
-                    j--
-                }
-            }
+            // $.canHelp = true;
+            // for (let j = 0; j < $.selfHbCodeList.length && $.canHelp; j++) {
+            //     console.log(`账号${$.UserName}去红包助力 ${$.selfHbCodeList[j]}`)
+            //     $.delcode = false
+            //     $.codeHb = $.selfHbCodeList[j];
+            //     await takeGetRequest('helpHb');
+            //     await $.wait(1000);
+            //     if ($.delcode) {
+            //         $.selfHbCodeList.splice(j, 1)
+            //         j--
+            //     }
+            // }
         }
 
     } catch (e) {
