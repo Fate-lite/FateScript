@@ -68,12 +68,12 @@ if ($.isNode()) {
         '活动入口：京喜APP-我的-京喜牧场互助\n' +
         '温馨提示：请先手动完成【新手指导任务】再运行脚本')
     // for (let i = 0; i < cookiesArr.length; i++) {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 80; i++) {
         if (i >= $.runHelpUser){
-            if (i + 100 >= cookiesArr.length){
+            if (i + 80 >= cookiesArr.length){
                 break;
             }
-            $.cookie = cookiesArr[i + 100];
+            $.cookie = cookiesArr[i + 80];
         }else{
             $.cookie = cookiesArr[i];
         }

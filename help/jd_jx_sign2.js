@@ -60,9 +60,9 @@ if ($.isNode()) {
         }
     }
     console.log(`\n******设置的帮助人数为${$.runHelpUser},【开始内部互助】*********\n`);
-    for (let i = $.runHelpUser; i < cookiesArr.length - 100; i++) {
-        if (cookiesArr[i + 100]) {
-            cookie = cookiesArr[i + 100];
+    for (let i = $.runHelpUser; i < cookiesArr.length - 80; i++) {
+        if (cookiesArr[i + 80]) {
+            cookie = cookiesArr[i + 80];
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
             $.index = i + 1;
             $.isLogin = true;

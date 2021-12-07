@@ -35,12 +35,12 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
       `设置的帮助人数为${$.runHelpUser}人\n` +
       '温馨提示：如提示助力火爆，可尝试寻找京东客服')
   // 开启红包,获取互助码
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 80; i++) {
     if (i >= $.runHelpUser){
-      if (i + 100 >= cookiesArr.length){
+      if (i + 80 >= cookiesArr.length){
         break;
       }
-      cookie = cookiesArr[i + 100];
+      cookie = cookiesArr[i + 80];
     }else{
       cookie = cookiesArr[i];
     }
