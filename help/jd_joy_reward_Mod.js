@@ -96,7 +96,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
 async function joyReward() {
     try {
         let starttime = process.env.JOY_STARTTIME ? process.env.JOY_STARTTIME : 60;
-
+        let llChange500 = true;
         let sleeptime = 0;
         let rewardNum = '',
             saleInfoId = '',
@@ -126,8 +126,9 @@ async function joyReward() {
         }
 
         if (new Date().getHours() >= 15 && new Date().getHours() < 23 && strDisable20 != "false") {
-            console.log("现在是15点后时段，执行先抢500京豆再抢20京豆...");
+            llChange500 = false;
             strDisable20 = "false";
+            console.log("现在是15点后时段，只抢20京豆...");
         }
 
         console.log(`当前场次:${giftSaleInfos}\n`)
@@ -154,17 +155,14 @@ async function joyReward() {
                     console.log('成功获取场次信息...');
                     break;
                 }
-
             }
         }
-
         if (llError) {
             console.log('东哥说现在不给你兑换，死了这条心吧...');
             return;
         }
         // 执行等待
         let noontime = new Date().getSeconds();
-
         if (new Date().getMinutes() == 58) {
             sleeptime = (60 - noontime + 2) * 1000;
             console.log(`请等待时间到达59分` + `等待时间 ${sleeptime / 1000}`);
@@ -182,11 +180,10 @@ async function joyReward() {
             }
         }
 
-        let llChange500 = true;
         let llSuccess = false;
         llError = false;
         $.canEx500 = true;
-        for (let j = 0; j <= 14; j++) {
+        for (let j = 0; j <= 16; j++) {
             if (llSuccess) {
                 console.log(`兑换成功，跳出循环...\n`);
                 break;
@@ -197,6 +194,7 @@ async function joyReward() {
             }
             console.log(`\n正在尝试第` + (j + 1) + `次执行:${(new Date()).Format("hh:mm:ss | S")} \n`);
             const data = $.getExchangeRewardsRes.data;
+            // 兑换500
             if (llChange500 && $.canEx500) {
                 for (let item of data[giftSaleInfos]) {
                     if (item.giftType === 'jd_bean') {
@@ -234,7 +232,9 @@ async function joyReward() {
                                     break;
                                 } else if ($.exchangeRes && $.exchangeRes.errorCode === 'stock_empty') {
                                     console.log(`兑换${rewardNum}京豆失败，原因：当前京豆库存为空`)
-                                    $.canEx500 = false;
+                                    if (j > 10) {
+                                        $.canEx500 = false;
+                                    }
                                 } else if ($.exchangeRes && $.exchangeRes.errorCode === 'insufficient') {
                                     console.log(`兑换${rewardNum}京豆失败，原因：当前账号积分不足兑换${giftValue}京豆所需的${salePrice}积分`)
                                     if (strDisable20 != "false") {
@@ -255,6 +255,7 @@ async function joyReward() {
                     }
                 }
             }
+            // 兑换20
             if (strDisable20 == "false") {
                 for (let item of data[giftSaleInfos]) {
                     if (item.giftType === 'jd_bean') {
