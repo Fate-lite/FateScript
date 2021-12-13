@@ -4,7 +4,7 @@
 活动入口：京东金融养猪猪，
 
 京东金融养猪猪
-12 0-23/6 * * * jd_pig.js
+12 1-22/6 * * * jd_pig.js
 */
 const $ = new Env('金融养猪');
 const url = require('url');
@@ -94,9 +94,7 @@ async function pigPetLottery() {
 }
 
 async function pigHelpR() {
-    console.log(`\n======开始大转盘助力======\n`);
     $.shareCodes = [...$.helpCodeR]
-    console.log(`\n自己账号内部循环互助，有剩余次数再帮【zero205】助力\n`);
     for (let item of $.shareCodes) {
         if (item && item != ""){
             await pigPetLotteryHelpFriend(item)
