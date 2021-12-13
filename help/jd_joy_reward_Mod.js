@@ -183,6 +183,7 @@ async function joyReward() {
         let llSuccess = false;
         llError = false;
         $.canEx500 = true;
+        $.canEx20 = true;
         for (let j = 0; j <= 16; j++) {
             if (llSuccess) {
                 console.log(`兑换成功，跳出循环...\n`);
@@ -240,6 +241,7 @@ async function joyReward() {
                                     if (strDisable20 != "false") {
                                         console.log(`关闭兑换500京豆，开启20京豆兑换...`)
                                         strDisable20 = "false";
+                                        $.canEx500 = false;
                                     } else {
                                         console.log(`关闭兑换500京豆...`)
                                     }
@@ -256,7 +258,7 @@ async function joyReward() {
                 }
             }
             // 兑换20
-            if (strDisable20 == "false") {
+            if (strDisable20 == "false" && $.canEx20) {
                 for (let item of data[giftSaleInfos]) {
                     if (item.giftType === 'jd_bean') {
                         saleInfoId = item.id;
@@ -285,17 +287,21 @@ async function joyReward() {
                                         if ($.isNode()) {
                                             allMessage += `【京东账号${$.index}】 ${$.nickName}\n【${giftValue}京豆】兑换成功🎉\n【积分详情】消耗积分 ${salePrice}${$.index !== cookiesArr.length ? '\n\n' : ''}`
                                         }
+                                        $.canEx20 = false;
                                         break;
                                     }
                                 } else if ($.exchangeRes && $.exchangeRes.errorCode === 'buy_limit') {
                                     console.log(`兑换${rewardNum}京豆失败，原因：兑换京豆已达上限，请把机会留给更多的小伙伴~`)
                                     llError = true;
+                                    $.canEx20 = false;
                                     break;
                                 } else if ($.exchangeRes && $.exchangeRes.errorCode === 'stock_empty') {
                                     console.log(`兑换${rewardNum}京豆失败，原因：当前京豆库存为空`)
+                                    $.canEx20 = false;
                                     break;
                                 } else if ($.exchangeRes && $.exchangeRes.errorCode === 'insufficient') {
                                     console.log(`兑换${rewardNum}京豆失败，原因：当前账号积分不足兑换${giftValue}京豆所需的${salePrice}积分`)
+                                    $.canEx20 = false;
                                     llError = true;
                                     break;
                                 } else {
