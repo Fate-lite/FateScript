@@ -2,7 +2,7 @@
 京喜财富岛热气球
 活动入口：京喜APP-我的-京喜财富岛
 #京喜财富岛热气球
-30 20-23/2 * * *  jd_cfd_loop.js
+10 20-23/2 * * *  jd_cfd_loop.js
 
  */
 !function (t, r) { "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r() }(this, function () {
@@ -61,7 +61,7 @@ if ($.isNode()) {
         }
         // token = await getJxToken()
         await cfd();
-        let time = process.env.CFD_LOOP_SLEEPTIME ? (process.env.CFD_LOOP_SLEEPTIME * 1 > 1000 ? process.env.CFD_LOOP_SLEEPTIME : process.env.CFD_LOOP_SLEEPTIME * 1000) : 5000
+        let time = process.env.CFD_LOOP_SLEEPTIME ? (process.env.CFD_LOOP_SLEEPTIME * 1 > 1000 ? process.env.CFD_LOOP_SLEEPTIME : process.env.CFD_LOOP_SLEEPTIME * 1000) : 15000
         await $.wait(time)
       }
     }
@@ -88,7 +88,6 @@ async function querystorageroom() {
           console.log(`${$.name} querystorageroom API请求失败，请检查网路重试`)
         } else {
           data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
-          console.log(`\n卖贝壳`)
           let bags = []
           for (let key of Object.keys(data.Data.Office)) {
             let vo = data.Data.Office[key]
