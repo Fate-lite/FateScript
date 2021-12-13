@@ -322,7 +322,7 @@ function notify() {
     // const envs = await getEnvs();
     var strck="";
     var strck2="";
-    for (let i = 0; i < cookiesArr.length && true; i++) {
+    for (let i = 0; i < 1 && true; i++) {
         if (cookiesArr[i]) {
             strck = cookiesArr[i];
             strck= (strck.match(/pt_pin=([^; ]+)(?=;?)/) && strck.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -1580,27 +1580,6 @@ function Wait(readDelay, ini) {
     } else if (typeof(readDelay) == 'number') {
         return readDelay > 0 ? readDelay : 0
     } else return 0
-}
-
-function checkFormat(value) { //check format and delete duplicates
-    let n, k, c = {};
-    return value.reduce((t, i) => {
-        k = ((i.cookie || '').match(/(pt_key|pt_pin)=.+?;/g) || []).sort();
-        if (k.length == 2) {
-            if ((n = k[1]) && !c[n]) {
-                i.userName = i.userName ? i.userName : decodeURIComponent(n.split(/pt_pin=(.+?);/)[1]);
-                i.cookie = k.join('')
-                if (i.jrBody && !i.jrBody.includes('reqData=')) {
-                    console.log(`异常钢镚Body已过滤: ${i.jrBody}`)
-                    delete i.jrBody;
-                }
-                c[n] = t.push(i);
-            }
-        } else {
-            console.log(`异常京东Cookie已过滤: ${i.cookie}`)
-        }
-        return t;
-    }, [])
 }
 
 

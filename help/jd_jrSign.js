@@ -29,12 +29,10 @@ if (process.env.JD_FINANCE_BODY) {
 }
 
 !(async () => {
-
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-
     if (!jdFinancdBody || jdFinancdBody.length === 0) {
         console.log("必需填写环境变量JD_FINANCE_BODY,多个账号使用&隔开,脚本才能正常运行!");
         return;
