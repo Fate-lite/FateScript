@@ -236,7 +236,6 @@ function readToken() {
                     console.log(`${$.name} API请求失败，请检查网路重试`)
                 } else {
                     if (data) {
-                        console.log(`\n\n搬运我脚本修改我内置互助码的，请不要盗取我服务器token\n\n\n`)
                         data = JSON.parse(data);
                     }
                 }
