@@ -1,9 +1,8 @@
 /*
 京喜财富岛热气球
-cron 30 20-23/2 * * * jd_cfd_loop.js
 活动入口：京喜APP-我的-京喜财富岛
 #京喜财富岛热气球
-30 * * * * jd_cfd_loop.js
+30 20-23/2 * * *  jd_cfd_loop.js
 
  */
 !function (t, r) { "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r() }(this, function () {
