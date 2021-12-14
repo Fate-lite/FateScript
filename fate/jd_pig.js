@@ -890,16 +890,18 @@ function finishReadMission(missionId, readTime) {
 
 
 function TotalBean() {
-    return new Promise(resolve => {
+    return new Promise(async resolve => {
         const options = {
             url: "https://me-api.jd.com/user_new/info/GetJDUserInfoUnion",
             headers: {
-                "Host": "me-api.jd.com",
-                "Accept": "*/*",
-                "User-Agent": "ScriptableWidgetExtension/185 CFNetwork/1312 Darwin/21.0.0",
-                "Accept-Language": "zh-CN,zh-Hans;q=0.9",
-                "Accept-Encoding": "gzip, deflate, br",
-                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
+                Host: "me-api.jd.com",
+                Accept: "*/*",
+                Connection: "keep-alive",
+                Cookie: cookie,
+                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+                "Accept-Language": "zh-cn",
+                "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
+                "Accept-Encoding": "gzip, deflate, br"
             }
         }
         $.get(options, (err, resp, data) => {
@@ -921,9 +923,9 @@ function TotalBean() {
                     }
                 }
             } catch (e) {
-                $.logErr(e, resp)
+                $.logErr(e)
             } finally {
-                resolve()
+                resolve();
             }
         })
     })
