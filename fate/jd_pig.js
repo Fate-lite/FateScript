@@ -48,6 +48,7 @@ if ($.isNode()) {
                 }
                 continue
             }
+            await pigHelpR();
             await jdPigPet();
         }
     }
@@ -69,7 +70,6 @@ async function jdPigPet() {
         await pigPetSignIndex();
         await pigPetSign();
         await pigPetOpenBox();
-        await pigHelpR();
         await pigPetLotteryIndex();
         await pigPetLottery();
         if (process.env.JD_PIGPET_PK && process.env.JD_PIGPET_PK === 'true') {
@@ -355,7 +355,7 @@ function pigPetLotteryIndex() {
                                     if ($.index == 1){
                                         $.helpCodeR = data.resultData.resultData.helpId;
                                     }
-                                    $.shareCodes.push(data.resultData.resultData.helpId)
+                                    // $.shareCodes.push(data.resultData.resultData.helpId)
                                     $.currentCount = data.resultData.resultData.currentCount;
                                 }
                             } else {
