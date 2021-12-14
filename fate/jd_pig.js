@@ -100,13 +100,11 @@ async function pigPetLottery() {
 }
 
 async function pigHelpR() {
-    $.shareCodes = [...$.helpCodeR]
-    for (let item of $.shareCodes) {
-        if (item && item != "") {
-            await pigPetLotteryHelpFriend(item)
-            await $.wait(1000)
-        }
+    if ($.helpCodeR && $.helpCodeR != "") {
+        await pigPetLotteryHelpFriend($.helpCodeR)
+        await $.wait(1000)
     }
+
 }
 
 async function pigPetSign() {
