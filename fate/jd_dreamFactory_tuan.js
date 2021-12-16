@@ -1,5 +1,7 @@
 /*
-*京喜工厂开团
+# 京喜工厂开团
+
+5-60/15 0 * * * jd_dreamFactory_tuan.js
 *一个账号能参团一次，一个账号一天能开三次团，请根据自己的情况设置需要开团的CK，一般至少5个CK能成团
 *脚本每执行一次，会领取上一次成团的奖励和新开一次团，每天执行4次能开完3次团和领取3次团的奖励
 *环境变量：
@@ -40,7 +42,7 @@ if ($.isNode()) {Object.keys(jdCookieNode).forEach((item) => {cookiesArr.push(jd
         return;
     }
     let runFlag = true;
-    for (let i = 0; i < cookiesArr.length; i++) {
+    for (let i = 0; i < 2; i++) {
         if(!openTuanCKList.includes((i+1).toString())){
             continue;
         }
@@ -172,6 +174,7 @@ function getAuthorShareCode(url) {
         resolve();
     })
 }
+
 function userInfo() {
     return new Promise(async resolve => {
         $.get(taskurl('userinfo/GetUserInfo', `pin=&sharePin=&shareType=&materialTuanPin=&materialTuanId=&source=`, '_time,materialTuanId,materialTuanPin,pin,sharePin,shareType,source,zone'), async (err, resp, data) => {
@@ -212,6 +215,7 @@ function userInfo() {
         })
     })
 }
+
 async function tuanActivity() {
     const tuanConfig = await QueryActiveConfig();
     if (tuanConfig && tuanConfig.ret === 0) {
@@ -257,6 +261,7 @@ async function tuanActivity() {
         }
     }
 }
+
 function QueryActiveConfig() {
     return new Promise((resolve) => {
         const body = `activeId=${escape(tuanActiveId)}&tuanId=`;
@@ -286,6 +291,7 @@ function QueryActiveConfig() {
         })
     })
 }
+
 function QueryTuan(activeId, tuanId) {
     return new Promise((resolve) => {
         const body = `activeId=${escape(activeId)}&tuanId=${escape(tuanId)}`;
@@ -342,6 +348,7 @@ function CreateTuan() {
         })
     })
 }
+
 function JoinTuan(tuanId, stk = '_time,activeId,tuanId') {
     return new Promise((resolve) => {
         const body = `activeId=${escape(tuanActiveId)}&tuanId=${escape(tuanId)}`;
@@ -381,6 +388,7 @@ function JoinTuan(tuanId, stk = '_time,activeId,tuanId') {
         })
     })
 }
+
 function tuanAward(activeId, tuanId, isTuanLeader = true) {
     return new Promise((resolve) => {
         const body = `activeId=${escape(activeId)}&tuanId=${escape(tuanId)}`;
@@ -425,6 +433,7 @@ function tuanAward(activeId, tuanId, isTuanLeader = true) {
         })
     })
 }
+
 function TotalBean() {
     return new Promise(async resolve => {
         const options = {"url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,"headers": {"Accept": "application/json,text/plain, */*","Content-Type": "application/x-www-form-urlencoded","Accept-Encoding": "gzip, deflate, br","Accept-Language": "zh-cn","Connection": "keep-alive","Cookie": cookie,"Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2","User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1"}};
@@ -443,6 +452,7 @@ function TotalBean() {
         })
     })
 }
+
 function getRandomArrayElements(arr, count) {var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;while (i-- > min) {index = Math.floor((i + 1) * Math.random());temp = shuffled[index];shuffled[index] = shuffled[i];shuffled[i] = temp;}return shuffled.slice(min);}
 function getCurrDate() {let date = new Date();let sep = "-";let year = date.getFullYear();let month = date.getMonth() + 1;let day = date.getDate();if (month <= 9) {month = "0" + month;}if (day <= 9) {day = "0" + day;}return year + sep + month + sep + day;}
 function safeGet(data) {try {if (typeof JSON.parse(data) == "object") {return true;}} catch (e) {console.log(e);console.log(`京东服务器访问数据为空，请检查自身设备网络情况`);return false;}}
