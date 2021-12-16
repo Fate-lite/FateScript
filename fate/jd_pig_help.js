@@ -4,9 +4,9 @@
 活动入口：京东金融养猪猪，
 
 京东金融养猪猪
-12 1-22/6 * * * jd_pig.js
+12 8 * * * jd_pig_help.js
 */
-const $ = new Env('金融养猪');
+const $ = new Env('金融养猪Help');
 const url = require('url');
 let cookiesArr = [], cookie = '', allMessage = '';
 const JD_API_HOST = 'https://ms.jr.jd.com/gw/generic/uc/h5/m';
