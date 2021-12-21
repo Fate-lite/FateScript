@@ -11,7 +11,7 @@
 ============Quantumultx===============
 [task_local]
 #闪购盲盒
-16 1 * * * jd_sgmh_h.js, tag=闪购盲盒, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+9 0 * * *jd_sgmh_h.js, tag=闪购盲盒, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 ================Loon==============
 [Script]

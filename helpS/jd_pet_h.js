@@ -12,17 +12,17 @@
 =================================Quantumultx=========================
 [task_local]
 #东东萌宠
-18 1 * * * jd_pet_h.js, tag=东东萌宠, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdmc.png, enabled=true
+18 0 * * * jd_pet_h.js, tag=东东萌宠, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdmc.png, enabled=true
 
 =================================Loon===================================
 [Script]
-cron "18 1 * * *" script-path=jd_pet_h.js,tag=东东萌宠
+cron "18 0 * * *" script-path=jd_pet_h.js,tag=东东萌宠
 
 ===================================Surge================================
-东东萌宠 = type=cron,cronexp="18 1 * * *",wake-system=1,timeout=3600,script-path=jd_pet_h.js
+东东萌宠 = type=cron,cronexp="18 0 * * *",wake-system=1,timeout=3600,script-path=jd_pet_h.js
 
 ====================================小火箭=============================
-东东萌宠 = type=cron,script-path=jd_pet_h.js, cronexpr="18 1 * * *", timeout=3600, enable=true
+东东萌宠 = type=cron,script-path=jd_pet_h.js, cronexpr="18 0 * * *", timeout=3600, enable=true
 
 */
 const $ = new Env('东东萌宠');

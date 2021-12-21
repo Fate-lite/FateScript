@@ -9,17 +9,17 @@
 每个京东账号每天只能帮助3个人。多出的助力码将会助力失败。
 =====================================Quantumult X=================================
 [task_local]
-23 1 * * * jd_mohe_h.js, tag=种豆得豆, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdzd.png, enabled=true
+23 0 * * * jd_mohe_h.js, tag=种豆得豆, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdzd.png, enabled=true
 
 =====================================Loon================================
 [Script]
-cron "23 1 * * *" script-path=jd_mohe_h.js,tag=京东种豆得豆
+cron "23 0 * * *" script-path=jd_mohe_h.js,tag=京东种豆得豆
 
 ======================================Surge==========================
-京东种豆得豆 = type=cron,cronexp="23 1 * * *",wake-system=1,timeout=3600,script-path=jd_mohe_h.js
+京东种豆得豆 = type=cron,cronexp="23 0 * * *",wake-system=1,timeout=3600,script-path=jd_mohe_h.js
 
 ====================================小火箭=============================
-京东种豆得豆 = type=cron,script-path=jd_mohe_h.js, cronexpr="23 1 * * *", timeout=3600, enable=true
+京东种豆得豆 = type=cron,script-path=jd_mohe_h.js, cronexpr="23 0 * * *", timeout=3600, enable=true
 
 */
 const $ = new Env('京东种豆得豆');
