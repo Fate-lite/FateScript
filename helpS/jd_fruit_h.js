@@ -14,13 +14,13 @@
 5 0 * * * jd_fruit_h.js, tag=东东农场, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdnc.png, enabled=true
 =========================Loon=============================
 [Script]
-cron "5 6-18/2 * * *" script-path=jd_fruit_h.js,tag=东东农场
+cron "5 0 * * *" script-path=jd_fruit_h.js,tag=东东农场
 
 =========================Surge============================
-东东农场 = type=cron,cronexp="5 6-18/2 * * *",wake-system=1,timeout=3600,script-path=jd_fruit_h.js
+东东农场 = type=cron,cronexp="5 0 * * *",wake-system=1,timeout=3600,script-path=jd_fruit_h.js
 
 =========================小火箭===========================
-东东农场 = type=cron,script-path=jd_fruit_h.js, cronexpr="5 6-18/2 * * *", timeout=3600, enable=true
+东东农场 = type=cron,script-path=jd_fruit_h.js, cronexpr="5 0 * * *", timeout=3600, enable=true
 
 */
 

@@ -16,7 +16,7 @@ Last Modified time: 2021-8-19
 
 ================Loon==============
 [Script]
-cron "13 1 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jdfactory_h.js,tag=东东工厂
+cron "8 0 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jdfactory_h.js,tag=东东工厂
 
 ===============Surge=================
 东东工厂 = type=cron,cronexp="8 0 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jdfactory_h.js

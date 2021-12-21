@@ -13,13 +13,13 @@ author: 疯疯
 
 =====================Loon================
 [Script]
-cron "13 1 * * *" script-path=jd_health_h.js, tag=东东健康社区
+cron "13 0 * * *" script-path=jd_health_h.js, tag=东东健康社区
 
 ====================Surge================
-东东健康社区 = type=cron,cronexp="13 1 * * *",wake-system=1,timeout=3600,script-path=jd_health_h.js
+东东健康社区 = type=cron,cronexp="13 0 * * *",wake-system=1,timeout=3600,script-path=jd_health_h.js
 
 ============小火箭=========
-东东健康社区 = type=cron,script-path=jd_health_h.js, cronexpr="13 1 * * *", timeout=3600, enable=true
+东东健康社区 = type=cron,script-path=jd_health_h.js, cronexpr="13 0 * * *", timeout=3600, enable=true
  */
 const $ = new Env("东东健康社区");
 let myFateUserNum = process.env.myFateUserNum ?? 25;
