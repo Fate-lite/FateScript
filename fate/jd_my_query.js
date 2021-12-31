@@ -35,7 +35,6 @@ if ($.isNode()) {
     cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 !(async () => {
-
     $.log('开始东东农场邀请码推送请求')
     for (let codeFate of jdFruitSharCodes) {
         await fruitHelp(codeFate);
@@ -51,14 +50,10 @@ if ($.isNode()) {
         await dreamFactoryHelp(codeFate);
     };
 
-
-
-
     // $.log('开始爱消除邀请码推送请求')
     // for (let codeFate of jdAiXiaoChuSharCodes) {
     //     await axcHelp(codeFate);
     // };
-
 
 
     // $.log('开始京喜农场邀请码推送请求')
