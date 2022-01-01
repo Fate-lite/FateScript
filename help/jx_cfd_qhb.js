@@ -67,6 +67,18 @@ $.appId = 10028;
     }
     $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
     await requestAlgo();
+
+    // cookie = cookiesArr[1];
+    // $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+    // $.index = 1;
+    // $.nickName = '';
+    // $.isLogin = true;
+    // console.log(`\n ** 第${k + 1}次开始【京东账号${$.index}】${$.UserName} **\n`);
+    // UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
+    // token = await getJxToken()
+    // await cfd();
+
+
     for (let k = 0; k < runT; k++) {
 		for (const indexU of runUserIndex) {
 			if (cookiesArr[indexU]) {
@@ -77,7 +89,6 @@ $.appId = 10028;
                 $.isLogin = true;
                 console.log(`\n ** 第${k + 1}次开始【京东账号${$.index}】${$.UserName} **\n`);
                 UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
-                UAInfo[$.UserName] = UA
                 token = await getJxToken()
                 await cfd();
             }
@@ -92,12 +103,13 @@ async function cfd() {
     try {
         nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
         console.log(`\n 开始兑换(${nowTimes.toLocaleString()})`)
+        await exchangeState(2);
         // 兑换100
         // await exchangePrize111();
         await exchangePrize100();
         // 兑换1
         // await exchangePrize1();
-        // await exchangeState(2);
+
 
     } catch (e) {
         $.logErr(e)
@@ -226,13 +238,17 @@ async function exchangeState(dwType = 2){
                         console.log(`\n 获取兑换列表成功`);
                         let strPoolName = data.hongbaopool;
                         let hongbaoList = data.hongbao;
-                        for (let i = 0; i < hongbaoList.length && i <= $.exchangeNum; i++) {
+                        for (let i = 0; i < hongbaoList.length; i++) {
                             let hongbao = hongbaoList[i];
-                            if (hongbao.dwState === 0) {
+                            if (hongbao.dwState === 0 && honbao.ddwPaperMoney >= 1000) {
                                 let body = `dwType=3&dwLvl=${hongbao.dwLvl}&ddwPaperMoney=${hongbao.ddwPaperMoney}&strPoolName=${strPoolName}&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`
                                 let resExchange = await exchangePrize(body);
                                 if (resExchange.iRet === 0 || resExchange.sErrMsg === 'success') {
                                     console.log(`\n 兑换 ${resExchange.strAwardDetail.strName} 成功。`);
+                                    if ($.isNode()) {
+                                        await notify.sendNotify(`${$.name}-${$.UserName}`, `京东账号${$.index} ${$.UserName}\n 兑换 ${resExchange.strAwardDetail.strName} 成功。\n`);
+                                    }
+
                                 } else {
                                     console.log(`\n 兑换失败: ${resExchange.sErrMsg}`);
                                 }
