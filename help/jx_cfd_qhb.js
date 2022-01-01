@@ -106,7 +106,7 @@ async function cfd() {
         await exchangeState(2);
         // 兑换100
         // await exchangePrize111();
-        await exchangePrize100();
+        // await exchangePrize100();
         // 兑换1
         // await exchangePrize1();
 
@@ -234,7 +234,7 @@ async function exchangeState(dwType = 2){
                 } else {
                     data = JSON.parse(data);
                     if (data.iRet === 0 || data.sErrMsg === 'success') {
-                        console.log(data);
+                        // console.log(data);
                         console.log(`\n 获取兑换列表成功`);
                         let strPoolName = data.hongbaopool;
                         let hongbaoList = data.hongbao;
