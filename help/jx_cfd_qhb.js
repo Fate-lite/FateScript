@@ -240,7 +240,7 @@ async function exchangeState(dwType = 2){
                         let hongbaoList = data.hongbao;
                         for (let i = 0; i < hongbaoList.length; i++) {
                             let hongbao = hongbaoList[i];
-                            if (hongbao.dwState === 0 && honbao.ddwPaperMoney >= 1000) {
+                            if (hongbao.dwState === 0 && hongbao.ddwPaperMoney >= 1000) {
                                 let body = `dwType=3&dwLvl=${hongbao.dwLvl}&ddwPaperMoney=${hongbao.ddwPaperMoney}&strPoolName=${strPoolName}&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`
                                 let resExchange = await exchangePrize(body);
                                 if (resExchange.iRet === 0 || resExchange.sErrMsg === 'success') {
