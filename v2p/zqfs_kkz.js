@@ -9,7 +9,7 @@
 35 10 * * *
 
 青龙：
-捉包找adlickstart的url，把body填到zqkdFastKkzBody里，多账号用@隔开
+捉包找adlickstart的url，把body填到zqkdMyKKzBody里，多账号用@隔开
 
 V2P 重写：
 [rewrite_local]
@@ -27,7 +27,7 @@ const updateStr = '2022.01.04 22:00 中青安卓极速版 看看赚 初版'
 let rndtime = "" //毫秒
 let httpResult //global buffer
 
-let userBody = ($.isNode() ? process.env.zqkdFastKkzBody : $.getdata('zqkdFastKkzBody')) || '';
+let userBody = ($.isNode() ? process.env.zqkdMyKKzBody : $.getdata('zqkdMyKKzBody')) || '';
 let userBodyArr = []
 
 let userIdx = 0
@@ -66,7 +66,7 @@ async function checkEnv() {
         userBodyArr = userBody.split('@')
         userCount = userBodyArr.length
     } else {
-        console.log('未找到zqkdFastKkzBody')
+        console.log('未找到zqkdMyKKzBody')
         return false
     }
     console.log(`共找到${userCount}个看看赚账户`)
@@ -82,9 +82,9 @@ async function GetRewrite() {
         if(userBody) {
             if(userBody.indexOf(task_id ) == -1) {
                 userBody = userBody + '@' + body
-                $.setdata(userBody, 'zqkdFastKkzBody');
+                $.setdata(userBody, 'zqkdMyKKzBody');
                 ckList = userBody.split('@')
-                $.msg(jsname+` 获取第${ckList.length}个zqkdFastKkzBody成功: ${body}`)
+                $.msg(jsname+` 获取第${ckList.length}个zqkdMyKKzBody成功: ${body}`)
             } else {
                 userBodyArr = userBody.split('@')
                 for(let i=0; i<userBodyArr.length; i++) {
@@ -94,12 +94,12 @@ async function GetRewrite() {
                     }
                 }
                 userBody = userBodyArr.join('@')
-                $.setdata(userBody, 'zqkdFastKkzBody');
+                $.setdata(userBody, 'zqkdMyKKzBody');
                 $.msg(jsname+` 找到重复的用户body: ${body}，将替换旧body`)
             }
         } else {
-            $.setdata(body, 'zqkdFastKkzBody');
-            $.msg(jsname+` 获取第1个zqkdFastKkzBody成功: ${body}`)
+            $.setdata(body, 'zqkdMyKKzBody');
+            $.msg(jsname+` 获取第1个zqkdMyKKzBody成功: ${body}`)
         }
     }
 }
