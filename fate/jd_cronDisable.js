@@ -1,21 +1,47 @@
 /*
-cron "59 23 * * *" cronEnable.js, tag:京东CK检测by-ccwav
+cron "0 9 * * *" jd_cronDisable.js, tag:京东CK检测by-ccwav
 */
-//Check Ck Tools by ccwav
-//Update : 20210903
+
 //增加变量显示正常CK:  export SHOWSUCCESSCK="true"
 //增加变量永远通知CK状态:  export CKALWAYSNOTIFY="true"
 //增加变量停用自动启用CK:  export CKAUTOENABLE="false"
 //增加变量不显示CK备注:  export CKREMARK="false"
-const $ = new Env('青龙环境启用');
+const $ = new Env('青龙环境禁用');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const got = require('got');
 const {
     getEnvs, DisableCk, EnableCk
-} = require('./ql');
+} = require('../ql/ql');
+const api = got.extend({
+    retry: {
+        limit: 0
+    },
+    responseType: 'json',
+});
 
+let ShowSuccess = "false",
+    CKAlwaysNotify = "false",
+    CKAutoEnable = "true",
+    CKRemark = "true",
+    NoWarnError = "false";
+
+if (process.env.SHOWSUCCESSCK) {
+    ShowSuccess = process.env.SHOWSUCCESSCK;
+}
+if (process.env.CKALWAYSNOTIFY) {
+    CKAlwaysNotify = process.env.CKALWAYSNOTIFY;
+}
+if (process.env.CKAUTOENABLE) {
+    CKAutoEnable = process.env.CKAUTOENABLE;
+}
+if (process.env.CKREMARK) {
+    CKRemark = process.env.CKREMARK;
+}
+if (process.env.CKNOWARNERROR) {
+    NoWarnError = process.env.CKNOWARNERROR;
+}
 
 !(async () => {
     const envs = await getEnvs();
@@ -24,11 +50,11 @@ const {
         return;
     }
     let other = envs.filter(item => item.remarks == 'Other')[0];
-    const EnableCkBody = await EnableCk(other._id);
-    if (EnableCkBody.code == 200) {
-        console.log(`启用成功!\n`);
+    const DisableCkBody = await DisableCk(other._id);
+    if (DisableCkBody.code == 200) {
+        console.log(`禁用成功!\n`);
     } else {
-        console.log(`启用失败!\n`);
+        console.log(`禁用失败!\n`);
     }
 })()
     .catch((e) => $.logErr(e))
